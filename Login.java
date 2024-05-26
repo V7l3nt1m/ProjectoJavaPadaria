@@ -13,14 +13,12 @@ import javax.swing.UIManager.*;
 
 public class Login extends JFrame implements ActionListener
 {
+    //criando os componentes
     private JLabel logo, welcomelbl,usernamelbl,passwordlbl,iconUser,iconPass;
     private JButton submitBtn;
     private JTextField usernameTxF;
     private JPasswordField passwdPF;
     private ImageIcon iconImg,userIco,passIco;
-    private JPanel leftPanel;
-    private JPanel rigthPanel;
-
 
     public Login()
     {  
@@ -33,9 +31,13 @@ public class Login extends JFrame implements ActionListener
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
     }
-    private void instanciarObj()
+
+    public void instanciarObj()
     {
+        Color customColor = Color.decode("#B83416");
+
         logo = new JLabel();
         iconImg = new ImageIcon("imagens/logo.jpg");
         logo.setIcon(iconImg);
@@ -45,7 +47,8 @@ public class Login extends JFrame implements ActionListener
     
         welcomelbl = new JLabel("Bem-Vindo");
         welcomelbl.setFont(new Font("Monospaced", Font.BOLD,40));
-        welcomelbl.setBounds(571,50,400,30);
+        welcomelbl.setBounds(565,50,400,30);
+        welcomelbl.setForeground(customColor);
         add(welcomelbl);
 
         iconUser = new JLabel();
@@ -53,9 +56,13 @@ public class Login extends JFrame implements ActionListener
         iconUser.setIcon(userIco);
         iconUser.setBounds(538,95,100,100);
         usernamelbl = new JLabel("Nome do Usuário");
+        usernamelbl.setFont(new Font("Monospaced", Font.PLAIN,14));
         usernamelbl.setBounds(577,100,192,30);
+
         usernameTxF = new JTextField();
         usernameTxF.setBounds(571,130,200,30);
+        usernameTxF.setBorder(BorderFactory.createLineBorder(customColor,3));
+
         add(iconUser);
         add(usernamelbl);
         add(usernameTxF);
@@ -66,24 +73,58 @@ public class Login extends JFrame implements ActionListener
         iconPass.setBounds(538,160,100,100);
         passwordlbl = new JLabel("Palavra-Passe");
         passwordlbl.setBounds(577,170,200,30);
+
         passwdPF = new JPasswordField();
         passwdPF.setBounds(571,200,200,30);
+        passwdPF.setFont(new Font("Monospaced", Font.PLAIN,14));
+        passwdPF.setBorder(BorderFactory.createLineBorder(customColor,3));
+
         add(iconPass);
         add(passwordlbl);
         add(passwdPF);
 
         submitBtn = new JButton("Iniciar Sessão");
         submitBtn.setBounds(571,245,200,30);
+
+        submitBtn.setBackground(customColor);
+        submitBtn.setForeground(Color.WHITE);
+        submitBtn.setFont(new Font("Monospaced", Font.BOLD, 12));
+
         add(submitBtn);
 
 
         setResizable(false);
+
+        submitBtn.addActionListener(this);      
+    }
+
+    private String usernameTxF()
+    {
+        return usernameTxF.getText();
+    }
+
+    private String passwdPF()
+    {
+        return passwdPF.getText();
     }
 
 
     public void actionPerformed(ActionEvent evt)
     {
-
+        if(evt.getSource() == submitBtn)
+        {
+            if(usernameTxF().equals("Valentim") && passwdPF().equals("admin"))
+            {
+                JOptionPane.showMessageDialog(null, "Bem-vindo: " + usernameTxF(), "Iniciar Sessão", JOptionPane.INFORMATION_MESSAGE);
+                new MenuPrincipal();
+                dispose();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Nome de Usuário e/ou Palavra-Passe Incorrectos", "Iniciar Sessão", JOptionPane.ERROR_MESSAGE);
+            }
+            
+        }
     }
 
    public void definirTema() 
