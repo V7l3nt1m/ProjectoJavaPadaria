@@ -8,7 +8,8 @@ Data: 22.05.2024
 
 /*
 1. Objectivo
-Este projeto tem o objetivo gerenciar as
+Este projeto tem o objetivo gerenciar as entradas, saidas, processo de
+producao e estoque de uma padaria;
 
 2. Visao [Interfaces Graficas]
 - ApresentacaoVisao
