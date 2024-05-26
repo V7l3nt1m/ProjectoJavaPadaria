@@ -1,3 +1,11 @@
+/*------------------------------------
+Tema: Gestão de uma Padaria
+Nome: Valentim Loth Simão Prado
+Numero: 33031
+Ficheiro: MenuPrincipal.java
+Data: 25.05.2024
+--------------------------------------*/
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;

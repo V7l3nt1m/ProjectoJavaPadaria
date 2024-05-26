@@ -1,15 +1,23 @@
+/*------------------------------------
+Tema: Gestão de uma Padaria
+Nome: Valentim Loth Simão Prado
+Numero: 33031
+Ficheiro: Login.java
+Data: 25.05.2024
+--------------------------------------*/
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import javax.swing.UIManager.*;
 
 public class Login extends JFrame implements ActionListener
 {
-    private JLabel logo, welcomelbl;
+    private JLabel logo, welcomelbl,usernamelbl,passwordlbl,iconUser,iconPass;
     private JButton submitBtn;
     private JTextField usernameTxF;
     private JPasswordField passwdPF;
-    private ImageIcon iconImg,resizeIcon;
-    private Image image,newImage;
+    private ImageIcon iconImg,userIco,passIco;
     private JPanel leftPanel;
     private JPanel rigthPanel;
 
@@ -17,69 +25,78 @@ public class Login extends JFrame implements ActionListener
     public Login()
     {  
         super("Sistema de Gestão de Padaria - SGP");
-        setLayout(new BorderLayout());
-        addPainelOeste();
-        addPainelEste();        
+        definirTema();
+        setLayout(null);
+        instanciarObj();
     
-        //adicionando os elementos
-        setSize(800,400);
+        setSize(890,420);
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        pack();
-
     }
-
-    private void addPainelOeste()
+    private void instanciarObj()
     {
-        leftPanel = new JPanel();
-
-        iconImg = new ImageIcon("imagens/logo.jpg");
-        //redimensiona a imagem
-        image = iconImg.getImage();
-        newImage = image.getScaledInstance(400,400,Image.SCALE_SMOOTH);
-        resizeIcon = new ImageIcon(newImage);
-
-        //cria os elementos
         logo = new JLabel();
-        logo.setIcon(resizeIcon);
-        
-        leftPanel.add(logo);
-        //adicionando os elementos
-        getContentPane().add(leftPanel, BorderLayout.WEST);
-    }
+        iconImg = new ImageIcon("imagens/logo.jpg");
+        logo.setIcon(iconImg);
+        logo.setBounds(0,-100,800,600);
+        add(logo);
 
-    private void addPainelEste()
-    {
-        rigthPanel = new JPanel();
-        rigthPanel.setLayout(new GridLayout(1,4));
-        
+    
         welcomelbl = new JLabel("Bem-Vindo");
-        usernameTxF = new JTextField("Nome de Usuário");
+        welcomelbl.setFont(new Font("Monospaced", Font.BOLD,40));
+        welcomelbl.setBounds(571,50,400,30);
+        add(welcomelbl);
+
+        iconUser = new JLabel();
+        userIco = new ImageIcon("imagens/user.png");
+        iconUser.setIcon(userIco);
+        iconUser.setBounds(538,95,100,100);
+        usernamelbl = new JLabel("Nome do Usuário");
+        usernamelbl.setBounds(577,100,192,30);
+        usernameTxF = new JTextField();
+        usernameTxF.setBounds(571,130,200,30);
+        add(iconUser);
+        add(usernamelbl);
+        add(usernameTxF);
+
+        iconPass = new JLabel();
+        passIco = new ImageIcon("imagens/pass.png");
+        iconPass.setIcon(passIco);
+        iconPass.setBounds(538,160,100,100);
+        passwordlbl = new JLabel("Palavra-Passe");
+        passwordlbl.setBounds(577,170,200,30);
+        passwdPF = new JPasswordField();
+        passwdPF.setBounds(571,200,200,30);
+        add(iconPass);
+        add(passwordlbl);
+        add(passwdPF);
+
         submitBtn = new JButton("Iniciar Sessão");
-        passwdPF = new JPasswordField("Palavra-Passe");
+        submitBtn.setBounds(571,245,200,30);
+        add(submitBtn);
 
-        //estilizando
-        welcomelbl.setFont(new Font("Arial", Font.PLAIN,40));
-        
-        //redimensionando
-        
 
-        rigthPanel.add(welcomelbl);
-        rigthPanel.add(usernameTxF);
-        rigthPanel.add(passwdPF);
-        rigthPanel.add(submitBtn);
-
-        getContentPane().add(rigthPanel, BorderLayout.EAST);
-    
+        setResizable(false);
     }
-
-    
 
 
     public void actionPerformed(ActionEvent evt)
     {
 
+    }
+
+   public void definirTema() 
+	 {
+        try {
+            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+        }
     }
     public static void main(String args[])
     {
