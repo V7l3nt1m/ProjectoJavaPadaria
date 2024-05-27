@@ -42,12 +42,13 @@ public class MenuPrincipal extends JFrame
         private JLabel logo, nomeUser, lblOper, lblEstoq, lblProdu, lblTable, lblAjuda, lblSair;
         private ImageIcon imagemLogo, operLogo, sairImg, ajudaImg, estoqueImg,tableImg, produImg;
         private ManipuladorEventos manipulador;
-        private Color customColor;
+        private Color customColor, customColor2;
         private JPanel operJp;
 
         public PainelSuperior()
         {         
-            Color customColor = Color.decode("#F5F5F5");
+            customColor = Color.decode("#F5F5F5");
+            customColor2 = Color.decode("#B83416");
             setBackground(customColor);   
             setBorder(BorderFactory.createEmptyBorder(0,0,-60,1));
             setLayout(new GridLayout(2,20));
@@ -57,28 +58,28 @@ public class MenuPrincipal extends JFrame
             lblOper.setVerticalAlignment(SwingConstants.TOP);
             operLogo = new ImageIcon("imagens/cadastro.png");
             btnOperacoes = new JButton(operLogo);
-            btnOperacoes.setBackground(Color.WHITE);
+            btnOperacoes.setBackground(customColor2);
 
             lblTable = new JLabel("Tabelas");
             lblTable.setHorizontalAlignment(SwingConstants.CENTER);
             lblTable.setVerticalAlignment(SwingConstants.TOP);
             tableImg = new ImageIcon("imagens/table.png");
             btnTabelas = new JButton(tableImg);
-            btnTabelas.setBackground(Color.WHITE);
+            btnTabelas.setBackground(customColor2);
 
             lblAjuda = new JLabel("Ajuda");
             lblAjuda.setHorizontalAlignment(SwingConstants.CENTER);
             lblAjuda.setVerticalAlignment(SwingConstants.TOP);
             ajudaImg = new ImageIcon("imagens/ajuda.png");
             btnAjuda = new JButton(ajudaImg);
-            btnAjuda.setBackground(Color.WHITE);
+            btnAjuda.setBackground(customColor2);
 
             lblProdu = new JLabel("Producao");
             lblProdu.setHorizontalAlignment(SwingConstants.CENTER);
             lblProdu.setVerticalAlignment(SwingConstants.TOP);
             produImg = new ImageIcon("imagens/product.png");
             btnProducao = new JButton(produImg);
-            btnProducao.setBackground(Color.WHITE);
+            btnProducao.setBackground(customColor2);
 
 
             lblEstoq = new JLabel("Estoque");
@@ -86,14 +87,14 @@ public class MenuPrincipal extends JFrame
             lblEstoq.setVerticalAlignment(SwingConstants.TOP);
             estoqueImg = new ImageIcon("imagens/estoque.png");
             btnEstoque = new JButton(estoqueImg);
-            btnEstoque.setBackground(Color.WHITE);
+            btnEstoque.setBackground(customColor2);
 
             lblSair = new JLabel("Sair");
             lblSair.setHorizontalAlignment(SwingConstants.CENTER);
             lblSair.setVerticalAlignment(SwingConstants.TOP);
             sairImg = new ImageIcon("imagens/desligar.png");
             btnSair = new JButton(sairImg);
-            btnSair.setBackground(Color.WHITE);
+            btnSair.setBackground(customColor2);
             btnSair.setPreferredSize(new Dimension(50,50));
 
             add(btnOperacoes);
