@@ -2,7 +2,7 @@
 Tema: Gestão de uma Padaria
 Nome: Valentim Loth Simão Prado
 Numero: 33031
-Ficheiro: Login.java
+Ficheiro: LoginVisao.java
 Data: 25.05.2024
 --------------------------------------*/
 
@@ -11,7 +11,7 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.UIManager.*;
 
-public class Login extends JFrame implements ActionListener
+public class LoginVisao extends JFrame implements ActionListener
 {
     //criando os componentes
     private JLabel logo, welcomelbl,usernamelbl,passwordlbl,iconUser,iconPass;
@@ -20,13 +20,14 @@ public class Login extends JFrame implements ActionListener
     private JPasswordField passwdPF;
     private ImageIcon iconImg,userIco,passIco;
 
-    public Login()
+    public LoginVisao()
     {  
         super("Sistema de Gestão de Padaria - SGP");
         definirTema();
         setLayout(null);
         instanciarObj();
-    
+
+        setResizable(false);
         setSize(890,420);
         setVisible(true);
         setLocationRelativeTo(null);
@@ -92,10 +93,7 @@ public class Login extends JFrame implements ActionListener
 
         add(submitBtn);
 
-
-        setResizable(false);
-
-        submitBtn.addActionListener(this);      
+        submitBtn.addActionListener(this); 
     }
 
     private String usernameTxF()
@@ -141,6 +139,6 @@ public class Login extends JFrame implements ActionListener
     }
     public static void main(String args[])
     {
-        new Login();
+        new LoginVisao();
     }
 }
