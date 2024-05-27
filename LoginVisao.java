@@ -25,9 +25,8 @@ public class LoginVisao extends JFrame implements ActionListener
         super("Sistema de Gestão de Padaria - SGP");
         definirTema();
         setLayout(null);
-        instanciarObj();
-
         setResizable(false);
+        instanciarObj();
         setSize(890,420);
         setVisible(true);
         setLocationRelativeTo(null);
