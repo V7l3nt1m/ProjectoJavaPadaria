@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.UIManager.*;
+import SwingComponents.*;
+
 
 
 public class MenuPrincipal extends JFrame
@@ -44,11 +46,14 @@ public class MenuPrincipal extends JFrame
         private ManipuladorEventos manipulador;
         private Color customColor, customColor2;
         private JPanel operJp;
+        private JPopupMenu popupMenu1,popupMenu2, popupMenu3, popupMenu4, popupMenu5, popupMenu6;
+        private JMenuItem itemNovaEntrada, itemNovaVenda, itemSobreAutor, itemSobreSoftw;
+        private JMenuItem itemMateriaisPrima, itemUnidadeMedida, itemProduto;
 
         public PainelSuperior()
         {         
             customColor = Color.decode("#F5F5F5");
-            customColor2 = Color.decode("#B83416");
+            customColor2 = Color.decode("#932C10");
             setBackground(customColor);   
             setBorder(BorderFactory.createEmptyBorder(0,0,-60,1));
             setLayout(new GridLayout(2,20));
@@ -67,6 +72,16 @@ public class MenuPrincipal extends JFrame
             btnTabelas = new JButton(tableImg);
             btnTabelas.setBackground(customColor2);
 
+            popupMenu4 = new JPopupMenu();
+            itemMateriaisPrima = new JMenuItem("Materias Prima");
+            itemUnidadeMedida = new JMenuItem("Unidades de Medida");
+            itemProduto = new JMenuItem("Produtos");
+
+            popupMenu4.add(itemMateriaisPrima);
+            popupMenu4.add(itemUnidadeMedida);
+            popupMenu4.add(itemProduto);
+
+
             lblAjuda = new JLabel("Ajuda");
             lblAjuda.setHorizontalAlignment(SwingConstants.CENTER);
             lblAjuda.setVerticalAlignment(SwingConstants.TOP);
@@ -80,7 +95,6 @@ public class MenuPrincipal extends JFrame
             produImg = new ImageIcon("imagens/product.png");
             btnProducao = new JButton(produImg);
             btnProducao.setBackground(customColor2);
-
 
             lblEstoq = new JLabel("Estoque");
             lblEstoq.setHorizontalAlignment(SwingConstants.CENTER);
@@ -120,6 +134,10 @@ public class MenuPrincipal extends JFrame
             manipulador = new ManipuladorEventos();
 
             btnSair.addActionListener(manipulador);
+            btnTabelas.addActionListener(manipulador);
+            itemMateriaisPrima.addActionListener(manipulador);
+            itemUnidadeMedida.addActionListener(manipulador);
+            itemProduto.addActionListener(manipulador);
         }
 
          private class ManipuladorEventos implements ActionListener
@@ -135,6 +153,22 @@ public class MenuPrincipal extends JFrame
                         dispose();
                     }
                 }       
+                else if(evt.getSource() == btnTabelas)
+                {
+                    popupMenu4.show(btnTabelas, 0, btnTabelas.getHeight());
+                }
+                else if(evt.getSource() == itemMateriaisPrima)
+                {
+                    Tabela2.editarNovosItems("MateriaPrima.tab", "Nova Materia Prima");
+                }
+                 else if(evt.getSource() == itemProduto)
+                {
+                    Tabela2.editarNovosItems("Produto.tab", "Novo Produto");
+                }
+                else if(evt.getSource() == itemUnidadeMedida)
+                {
+                    Tabela2.editarNovosItems("UnidadeMedida.tab", "Nova Unidade de Medida");
+                }
             }
         }
 
@@ -152,7 +186,7 @@ public class MenuPrincipal extends JFrame
             logo = new ImageIcon("imagens/logo.png");
             image = logo.getImage();            
             
-            redimLogo = image.getScaledInstance(1000,800, Image.SCALE_SMOOTH);
+            redimLogo = image.getScaledInstance(800,700, Image.SCALE_SMOOTH);
             logoRedim = new ImageIcon(redimLogo);
             fundo = new JLabel(logoRedim);
 
@@ -178,6 +212,7 @@ public class MenuPrincipal extends JFrame
 
     public static void main(String args[])
     {
+        Vector_Tabelas.inic();
         new MenuPrincipal();
     }
 

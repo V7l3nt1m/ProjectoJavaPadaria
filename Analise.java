@@ -66,7 +66,7 @@ producao e estoque de uma padaria;
 - VendaFile.dat
 
 5. Tabelas de Apoio (Auxiliares) = Entidades Fracas
-- ProdutoAcabado.tab
+- Produto.tab
 - MateriaPrima.tab
 - UnidadeMedida.tab
 
