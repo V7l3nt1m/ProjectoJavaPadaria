@@ -49,6 +49,7 @@ public class MenuPrincipal extends JFrame
         private JPopupMenu popupMenu1,popupMenu2, popupMenu3, popupMenu4, popupMenu5, popupMenu6;
         private JMenuItem itemNovaEntrada, itemNovaVenda, itemSobreAutor, itemSobreSoftw;
         private JMenuItem itemMateriaisPrima, itemUnidadeMedida, itemProduto;
+        private JSeparator separador;
 
         public PainelSuperior()
         {         
@@ -57,6 +58,16 @@ public class MenuPrincipal extends JFrame
             setBackground(customColor);   
             setBorder(BorderFactory.createEmptyBorder(0,0,-60,1));
             setLayout(new GridLayout(2,20));
+
+            separador = new JSeparator();
+
+            popupMenu1 = new JPopupMenu();
+            itemNovaEntrada = new JMenuItem("Nova Entrada");
+            itemNovaVenda = new JMenuItem("Nova Venda");
+
+            popupMenu1.add(itemNovaEntrada);
+            popupMenu1.add(separador);
+            popupMenu1.add(itemNovaVenda);
             
             lblOper = new JLabel("Operações");
             lblOper.setHorizontalAlignment(SwingConstants.CENTER);
@@ -78,7 +89,9 @@ public class MenuPrincipal extends JFrame
             itemProduto = new JMenuItem("Produtos");
 
             popupMenu4.add(itemMateriaisPrima);
+            popupMenu4.add(separador);
             popupMenu4.add(itemUnidadeMedida);
+            popupMenu4.add(separador);
             popupMenu4.add(itemProduto);
 
 
@@ -88,6 +101,15 @@ public class MenuPrincipal extends JFrame
             ajudaImg = new ImageIcon("imagens/ajuda.png");
             btnAjuda = new JButton(ajudaImg);
             btnAjuda.setBackground(customColor2);
+
+            popupMenu5 = new JPopupMenu();
+            itemSobreAutor = new JMenuItem("Sobre o Autor");
+            itemSobreSoftw = new JMenuItem("Sobre o Software");
+
+
+            popupMenu5.add(itemSobreAutor);
+            popupMenu5.add(separador);
+            popupMenu5.add(itemSobreSoftw);
 
             lblProdu = new JLabel("Producao");
             lblProdu.setHorizontalAlignment(SwingConstants.CENTER);
@@ -135,6 +157,8 @@ public class MenuPrincipal extends JFrame
 
             btnSair.addActionListener(manipulador);
             btnTabelas.addActionListener(manipulador);
+            btnAjuda.addActionListener(manipulador);
+            btnOperacoes.addActionListener(manipulador);
             itemMateriaisPrima.addActionListener(manipulador);
             itemUnidadeMedida.addActionListener(manipulador);
             itemProduto.addActionListener(manipulador);
@@ -150,7 +174,7 @@ public class MenuPrincipal extends JFrame
                     int resultado = JOptionPane.showConfirmDialog(null,"Tem certeza que deseja sair?","Saindo",JOptionPane.YES_NO_OPTION);
                     if(resultado == 0)
                     {
-                        dispose();
+                        System.exit(0);
                     }
                 }       
                 else if(evt.getSource() == btnTabelas)
@@ -168,6 +192,14 @@ public class MenuPrincipal extends JFrame
                 else if(evt.getSource() == itemUnidadeMedida)
                 {
                     Tabela2.editarNovosItems("UnidadeMedida.tab", "Nova Unidade de Medida");
+                }
+                else if(evt.getSource() == btnAjuda)
+                {
+                    popupMenu5.show(btnAjuda,0, btnAjuda.getHeight());
+                }
+                else if(evt.getSource() == btnOperacoes)
+                {
+                    popupMenu1.show(btnOperacoes,0, btnOperacoes.getHeight());
                 }
             }
         }
