@@ -25,7 +25,7 @@ producao e estoque de uma padaria;
 
 - EntradaModelo
 	int id
-	String materia
+	String ingrediente
     String unidadeMedida
     int qtdEntrada
     String dataEntrada

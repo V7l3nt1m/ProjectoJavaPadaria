@@ -49,7 +49,7 @@ public class MenuPrincipal extends JFrame
         private JPopupMenu popupMenu1,popupMenu2, popupMenu3, popupMenu4, popupMenu5, popupMenu6;
         private JMenuItem itemNovaEntrada, itemNovaVenda, itemSobreAutor, itemSobreSoftw;
         private JMenuItem itemMateriaisPrima, itemUnidadeMedida, itemProduto;
-        private JSeparator separador;
+        private JSeparator sep1, sep2, sep3, sep4;
 
         public PainelSuperior()
         {         
@@ -59,14 +59,17 @@ public class MenuPrincipal extends JFrame
             setBorder(BorderFactory.createEmptyBorder(0,0,-60,1));
             setLayout(new GridLayout(2,20));
 
-            separador = new JSeparator();
+            sep1 = new JSeparator();
+            sep2 = new JSeparator();
+            sep3 = new JSeparator();
+            sep4 = new JSeparator();
 
             popupMenu1 = new JPopupMenu();
             itemNovaEntrada = new JMenuItem("Nova Entrada");
             itemNovaVenda = new JMenuItem("Nova Venda");
 
             popupMenu1.add(itemNovaEntrada);
-            popupMenu1.add(separador);
+            popupMenu1.add(sep1);
             popupMenu1.add(itemNovaVenda);
             
             lblOper = new JLabel("Operações");
@@ -89,9 +92,9 @@ public class MenuPrincipal extends JFrame
             itemProduto = new JMenuItem("Produtos");
 
             popupMenu4.add(itemMateriaisPrima);
-            popupMenu4.add(separador);
+            popupMenu4.add(sep2);
             popupMenu4.add(itemUnidadeMedida);
-            popupMenu4.add(separador);
+            popupMenu4.add(sep3);
             popupMenu4.add(itemProduto);
 
 
@@ -108,7 +111,7 @@ public class MenuPrincipal extends JFrame
 
 
             popupMenu5.add(itemSobreAutor);
-            popupMenu5.add(separador);
+            popupMenu5.add(sep4);
             popupMenu5.add(itemSobreSoftw);
 
             lblProdu = new JLabel("Producao");
@@ -162,6 +165,7 @@ public class MenuPrincipal extends JFrame
             itemMateriaisPrima.addActionListener(manipulador);
             itemUnidadeMedida.addActionListener(manipulador);
             itemProduto.addActionListener(manipulador);
+            itemNovaEntrada.addActionListener(manipulador);
         }
 
          private class ManipuladorEventos implements ActionListener
@@ -200,6 +204,10 @@ public class MenuPrincipal extends JFrame
                 else if(evt.getSource() == btnOperacoes)
                 {
                     popupMenu1.show(btnOperacoes,0, btnOperacoes.getHeight());
+                }
+                else if(evt.getSource() == itemNovaEntrada)
+                {
+                    new EntradaVisao();
                 }
             }
         }
