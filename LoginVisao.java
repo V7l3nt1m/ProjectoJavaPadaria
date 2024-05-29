@@ -110,7 +110,7 @@ public class LoginVisao extends JFrame implements ActionListener
     {
         if(evt.getSource() == submitBtn)
         {
-            if(usernameTxF().equals("Valentim") && passwdPF().equals("admin"))
+            if(usernameTxF().equals("admin") && passwdPF().equals("admin"))
             {
                 JOptionPane.showMessageDialog(null, "Bem-vindo: " + usernameTxF(), "Iniciar Sessão", JOptionPane.INFORMATION_MESSAGE);
                 new MenuPrincipal();
