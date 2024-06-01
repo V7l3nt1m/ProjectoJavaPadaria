@@ -203,8 +203,6 @@ getUnidadeMedida(),
 getDataEntrada(),
 getDataValidade());
 
-            	JOptionPane.showMessageDialog(null, modelo.toString() );
-
             modelo.salvar();
 
 
