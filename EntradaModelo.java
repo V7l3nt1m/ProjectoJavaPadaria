@@ -11,22 +11,29 @@ import java.awt.event.*;
 import SwingComponents.*;
 import Calendario.*;
 import javax.swing.UIManager.*;
+import java.io.*;
+import java.util.Random;
 
-public class EntradaModelo
+
+public class EntradaModelo implements RegistGeneric
 {
     int id, qtdEntrada;
     DataModelo dataEntrada, dataValidade;
     Double custoUnit, custoTotal;
     StringBufferModelo ingrediente, unidadeMedida;
+    Random random;
+    
 
     public EntradaModelo()
     {
-        id = 0;
+        random = new Random();
+
+        id = random.nextInt(10);
         qtdEntrada = 0;
         custoUnit = 0.0;
         custoTotal = 0.0;
 		ingrediente = new StringBufferModelo("", 50); 
-		unidadeMedida = new StringBufferModelo("", 15);
+		unidadeMedida = new StringBufferModelo("", 8);
 		dataEntrada = new DataModelo();
         dataValidade = new DataModelo();
     }
@@ -39,7 +46,7 @@ public class EntradaModelo
         this.custoUnit = custoUnit;
         this.custoTotal = custoTotal;
 		this.ingrediente = new StringBufferModelo(ingrediente, 50); 
-		this.unidadeMedida = new StringBufferModelo(unidadeMedida, 15);
+		this.unidadeMedida = new StringBufferModelo(unidadeMedida, 5);
 		this.dataEntrada = new DataModelo(dataEntrada);
 		this.dataValidade = new DataModelo(dataValidade);
     }
@@ -126,5 +133,64 @@ public class EntradaModelo
         {
             custoTotal = novoCustoTotal;
         }
+
+        public long sizeof()
+	{		
+		try
+		{
+			return 55 * 2 + 4 + 24; // 396	
+		}
+		catch(Exception ex)
+		{
+			return 0;
+		}
+				
+	}
 	
+	public void write(RandomAccessFile stream)
+	{
+		try
+		{
+			stream.writeInt(id);
+            stream.writeInt(qtdEntrada);
+            stream.writeDouble(custoUnit);
+            stream.writeDouble(custoTotal);
+			ingrediente.write(stream); 
+			unidadeMedida.write(stream);
+			dataEntrada.write(stream);
+			dataValidade.write(stream);
+
+			
+		}
+		catch (IOException ex)
+		{
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha ao tentar Escrever no Ficheiro");
+		}
+	}
+	public void read(RandomAccessFile stream)
+	{
+		try
+		{
+			id = stream.readInt();
+            qtdEntrada = stream.readInt();
+            custoUnit = stream.readDouble();
+            custoTotal = stream.readDouble();
+			ingrediente.read(stream); 
+            unidadeMedida.read(stream); 
+            dataEntrada.read(stream);
+            dataValidade.read(stream);		
+		}
+		catch (IOException ex)
+		{
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha ao tentar Ler no Ficheiro");
+		}
+    }
+
+    public void salvar()
+    {
+        EntradaFile file = new EntradaFile();
+        file.salvarDados(this);
+    }
 }

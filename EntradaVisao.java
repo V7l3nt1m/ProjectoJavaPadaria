@@ -196,13 +196,20 @@ public class EntradaVisao extends JFrame
 
         public void salvar()
         {
-            EntradaModelo entrada = new EntradaModelo(getId(), getQtdEntrada(),getCustoUnit(),
+            EntradaModelo modelo = new EntradaModelo(getId(), getQtdEntrada(),getCustoUnit(),
 getCustoTotal(),
 getIngrediente(),
 getUnidadeMedida(),
 getDataEntrada(),
 getDataValidade());
+
+            	JOptionPane.showMessageDialog(null, modelo.toString() );
+
+            modelo.salvar();
+
+
         }
+
 
     }
 
