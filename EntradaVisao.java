@@ -70,7 +70,7 @@ public class EntradaVisao extends JFrame
 
 			idJTF = new JTextField();
             EntradaFile entradafile = new EntradaFile();
-			idJTF.setText( "000" + entradafile.getProximoCodigo() );
+			idJTF.setText( "" + entradafile.getProximoCodigo() );
 
 
             lblUnid = new JLabel("Unidade de Medida");
@@ -209,7 +209,7 @@ public class EntradaVisao extends JFrame
             getDataEntrada(),
             getDataValidade());
 
-            //modelo.salvar();
+            modelo.salvar();
             JOptionPane.showMessageDialog(null,modelo.toString());
             dispose();
 

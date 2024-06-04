@@ -30,10 +30,10 @@ public class EntradaFile extends ObjectsFile
 		try
 		{
 			ficheiro.stream.seek(4);
-
-			for (int i = 0; i < ficheiro.getNregistos(); ++i)
+			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
 			{
-				modelo.read(ficheiro.stream);
+				modelo.read( ficheiro.stream );
+
 				output += "---------------------------------\n";
 				output += modelo.toString() + "\n";
 			}
@@ -42,7 +42,7 @@ public class EntradaFile extends ObjectsFile
 			area.setText( output );
 			area.setFocusable(false);
 			JOptionPane.showMessageDialog(null, new JScrollPane( area ), 
-					"Gestao de Morgue", JOptionPane.INFORMATION_MESSAGE);
+					"Gestao de Padaria", JOptionPane.INFORMATION_MESSAGE);
 		}
         catch(Exception ex)
 		{
@@ -60,6 +60,8 @@ public class EntradaFile extends ObjectsFile
 			
 			//escrever os dados no ficheiro
 			modelo.write(stream);
+
+			incrementarProximoCodigo();
 			
 			JOptionPane.showMessageDialog(null, "Dados Salvos com Sucesso!");
 		}

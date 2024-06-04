@@ -17,10 +17,10 @@ import java.io.*;
 public class EntradaModelo implements RegistGeneric
 {
     int id, qtdEntrada;
-    DataModelo dataEntrada, dataValidade;
-    Double custoUnit, custoTotal;
     StringBufferModelo ingrediente, unidadeMedida;
-    
+    Double custoUnit, custoTotal;
+    DataModelo dataEntrada, dataValidade;
+
 
     public EntradaModelo()
     {
@@ -29,7 +29,7 @@ public class EntradaModelo implements RegistGeneric
         custoUnit = 0.0;
         custoTotal = 0.0;
 		ingrediente = new StringBufferModelo("", 50); 
-		unidadeMedida = new StringBufferModelo("", 8);
+		unidadeMedida = new StringBufferModelo("", 20);
 		dataEntrada = new DataModelo();
         dataValidade = new DataModelo();
     }
@@ -42,7 +42,7 @@ public class EntradaModelo implements RegistGeneric
         this.custoUnit = custoUnit;
         this.custoTotal = custoTotal;
 		this.ingrediente = new StringBufferModelo(ingrediente, 50); 
-		this.unidadeMedida = new StringBufferModelo(unidadeMedida, 5);
+		this.unidadeMedida = new StringBufferModelo(unidadeMedida, 20);
 		this.dataEntrada = new DataModelo(dataEntrada);
 		this.dataValidade = new DataModelo(dataValidade);
     }
@@ -67,8 +67,6 @@ public class EntradaModelo implements RegistGeneric
             return unidadeMedida.toStringEliminatingSpaces();
 
         }
-
-
 
         public Double getCustoUnit()
         {
@@ -108,7 +106,7 @@ public class EntradaModelo implements RegistGeneric
 
         public void setUnidadeMedida(String novoUnidadeMedida)
         {
-            unidadeMedida = new StringBufferModelo(novoUnidadeMedida, 50);
+            unidadeMedida = new StringBufferModelo(novoUnidadeMedida, 20);
 
         }
 
@@ -172,7 +170,6 @@ public class EntradaModelo implements RegistGeneric
 			unidadeMedida.write(stream);
 			dataEntrada.write(stream);
 			dataValidade.write(stream);
-
 			
 		}
 		catch (IOException ex)
