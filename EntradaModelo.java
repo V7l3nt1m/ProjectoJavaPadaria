@@ -12,7 +12,6 @@ import SwingComponents.*;
 import Calendario.*;
 import javax.swing.UIManager.*;
 import java.io.*;
-import java.util.Random;
 
 
 public class EntradaModelo implements RegistGeneric
@@ -21,14 +20,11 @@ public class EntradaModelo implements RegistGeneric
     DataModelo dataEntrada, dataValidade;
     Double custoUnit, custoTotal;
     StringBufferModelo ingrediente, unidadeMedida;
-    Random random;
     
 
     public EntradaModelo()
     {
-        random = new Random();
-
-        id = random.nextInt(10);
+        id = 0;
         qtdEntrada = 0;
         custoUnit = 0.0;
         custoTotal = 0.0;
@@ -51,7 +47,7 @@ public class EntradaModelo implements RegistGeneric
 		this.dataValidade = new DataModelo(dataValidade);
     }
 
-    public int getId()
+        public int getId()
         {
             return id;
         }
@@ -72,15 +68,7 @@ public class EntradaModelo implements RegistGeneric
 
         }
 
-        public String getDataEntrada()
-        {
-            return dataEntrada.toString();
-        }
 
-        public String getDataValidade()
-        {
-            return dataValidade.toString();
-        }
 
         public Double getCustoUnit()
         {
@@ -90,6 +78,16 @@ public class EntradaModelo implements RegistGeneric
         public Double getCustoTotal()
         {
             return custoTotal;
+        }
+
+         public String getDataEntrada()
+        {
+            return dataEntrada.toString();
+        }
+
+        public String getDataValidade()
+        {
+            return dataValidade.toString();
         }
 
 
@@ -134,18 +132,33 @@ public class EntradaModelo implements RegistGeneric
             custoTotal = novoCustoTotal;
         }
 
+        public String toString()
+        {
+            String str = "Dados das Entradas Modelo\n\n";
+
+            str += "Id: " + getId() + "\n";
+            str += "Quantidade: " + getQtdEntrada() + "\n";
+            str += "Material: " + getIngrediente() + "\n";
+            str += "Unidade de Medida: " + getUnidadeMedida() + "\n";
+            str += "Data de Entrada: " + getDataEntrada() + "\n";
+            str += "Data de Validade: " + getDataValidade() + "\n";
+            str += "Custo Unitario: " + getCustoUnit() + "\n";
+            str += "Custo Total: " + getCustoTotal() + "\n";
+            return str;
+        }
+
         public long sizeof()
-	{		
-		try
-		{
-			return 55 * 2 + 4 + 24; // 396	
-		}
-		catch(Exception ex)
-		{
-			return 0;
-		}
-				
-	}
+	    {
+            
+            try
+            {
+                return 4*2+8*2+50*2+8*2+24*3; // 396	
+            }
+            catch(Exception ex)
+            {
+                return 0;
+            }		
+	    }
 	
 	public void write(RandomAccessFile stream)
 	{

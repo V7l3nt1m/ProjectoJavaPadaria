@@ -10,6 +10,7 @@ import javax.swing.*;
 import SwingComponents.*;
 import Calendario.*;
 import java.io.*;
+import java.util.*;
 
 public class EntradaFile extends ObjectsFile
 {
@@ -17,6 +18,37 @@ public class EntradaFile extends ObjectsFile
 	public EntradaFile()
 	{
 		super("EntradaFile.dat", new EntradaModelo() );
+	}
+
+	public static void listarMaterial()
+	{
+		EntradaFile ficheiro = new EntradaFile();
+		EntradaModelo modelo = new EntradaModelo();
+
+		String output = "Listagem de Dados do Ficheiro\n\n";
+
+		try
+		{
+			ficheiro.stream.seek(4);
+
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
+			{
+				modelo.read(ficheiro.stream);
+				output += "---------------------------------\n";
+				output += modelo.toString() + "\n";
+			}
+
+			JTextArea area = new JTextArea(40, 60);
+			area.setText( output );
+			area.setFocusable(false);
+			JOptionPane.showMessageDialog(null, new JScrollPane( area ), 
+					"Gestao de Morgue", JOptionPane.INFORMATION_MESSAGE);
+		}
+        catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}	
+		
 	}
 	
 	public void salvarDados(EntradaModelo modelo)
@@ -34,7 +66,12 @@ public class EntradaFile extends ObjectsFile
 		catch (IOException ex)
 		{
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Falha ao Salvar um Novo Cadaver");
+			JOptionPane.showMessageDialog(null, "Falha ao Salvar um Novo Material");
 		}
+	}
+
+	public static void main(String args[])
+	{
+		listarMaterial();
 	}
 }

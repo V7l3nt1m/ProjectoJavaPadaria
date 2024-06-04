@@ -56,7 +56,7 @@ public class EntradaVisao extends JFrame
     public class PainelCentro extends JPanel implements KeyListener
     {
         private JComboBox ingrediente, unidadeMedida;
-        private JTextField qtdEntrada, custoUnit, custoTotal;
+        private JTextField qtdEntrada, custoUnit, custoTotal, idJTF;
         private JButton dataEntradaBtn, dataValidadeBtn;
         private JLabel lblIng, lblUnid, lblQtdEn, lblDataEnt, lblDataVal, lblCustou, lblCustoTot;
         private JPanel painelData, painelData2;
@@ -67,6 +67,11 @@ public class EntradaVisao extends JFrame
             setLayout(new GridLayout(7,2));  
             lblIng = new JLabel("Ingrediente");
             ingrediente = UInterfaceBox.createJComboBoxPersonalTab2("MateriaPrima.tab");
+
+			idJTF = new JTextField();
+            EntradaFile entradafile = new EntradaFile();
+			idJTF.setText( "000" + entradafile.getProximoCodigo() );
+
 
             lblUnid = new JLabel("Unidade de Medida");
             unidadeMedida = UInterfaceBox.createJComboBoxPersonalTab2("UnidadeMedida.tab");
@@ -89,10 +94,10 @@ public class EntradaVisao extends JFrame
 			painelData2.add( dataValidade.getDButton() );
 
             lblCustou = new JLabel("Custo/unidade");
-            custoUnit = new JTextField();
+            custoUnit = new JTextField("0");
 
             lblCustoTot = new JLabel("Custo Total");
-            custoTotal = new JTextField();
+            custoTotal = new JTextField("0");
             
             add(lblIng);
             add(ingrediente);
@@ -132,6 +137,7 @@ public class EntradaVisao extends JFrame
         }
         public void keyReleased(KeyEvent evt)
         {
+            
             if((evt.getSource() == custoUnit || evt.getSource() == qtdEntrada) && !qtdEntrada.getText().isEmpty() && getCustoUnit() != 0.0 && getQtdEntrada() != 0.0)
             {
                custoTotal.setEnabled(false); 
@@ -139,7 +145,7 @@ public class EntradaVisao extends JFrame
             }
             else if(evt.getSource() == custoTotal && !qtdEntrada.getText().isEmpty() && getCustoTotal() != 0.0)
             {
-                custoUnit.setText("");
+                custoUnit.setText("0");
                 custoUnit.setEnabled(false);
 
             }
@@ -149,13 +155,13 @@ public class EntradaVisao extends JFrame
                 custoTotal.setEnabled(true); 
 
             }
-
+            
         }
         
 
         public int getId()
         {
-            return Integer.parseInt("0");
+            return Integer.parseInt( idJTF.getText().trim());
         }
 
         public int getQtdEntrada()
@@ -197,14 +203,15 @@ public class EntradaVisao extends JFrame
         public void salvar()
         {
             EntradaModelo modelo = new EntradaModelo(getId(), getQtdEntrada(),getCustoUnit(),
-getCustoTotal(),
-getIngrediente(),
-getUnidadeMedida(),
-getDataEntrada(),
-getDataValidade());
+            getCustoTotal(),
+            getIngrediente(),
+            getUnidadeMedida(),
+            getDataEntrada(),
+            getDataValidade());
 
-            modelo.salvar();
-
+            //modelo.salvar();
+            JOptionPane.showMessageDialog(null,modelo.toString());
+            dispose();
 
         }
 

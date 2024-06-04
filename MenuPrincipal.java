@@ -30,7 +30,6 @@ public class MenuPrincipal extends JFrame
         
         getContentPane().add(pSuper = new PainelSuperior(), BorderLayout.NORTH);
         getContentPane().add(pCentro = new PainelCentro(), BorderLayout.CENTER);
-        
 
 
         setSize(1350, 900);
@@ -49,6 +48,7 @@ public class MenuPrincipal extends JFrame
         private Color customColor, customColor2;
         private JPanel operJp;
         private JPopupMenu popupMenu1,popupMenu2, popupMenu3, popupMenu4, popupMenu5, popupMenu6;
+        private JMenuItem itemProdutos, itemMaterial;
         private JMenuItem itemNovaEntrada, itemNovaVenda, itemSobreAutor, itemSobreSoftw;
         private JMenuItem itemMateriaisPrima, itemUnidadeMedida, itemProduto;
         private JSeparator sep1, sep2, sep3, sep4;
@@ -87,6 +87,8 @@ public class MenuPrincipal extends JFrame
             tableImg = new ImageIcon("imagens/table.png");
             btnTabelas = new JButton(tableImg);
             btnTabelas.setBackground(customColor2);
+
+           
 
             popupMenu4 = new JPopupMenu();
             itemMateriaisPrima = new JMenuItem("Materias Prima");
@@ -129,6 +131,12 @@ public class MenuPrincipal extends JFrame
             estoqueImg = new ImageIcon("imagens/estoque.png");
             btnEstoque = new JButton(estoqueImg);
             btnEstoque.setBackground(customColor2);
+            
+            popupMenu2 = new JPopupMenu();
+            popupMenu2.add(itemProdutos = new JMenuItem("Produtos"));
+            popupMenu2.add(new JSeparator());
+            popupMenu2.add(itemMaterial = new JMenuItem("Materia Prima"));
+            
 
             lblSair = new JLabel("Sair");
             lblSair.setHorizontalAlignment(SwingConstants.CENTER);
@@ -164,6 +172,8 @@ public class MenuPrincipal extends JFrame
             btnTabelas.addActionListener(manipulador);
             btnAjuda.addActionListener(manipulador);
             btnOperacoes.addActionListener(manipulador);
+            btnEstoque.addActionListener(manipulador);
+            itemMaterial.addActionListener(manipulador);
             itemMateriaisPrima.addActionListener(manipulador);
             itemUnidadeMedida.addActionListener(manipulador);
             itemProduto.addActionListener(manipulador);
@@ -207,6 +217,12 @@ public class MenuPrincipal extends JFrame
                 {
                     popupMenu1.show(btnOperacoes,0, btnOperacoes.getHeight());
                 }
+                else if(evt.getSource() == btnEstoque)
+                {
+                    popupMenu2.show(btnEstoque, 0,btnEstoque.getHeight());
+                }
+                else if(evt.getSource() == itemMaterial)
+                    new EstoqueMateriaVisao();
                 else if(evt.getSource() == itemNovaEntrada)
                 {
                     new EntradaVisao();
