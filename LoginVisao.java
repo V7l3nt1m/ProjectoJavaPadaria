@@ -21,6 +21,8 @@ public class LoginVisao extends JFrame implements ActionListener
     private JTextField usernameTxF;
     private JPasswordField passwdPF;
     private ImageIcon iconImg,userIco,passIco;
+    private  String correctUser = "33031", correctPassword = "ucan";
+
 
     public LoginVisao()
     {  
@@ -38,6 +40,7 @@ public class LoginVisao extends JFrame implements ActionListener
 
     public void instanciarObj()
     {
+
         Color customColor = Color.decode("#B83416");
 
         logo = new JLabel();
@@ -97,14 +100,21 @@ public class LoginVisao extends JFrame implements ActionListener
         submitBtn.addActionListener(this); 
     }
 
-    private String usernameTxF()
+    private String getUser()
     {
-        return usernameTxF.getText();
+        return usernameTxF.getText().trim();
     }
 
-    private String passwdPF()
+    private String getPassword()
     {
-        return passwdPF.getText();
+        return passwdPF.getText().trim();
+    }
+
+    public boolean loginValido()
+    {
+        if(getUser().equals(correctUser) && getPassword().equals(correctPassword))
+            return true;
+        return false;
     }
 
 
@@ -112,10 +122,11 @@ public class LoginVisao extends JFrame implements ActionListener
     {
         if(evt.getSource() == submitBtn)
         {
-            if(usernameTxF().equals("admin") && passwdPF().equals("admin"))
+            String user = getUser();
+            if(loginValido())
             {
-                JOptionPane.showMessageDialog(null, "Bem-vindo: " + usernameTxF(), "Iniciar Sessão", JOptionPane.INFORMATION_MESSAGE);
-                new MenuPrincipal();
+                JOptionPane.showMessageDialog(null, "Bem-vindo: " + user, "Iniciar Sessão", JOptionPane.INFORMATION_MESSAGE);
+                new MenuPrincipal(user);
                 dispose();
             }
             else

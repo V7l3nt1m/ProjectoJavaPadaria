@@ -21,9 +21,9 @@ public class MenuPrincipal extends JFrame
     private PainelSuperior pSuper;
     private PainelCentro pCentro;
 
-    public MenuPrincipal()
+    public MenuPrincipal(String user)
     {
-        super("Menu Principal");
+        super("Menu Principal | Operador: " + user);
         definirTema();
         //separador
         setLayout(new BorderLayout(1,3));
@@ -271,7 +271,8 @@ public class MenuPrincipal extends JFrame
     public static void main(String args[])
     {
         Vector_Tabelas.inic();
-        new MenuPrincipal();
+        new MenuPrincipal("User nao logado"); 
     }
-
 }
+
+/* Pesquisar como trocar o ponto da passwordTextfield para outro qualquer tipo (###### ou ********)*/
