@@ -83,6 +83,7 @@ public class LoginVisao extends JFrame implements ActionListener
         passwdPF.setBounds(571,200,200,30);
         passwdPF.setFont(new Font("Monospaced", Font.PLAIN,14));
         passwdPF.setBorder(BorderFactory.createLineBorder(customColor,3));
+        //passwdPF.setEchoChar('#'); mudar a letra que vem dentro do jpassword field
 
         add(iconPass);
         add(passwordlbl);
