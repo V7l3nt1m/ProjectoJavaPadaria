@@ -35,7 +35,6 @@ public class LoginVisao extends JFrame implements ActionListener
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
     }
 
     public void instanciarObj()

@@ -20,6 +20,40 @@ public class EntradaFile extends ObjectsFile
 		super("EntradaFile.dat", new EntradaModelo() );
 	}
 
+	public static String [][] listarMaterialV()
+	{
+		EntradaFile ficheiro = new EntradaFile();
+		EntradaModelo modelo = new EntradaModelo();
+		
+		int qtdRegistros = (int)(ficheiro.getNregistos()+1);
+		
+		String [][] dados = new String[qtdRegistros][8];
+
+		try
+		{
+			ficheiro.stream.seek(4);
+			for (int c = 0; c < ficheiro.getNregistos()+1; ++c)
+			{
+				modelo.read( ficheiro.stream );
+				dados[c][0] = "" + modelo.getId();
+				dados[c][1] = modelo.getIngrediente();
+				dados[c][2] = modelo.getUnidadeMedida();
+				dados[c][3] = "" + modelo.getQtdEntrada();
+				dados[c][4] = "" +  modelo.getCustoUnit();
+				dados[c][5] = "" + modelo.getCustoTotal();
+				dados[c][6] = modelo.getDataEntrada();
+				dados[c][7] = modelo.getDataValidade();
+			}
+
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}	
+
+		return dados;
+	}
+
 	public static void listarMaterial()
 	{
 		EntradaFile ficheiro = new EntradaFile();
@@ -70,10 +104,5 @@ public class EntradaFile extends ObjectsFile
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Falha ao Salvar um Novo Material");
 		}
-	}
-
-	public static void main(String args[])
-	{
-		listarMaterial();
 	}
 }

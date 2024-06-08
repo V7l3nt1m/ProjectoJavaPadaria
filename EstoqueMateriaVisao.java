@@ -12,6 +12,7 @@ import java.awt.*;
 import SwingComponents.*;
 import Calendario.*;
 import javax.swing.UIManager.*;
+import java.util.*;
 
 public class EstoqueMateriaVisao extends JFrame
 {
@@ -30,21 +31,15 @@ public class EstoqueMateriaVisao extends JFrame
     private class PainelCentro extends JPanel
     {
         private String [] colunas = {"ID", "Nome", "Unidade Medida", "Quantidade", "Custo/Unidade", "Custo Total", "Data de Entrada" , "Data de Validade"};
-        private String [][] dados = {{"1", "v", "kg", "10", "10", "20", "20/02/2004", "20/02/2004"},
-        {"1", "v", "kg", "10", "10", "20", "20/02/2004", "20/02/2004"},
-        {"1", "v", "kg", "10", "10", "20", "20/02/2004", "20/02/2004"},
-        {"1", "v", "kg", "10", "10", "20", "20/02/2004", "20/02/2004"}};
         private JScrollPane sp;
-
         private JTable tabelaMateria;
 
         public PainelCentro()
         {
             setLayout(new GridLayout(1,1));
-            tabelaMateria = new JTable(dados, colunas);
+            tabelaMateria = new JTable(EntradaFile.listarMaterialV(), colunas);
             sp = new JScrollPane(tabelaMateria);
             add(sp);
-
         }
     }
 

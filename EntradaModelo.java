@@ -150,7 +150,7 @@ public class EntradaModelo implements RegistGeneric
             
             try
             {
-                return 4*2+8*2+50*2+8*2+24*3; // 396	
+                return 4*2+8*2+50*2+8*2+24*3; // 212 bytes
             }
             catch(Exception ex)
             {
