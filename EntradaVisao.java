@@ -210,7 +210,6 @@ public class EntradaVisao extends JFrame
             getDataValidade());
 
             modelo.salvar();
-            JOptionPane.showMessageDialog(null,modelo.toString());
             dispose();
 
         }
