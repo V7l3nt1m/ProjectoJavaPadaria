@@ -145,9 +145,8 @@ public class EntradaVisao extends JFrame
             }
             else if(evt.getSource() == custoTotal && !qtdEntrada.getText().isEmpty() && getCustoTotal() != 0.0)
             {
-                custoUnit.setText("0");
                 custoUnit.setEnabled(false);
-
+                custoUnit.setText(String.valueOf(getCustoTotal() / getQtdEntrada()));
             }
             else
             {
@@ -200,6 +199,46 @@ public class EntradaVisao extends JFrame
             return Double.parseDouble(custoTotal.getText().trim());
         }
 
+//setters
+/*
+        public int setQtdEntrada(int qtdEntrada)
+        {
+            qtdEntrada.setText(qtdEntrada);
+        }
+
+        public String setIngrediente(String ingrediente)
+        {
+            ingrediente.setSelectedItem(ingrediente);
+        }
+
+        public String setUnidadeMedida(String unidade)
+        {
+            unidadeMedida.setSelectedItem(unidade);
+        }
+
+        public String setDataEntrada(String dataEntra)
+        {
+            // dataEntrada.setText
+            return dataEntrada.getDTestField().getText();
+        }
+
+        public String setDataValidade()
+        {
+            //dataValidade.setText();
+            return dataValidade.getDTestField().getText();
+        }
+
+        public Double setCustoUnit(double custoUnita)
+        {
+            custoUnit.setText(custoUnit);
+        }
+
+        public Double setCustoTotal(double custoTot)
+        {
+            custoTotal.setText(custoTot);
+        }
+        */
+
         public void salvar()
         {
             EntradaModelo modelo = new EntradaModelo(getId(), getQtdEntrada(),getCustoUnit(),
@@ -208,7 +247,6 @@ public class EntradaVisao extends JFrame
             getUnidadeMedida(),
             getDataEntrada(),
             getDataValidade());
-
             modelo.salvar();
             dispose();
 

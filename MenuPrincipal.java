@@ -261,7 +261,7 @@ public class MenuPrincipal extends JFrame
                 if ("Nimbus".equals(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
                     break;
-                }
+                } 
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
         }
@@ -275,4 +275,3 @@ public class MenuPrincipal extends JFrame
     }
 }
 
-/* Pesquisar como trocar o ponto da passwordTextfield para outro qualquer tipo (###### ou ********)*/

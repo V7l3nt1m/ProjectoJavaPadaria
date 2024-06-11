@@ -54,6 +54,34 @@ public class EntradaFile extends ObjectsFile
 		return dados;
 	}
 
+	
+
+	public static StringVector getAllNames()
+	{
+		EntradaFile ficheiro = new EntradaFile();
+		EntradaModelo modelo = new EntradaModelo();
+		StringVector vector = new StringVector();
+
+		try
+		{
+			ficheiro.stream.seek(4);
+			Set<String> uniqueSet = new LinkedHashSet<>();
+			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
+			{
+				modelo.read( ficheiro.stream );
+                uniqueSet.add(modelo.getIngrediente());
+			}
+			vector.addAll(uniqueSet);
+			vector.sort();
+		}
+        catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}	
+
+		return vector;
+	}
+
 	public static void listarMaterial()
 	{
 		EntradaFile ficheiro = new EntradaFile();
@@ -83,6 +111,34 @@ public class EntradaFile extends ObjectsFile
 			ex.printStackTrace();
 		}	
 		
+	}
+
+	public static void pesquisarEntradaPorNome(String nomeProcurado)
+	{
+		EntradaFile ficheiro = new EntradaFile();
+		EntradaModelo modelo = new EntradaModelo();
+		String output = "";
+		try
+		{
+			ficheiro.stream.seek(4);
+			
+			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
+			{
+				modelo.read( ficheiro.stream );
+				
+				if (modelo.getIngrediente().equalsIgnoreCase( nomeProcurado ) )
+				{
+					output += modelo.toString();
+					output += "---------------------------------------";
+					JOptionPane.showMessageDialog(null, modelo.toString(), 
+					"Gestao de Padaria", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}		
 	}
 	
 	public void salvarDados(EntradaModelo modelo)

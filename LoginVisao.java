@@ -13,7 +13,7 @@ import SwingComponents.*;
 import Calendario.*;
 import javax.swing.UIManager.*;
 
-public class LoginVisao extends JFrame implements ActionListener
+public class LoginVisao extends JFrame implements ActionListener, KeyListener
 {
     //criando os componentes
     private JLabel logo, welcomelbl,usernamelbl,passwordlbl,iconUser,iconPass;
@@ -98,6 +98,10 @@ public class LoginVisao extends JFrame implements ActionListener
         add(submitBtn);
 
         submitBtn.addActionListener(this); 
+
+        usernameTxF.addKeyListener(this);
+        passwdPF.addKeyListener(this);
+
     }
 
     private String getUser()
@@ -117,11 +121,31 @@ public class LoginVisao extends JFrame implements ActionListener
         return false;
     }
 
+    public void keyTyped(KeyEvent evt)
+    {
+           
+    }
+
+    public void keyPressed(KeyEvent evt)
+    {
+         if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+            realizarLogin();
+
+    }
+    public void keyReleased(KeyEvent evt)
+    {
+       
+    }
+
 
     public void actionPerformed(ActionEvent evt)
     {
         if(evt.getSource() == submitBtn)
-        {
+            realizarLogin();
+    }
+
+    private void realizarLogin()
+    {
             String user = getUser();
             if(loginValido())
             {
@@ -133,8 +157,6 @@ public class LoginVisao extends JFrame implements ActionListener
             {
                 JOptionPane.showMessageDialog(null, "Nome de Usuário e/ou Palavra-Passe Incorrectos", "Iniciar Sessão", JOptionPane.ERROR_MESSAGE);
             }
-            
-        }
     }
 
    public void definirTema() 
