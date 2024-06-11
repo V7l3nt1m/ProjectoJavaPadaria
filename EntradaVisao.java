@@ -18,14 +18,20 @@ public class EntradaVisao extends JFrame
     private PainelSul painelSul;
     private PainelCentro painelCentro;
 
-    public EntradaVisao()
+    public EntradaVisao(boolean alterar, EntradaModelo modelo)
     {
         super("Registrar Entrada");
         definirTema();
         setLayout(new BorderLayout());
 
         getContentPane().add(painelNorte = new PainelNorte(), BorderLayout.NORTH);
-        getContentPane().add(painelCentro = new PainelCentro(), BorderLayout.CENTER);
+
+        if (!alterar)
+            getContentPane().add(painelCentro = new PainelCentro(), BorderLayout.CENTER);
+        else
+            getContentPane().add(painelCentro = new PainelCentro(modelo), BorderLayout.CENTER);
+
+
         getContentPane().add(painelSul = new PainelSul(), BorderLayout.SOUTH);
 
         setSize(490,500);
@@ -98,6 +104,79 @@ public class EntradaVisao extends JFrame
 
             lblCustoTot = new JLabel("Custo Total");
             custoTotal = new JTextField("0");
+            
+            add(lblIng);
+            add(ingrediente);
+
+            add(lblUnid);
+            add(unidadeMedida);
+
+            add(lblQtdEn);
+            add(qtdEntrada);
+
+            add(lblDataEnt);
+            add(painelData);
+
+            add(lblDataVal);
+            add(painelData2);
+
+            add(lblCustou);
+            add(custoUnit);
+
+            add(lblCustoTot);
+            add(custoTotal);
+
+            qtdEntrada.addKeyListener(this);
+            custoUnit.addKeyListener(this);
+            custoTotal.addKeyListener(this);
+
+        }
+
+        public PainelCentro(EntradaModelo modelo)
+        { 
+            setLayout(new GridLayout(7,2));  
+            lblIng = new JLabel("Ingrediente");
+            ingrediente = UInterfaceBox.createJComboBoxPersonalTab2("MateriaPrima.tab");
+            ingrediente.setSelectedItem(modelo.getIngrediente());
+
+			idJTF = new JTextField();
+            EntradaFile entradafile = new EntradaFile();
+			idJTF.setText( "" + modelo.getId());
+
+
+            lblUnid = new JLabel("Unidade de Medida");
+            unidadeMedida = UInterfaceBox.createJComboBoxPersonalTab2("UnidadeMedida.tab");
+            unidadeMedida.setSelectedItem(modelo.getUnidadeMedida());
+
+            lblQtdEn = new JLabel("Quantidade");
+            qtdEntrada = new JTextField();
+            qtdEntrada.setText(""+modelo.getQtdEntrada());
+
+            lblDataEnt = new JLabel("Data de Entrada");
+
+            painelData = new JPanel( new GridLayout(1, 1) );
+            dataEntrada = new JTextFieldData("Data?");
+            dataEntrada.getDTestField().setText(modelo.getDataEntrada());
+
+            painelData.add( dataEntrada.getDTestField() );
+			painelData.add( dataEntrada.getDButton() );
+
+            lblDataVal = new JLabel("Data de Validade");
+
+            painelData2 = new JPanel( new GridLayout(1, 1) );
+            dataValidade = new JTextFieldData("Data?");
+            dataValidade.getDTestField().setText(modelo.getDataValidade());
+
+            painelData2.add( dataValidade.getDTestField() );
+			painelData2.add( dataValidade.getDButton() );
+
+            lblCustou = new JLabel("Custo/unidade");
+            custoUnit = new JTextField("0");
+            custoUnit.setText(""+modelo.getCustoUnit());
+
+            lblCustoTot = new JLabel("Custo Total");
+            custoTotal = new JTextField("0");
+            custoTotal.setText(""+modelo.getCustoTotal());
             
             add(lblIng);
             add(ingrediente);
@@ -199,45 +278,45 @@ public class EntradaVisao extends JFrame
             return Double.parseDouble(custoTotal.getText().trim());
         }
 
-//setters
-/*
-        public int setQtdEntrada(int qtdEntrada)
+        public void setId(int id)
         {
-            qtdEntrada.setText(qtdEntrada);
+            idJTF.setText(""+id);
         }
 
-        public String setIngrediente(String ingrediente)
+        public void setQtdEntrada(int qtdEntra)
         {
-            ingrediente.setSelectedItem(ingrediente);
+            qtdEntrada.setText("" + qtdEntra);
         }
 
-        public String setUnidadeMedida(String unidade)
+        public void setIngrediente(String ingre)
+        {
+            ingrediente.setSelectedItem(ingre);
+        }
+
+        public void setUnidadeMedida(String unidade)
         {
             unidadeMedida.setSelectedItem(unidade);
         }
 
-        public String setDataEntrada(String dataEntra)
+        public void setDataEntrada(String dataEntra)
         {
-            // dataEntrada.setText
-            return dataEntrada.getDTestField().getText();
+            dataEntrada.getDTestField().setText(dataEntra);
         }
 
-        public String setDataValidade()
+        public void setDataValidade(String dataVal)
         {
-            //dataValidade.setText();
-            return dataValidade.getDTestField().getText();
+            dataValidade.getDTestField().setText(dataVal);
         }
 
-        public Double setCustoUnit(double custoUnita)
+        public void setCustoUnit(double custoUnita)
         {
-            custoUnit.setText(custoUnit);
+            custoUnit.setText("" + custoUnita);
         }
 
-        public Double setCustoTotal(double custoTot)
+        public void setCustoTotal(double custoTot)
         {
-            custoTotal.setText(custoTot);
+            custoTotal.setText("" + custoTot);
         }
-        */
 
         public void salvar()
         {
@@ -283,8 +362,6 @@ public class EntradaVisao extends JFrame
             }
     }
 
-
-
     public void definirTema() 
 	 {
         try {
@@ -296,11 +373,5 @@ public class EntradaVisao extends JFrame
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
         }
-    }
-
-    public static void main(String args[])
-    {
-        Vector_Tabelas.inic();
-        new EntradaVisao();
     }
 }

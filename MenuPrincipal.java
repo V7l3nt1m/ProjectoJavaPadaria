@@ -49,9 +49,9 @@ public class MenuPrincipal extends JFrame
         private JPanel operJp;
         private JPopupMenu popupMenu1,popupMenu2, popupMenu3, popupMenu4, popupMenu5, popupMenu6;
         private JMenuItem itemProdutos, itemMaterial;
-        private JMenuItem itemNovaEntrada, itemNovaVenda, itemSobreAutor, itemSobreSoftw;
+        private JMenuItem itemNovaEntrada,itemEditarEntrada, itemNovaVenda, itemSobreAutor, itemSobreSoftw;
         private JMenuItem itemMateriaisPrima, itemUnidadeMedida, itemProduto;
-        private JSeparator sep1, sep2, sep3, sep4;
+        private JSeparator sep1, sep2, sep3, sep4,sep5;
 
         public PainelSuperior()
         {         
@@ -65,14 +65,19 @@ public class MenuPrincipal extends JFrame
             sep2 = new JSeparator();
             sep3 = new JSeparator();
             sep4 = new JSeparator();
+            sep5 = new JSeparator();
+
 
             popupMenu1 = new JPopupMenu();
             itemNovaEntrada = new JMenuItem("Nova Entrada");
+            itemEditarEntrada = new JMenuItem("Editar Entrada");
             itemNovaVenda = new JMenuItem("Nova Venda");
 
             popupMenu1.add(itemNovaEntrada);
             popupMenu1.add(sep1);
             popupMenu1.add(itemNovaVenda);
+            popupMenu1.add(sep5);
+            popupMenu1.add(itemEditarEntrada);
             
             lblOper = new JLabel("Operações");
             lblOper.setHorizontalAlignment(SwingConstants.CENTER);
@@ -146,6 +151,7 @@ public class MenuPrincipal extends JFrame
             btnSair.setBackground(customColor2);
             btnSair.setPreferredSize(new Dimension(50,50));
 
+
             add(btnOperacoes);
             add(btnEstoque);
             add(btnProducao);
@@ -178,6 +184,8 @@ public class MenuPrincipal extends JFrame
             itemUnidadeMedida.addActionListener(manipulador);
             itemProduto.addActionListener(manipulador);
             itemNovaEntrada.addActionListener(manipulador);
+            itemEditarEntrada.addActionListener(manipulador);
+
         }
 
          private class ManipuladorEventos implements ActionListener
@@ -225,7 +233,11 @@ public class MenuPrincipal extends JFrame
                     new EstoqueMateriaVisao();
                 else if(evt.getSource() == itemNovaEntrada)
                 {
-                    new EntradaVisao();
+                    new EntradaVisao(false, new EntradaModelo());
+                }
+                else if(evt.getSource() == itemEditarEntrada)
+                {
+                    new EditarEntrada();
                 }
             }
         }

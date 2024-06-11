@@ -42,20 +42,20 @@ public class EstoqueMateriaVisao extends JFrame
     class PainelCentro2 extends JPanel implements ActionListener
     {
         private JLabel pesqlbl;
-        private JComboBox pesquisaCb;
+        private JComboBox nomeProd, ;
         private JButton pesquisarBtn;
 
         public PainelCentro2()
         {
-            add(pesqlbl = new JLabel("Pesquisa por Nome"));
-            add(pesquisaCb = new JComboBox(EntradaFile.getAllNames()));
+            add(pesqlbl = new JLabel("Pesquisa por:"));
+            add(nomeProd = new JComboBox(EntradaFile.getAllNames()));
             add(pesquisarBtn = new JButton("Pesquisar"));
             pesquisarBtn.addActionListener(this);
         }
 
         public String getNome()
         {
-            return String.valueOf(pesquisaCb.getSelectedItem());
+            return String.valueOf(nomeProd.getSelectedItem());
         }
 
         public void actionPerformed(ActionEvent evt)
@@ -111,3 +111,5 @@ public class EstoqueMateriaVisao extends JFrame
 //colocar bwede pesquisa por causa do exame!!!
 //terminar ja o projecto para focar na parte das pesquisas que é a prova, Fazer pelo menos dois tipos de pesquisa
 //colocar evento no teclado que quando ele apertar enter para entrar
+
+//implementar um campo de hora para tornar as pesquisas mais directas, e fazer a proxima parte e avançar

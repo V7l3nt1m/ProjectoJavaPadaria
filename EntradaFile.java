@@ -113,6 +113,33 @@ public class EntradaFile extends ObjectsFile
 		
 	}
 
+	
+	public static EntradaModelo pesquisarEntradaPorNomeM(String nomeProcurado)
+	{
+		EntradaFile ficheiro = new EntradaFile();
+		EntradaModelo modelo = new EntradaModelo();
+		try
+		{
+			ficheiro.stream.seek(4);
+			
+			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
+			{
+				modelo.read( ficheiro.stream );
+				
+				if (modelo.getIngrediente().equalsIgnoreCase( nomeProcurado ) )
+				{
+					return modelo;
+				}
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}		
+
+		return modelo;
+	}
+
 	public static void pesquisarEntradaPorNome(String nomeProcurado)
 	{
 		EntradaFile ficheiro = new EntradaFile();
