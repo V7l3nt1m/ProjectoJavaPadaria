@@ -14,23 +14,29 @@ import Calendario.*;
 import javax.swing.UIManager.*;
 import java.util.*;
 
-public class EstoqueMateriaVisao extends JFrame
+public class Estoque extends JFrame
 {
     private PainelCentro painelCentro;
     private PainelCentro2 painelCentro2;
+    private PainelCentro3 painelCentro3;
+
     private JTabbedPane tabPanel;
 
 
-    public EstoqueMateriaVisao()
+    public Estoque()
     {
         super("Material em Armazém");
         definirTema();
         getContentPane().add(painelCentro = new PainelCentro(), BorderLayout.CENTER);
         getContentPane().add(painelCentro2 = new PainelCentro2(), BorderLayout.CENTER);
+        getContentPane().add(painelCentro3 = new PainelCentro3(), BorderLayout.CENTER);
+
 
         tabPanel = new JTabbedPane();
-        tabPanel.addTab("Listagem", painelCentro);
+        tabPanel.addTab("Registro de compras", painelCentro);
+        tabPanel.addTab("Estoque", painelCentro3);
         tabPanel.addTab("Pesquisa", painelCentro2);
+
 
         getContentPane().add(tabPanel, BorderLayout.NORTH);
 
@@ -39,10 +45,24 @@ public class EstoqueMateriaVisao extends JFrame
         setLocationRelativeTo(null);
     }
 
+    class PainelCentro3 extends JPanel
+    {
+        private String [] colunas = {"ID", "Ingrediente", "Unidade Medida", "Quantidade"};
+        private JScrollPane sp;
+        private JTable tabelaMateriaEstoque;
+        public PainelCentro3()
+        {
+            setLayout(new GridLayout(1,1));
+            tabelaMateriaEstoque = new JTable(EntradaFile.listarMaterialEstoqueAgrupado(), colunas);
+            sp = new JScrollPane(tabelaMateriaEstoque);
+            add(sp);
+        }
+    }
+
     class PainelCentro2 extends JPanel implements ActionListener
     {
         private JLabel pesqlbl;
-        private JComboBox nomeProd, ;
+        private JComboBox nomeProd;
         private JButton pesquisarBtn;
 
         public PainelCentro2()
@@ -97,7 +117,7 @@ public class EstoqueMateriaVisao extends JFrame
 
     public static void main(String args[])
     {
-        new EstoqueMateriaVisao();
+        new Estoque();
     }
 }
 

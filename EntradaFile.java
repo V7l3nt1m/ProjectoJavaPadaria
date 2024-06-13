@@ -20,6 +20,46 @@ public class EntradaFile extends ObjectsFile
 		super("EntradaFile.dat", new EntradaModelo() );
 	}
 
+	public static String[][] listarMaterialEstoqueAgrupado() 
+	{
+		EntradaFile ficheiro = new EntradaFile();
+		EntradaModelo modelo = new EntradaModelo();
+
+		Map<String, Integer> agrupado = new HashMap<>();
+		Map<String, String> unidadesMedida = new HashMap<>();
+		Map<String, String> ids = new HashMap<>();
+
+		try {
+			ficheiro.stream.seek(4);
+			while (ficheiro.stream.getFilePointer() < ficheiro.stream.length()) {
+				modelo.read(ficheiro.stream);
+				String ingrediente = modelo.getIngrediente();
+				int qtdEntrada = modelo.getQtdEntrada();
+				String unidadeMedida = modelo.getUnidadeMedida();
+				String id = String.valueOf(modelo.getId());
+
+				agrupado.put(ingrediente, agrupado.getOrDefault(ingrediente, 0) + qtdEntrada);
+				unidadesMedida.put(ingrediente, unidadeMedida);
+				ids.put(ingrediente, id);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		String[][] dados = new String[agrupado.size()][4];
+		int index = 0;
+		for (Map.Entry<String, Integer> entry : agrupado.entrySet()) {
+			String ingrediente = entry.getKey();
+			dados[index][0] = ""+(index+1);
+			dados[index][1] = ingrediente;
+			dados[index][2] = unidadesMedida.get(ingrediente);
+			dados[index][3] = String.valueOf(entry.getValue());
+			index++;
+		}
+
+		return dados;
+	}
+
 	public static String [][] listarMaterialV()
 	{
 		EntradaFile ficheiro = new EntradaFile();
@@ -32,7 +72,7 @@ public class EntradaFile extends ObjectsFile
 		try
 		{
 			ficheiro.stream.seek(4);
-			for (int c = 0; c < ficheiro.getNregistos()+1; ++c)
+			for (int c = 0; c < qtdRegistros; ++c)
 			{
 				modelo.read( ficheiro.stream );
 				dados[c][0] = "" + modelo.getId();

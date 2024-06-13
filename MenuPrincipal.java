@@ -130,7 +130,7 @@ public class MenuPrincipal extends JFrame
             btnProducao = new JButton(produImg);
             btnProducao.setBackground(customColor2);
 
-            lblEstoq = new JLabel("Estoque");
+            lblEstoq = new JLabel("Estoque/Registros");
             lblEstoq.setHorizontalAlignment(SwingConstants.CENTER);
             lblEstoq.setVerticalAlignment(SwingConstants.TOP);
             estoqueImg = new ImageIcon("imagens/estoque.png");
@@ -230,7 +230,7 @@ public class MenuPrincipal extends JFrame
                     popupMenu2.show(btnEstoque, 0,btnEstoque.getHeight());
                 }
                 else if(evt.getSource() == itemMaterial)
-                    new EstoqueMateriaVisao();
+                    new Estoque();
                 else if(evt.getSource() == itemNovaEntrada)
                 {
                     new EntradaVisao(false, new EntradaModelo());
