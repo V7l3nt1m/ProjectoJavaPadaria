@@ -2,7 +2,7 @@
 Tema: Gestão de uma Padaria
 Nome: Valentim Loth Simão Prado
 Numero: 33031
-Ficheiro: EstoqueMateriaVisao.java
+Ficheiro: EstoqueVisao.java
 Data: 04.05.2024
 --------------------------------------*/
 
@@ -14,7 +14,7 @@ import Calendario.*;
 import javax.swing.UIManager.*;
 import java.util.*;
 
-public class Estoque extends JFrame
+public class EstoqueVisao extends JFrame
 {
     private PainelCentro painelCentro;
     private PainelCentro2 painelCentro2;
@@ -23,7 +23,7 @@ public class Estoque extends JFrame
     private JTabbedPane tabPanel;
 
 
-    public Estoque()
+    public EstoqueVisao()
     {
         super("Material em Armazém");
         definirTema();
@@ -117,7 +117,7 @@ public class Estoque extends JFrame
 
     public static void main(String args[])
     {
-        new Estoque();
+        new EstoqueVisao();
     }
 }
 

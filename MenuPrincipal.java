@@ -230,7 +230,7 @@ public class MenuPrincipal extends JFrame
                     popupMenu2.show(btnEstoque, 0,btnEstoque.getHeight());
                 }
                 else if(evt.getSource() == itemMaterial)
-                    new Estoque();
+                    new EstoqueVisao();
                 else if(evt.getSource() == itemNovaEntrada)
                 {
                     new EntradaVisao(false, new EntradaModelo());

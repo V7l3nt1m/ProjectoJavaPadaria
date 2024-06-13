@@ -2,7 +2,7 @@
 Tema: Gestão de uma Padaria
 Nome: Valentim Loth Simão Prado
 Numero: 33031
-Ficheiro: EntradaModelo.java
+Ficheiro: EntradaFile.java
 Data: 30.05.2024
 --------------------------------------*/
 
@@ -219,7 +219,8 @@ public class EntradaFile extends ObjectsFile
 			modelo.write(stream);
 
 			incrementarProximoCodigo();
-			
+
+
 			JOptionPane.showMessageDialog(null, "Dados Salvos com Sucesso!");
 		}
 		catch (IOException ex)

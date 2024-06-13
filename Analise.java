@@ -35,12 +35,12 @@ producao e estoque de uma padaria;
 
 - EstoqueModelo
     int id
-    String tipo
-    EntradaModelo materiaP
-    ProducaoModelo produtoAcabado
+    String ingrediente
     int nivelMinimo
     int nivelAtual
     double precoTotal
+    ProducaoModelo produtoAcabado
+
 
 - ProducaoModelo
 	int id
@@ -74,6 +74,19 @@ producao e estoque de uma padaria;
 6. Diversos
 6.1 - Implementação: Java Swing
 6.2 - IDE: VScode
+*/
+
+/* 
+eu tenho um sistema de padaria que envolve as seguintes fases:
+
+Compra da "materia prima" Formulario
+Registro de cada compra em tabelas
+Registro de cada materia prima (total de cada item) em tabelas
+
+Producao (feitura do pão usando a materia prima )
+Venda (vender o pao no usuario final)
+registo de vendas
+
 */
 
 

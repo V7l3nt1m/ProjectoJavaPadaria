@@ -327,7 +327,12 @@ public class EntradaVisao extends JFrame
             getDataEntrada(),
             getDataValidade());
             modelo.salvar();
+
+/*
+            EstoqueModelo modelo2 = new EstoqueModelo(getId(), getQtdEntrada(), getIngrediente(),  getUnidadeMedida(), getDataEntrada());
+            modelo2.salvar();
             dispose();
+        */
 
         }
 
