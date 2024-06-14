@@ -153,6 +153,28 @@ public class EntradaFile extends ObjectsFile
 		
 	}
 
+	public static EntradaModelo pesquisarEntradaPorId(String id)
+	{
+		EntradaFile ficheiro = new EntradaFile();
+		EntradaModelo modelo = new EntradaModelo();
+		try
+		{
+			ficheiro.stream.seek(4);
+			
+			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
+			{
+				modelo.read( ficheiro.stream );
+				if((""+modelo.getId()).equals(id))
+					return modelo;
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}		
+
+		return modelo;
+	}
 	
 	public static EntradaModelo pesquisarEntradaPorNomeM(String nomeProcurado)
 	{
@@ -227,6 +249,43 @@ public class EntradaFile extends ObjectsFile
 		{
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Falha ao Salvar um Novo Material");
+		}
+	}
+
+	public void alterarDados(EntradaModelo modelo_novo)
+	{
+		EntradaModelo modelo_antigo = new EntradaModelo();
+		
+		try
+		{
+			stream.seek(4);
+			
+			for(int i = 0; i < getNregistos(); ++i)
+			{
+				modelo_antigo.read( stream );
+				
+				if (i == 0 && modelo_antigo.getId() == modelo_novo.getId())
+				{
+					stream.seek(4); 
+					modelo_novo.write( stream );
+					JOptionPane.showMessageDialog(null, "Dados alterados com sucesso!");
+					return;
+				}	
+				else
+				{
+					if (modelo_antigo.getId() + 1 == modelo_novo.getId())
+					{
+						modelo_novo.write( stream);
+						JOptionPane.showMessageDialog(null, "Dados alterados com sucesso!");
+						return;
+					}
+							
+				}			
+			}			
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
 		}
 	}
 }

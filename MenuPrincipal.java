@@ -76,8 +76,6 @@ public class MenuPrincipal extends JFrame
             popupMenu1.add(itemNovaEntrada);
             popupMenu1.add(sep1);
             popupMenu1.add(itemNovaVenda);
-            popupMenu1.add(sep5);
-            popupMenu1.add(itemEditarEntrada);
             
             lblOper = new JLabel("Operações");
             lblOper.setHorizontalAlignment(SwingConstants.CENTER);
@@ -184,7 +182,6 @@ public class MenuPrincipal extends JFrame
             itemUnidadeMedida.addActionListener(manipulador);
             itemProduto.addActionListener(manipulador);
             itemNovaEntrada.addActionListener(manipulador);
-            itemEditarEntrada.addActionListener(manipulador);
 
         }
 
@@ -234,10 +231,6 @@ public class MenuPrincipal extends JFrame
                 else if(evt.getSource() == itemNovaEntrada)
                 {
                     new EntradaVisao(false, new EntradaModelo());
-                }
-                else if(evt.getSource() == itemEditarEntrada)
-                {
-                    new EditarEntradaVisao();
                 }
             }
         }

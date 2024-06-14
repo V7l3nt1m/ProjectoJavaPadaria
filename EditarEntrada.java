@@ -13,13 +13,13 @@ import SwingComponents.*;
 import Calendario.*;
 import javax.swing.UIManager.*;
 
-public class EditarEntradaVisao extends JFrame
+public class EditarEntrada extends JFrame
 {	
 	
 	PainelCentro centro;
 	PainelSul sul;
 	
-	public EditarEntradaVisao()
+	public EditarEntrada()
 	{
 		super("Pesquisar para Editar Dados");
 		getContentPane().add(centro = new PainelCentro(), BorderLayout.CENTER);
@@ -42,7 +42,6 @@ public class EditarEntradaVisao extends JFrame
 			add( nomesJCB = new JComboBox(EntradaFile.getAllNames()));
 						
 		}
-		
 
 		public String getNome()
         {
@@ -69,7 +68,7 @@ public class EditarEntradaVisao extends JFrame
 			{
 				EntradaModelo modelo;
 				modelo = EntradaFile.pesquisarEntradaPorNomeM(centro.getNome());
-				new EditarEntradaVisao(true, modelo);
+				new EntradaVisao(true, modelo);
 			}
 			else
 				dispose();

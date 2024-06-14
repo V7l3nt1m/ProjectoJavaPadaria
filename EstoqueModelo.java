@@ -36,15 +36,6 @@ public class EstoqueModelo implements RegistGeneric
 		dataEntradaEstoque = new DataModelo();
     }
 
-     public EstoqueModelo(int id, int qtdEntrada, String ingrediente, String unidadeMedida, String dataEntradaEstoque)
-    {
-        this.id = id;
-        this.qtdEntrada = qtdEntrada;
-		this.ingrediente = new StringBufferModelo(ingrediente, 50); 
-		this.unidadeMedida = new StringBufferModelo(unidadeMedida, 20);
-		this.dataEntradaEstoque = new DataModelo(dataEntradaEstoque);
-    }
-
     public EstoqueModelo(int id, int nivelMinimo, int nivelAtual, double precoUnit, double precoTotal, String ingrediente, String unidadeMedida,
    String produto, String dataEntradaEstoque)
     {

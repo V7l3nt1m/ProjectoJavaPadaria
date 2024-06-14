@@ -17,12 +17,14 @@ public class EntradaVisao extends JFrame
     private PainelNorte painelNorte;
     private PainelSul painelSul;
     private PainelCentro painelCentro;
+    boolean editar;
 
     public EntradaVisao(boolean alterar, EntradaModelo modelo)
     {
         super("Registrar Entrada");
         definirTema();
         setLayout(new BorderLayout());
+        editar = alterar;
 
         getContentPane().add(painelNorte = new PainelNorte(), BorderLayout.NORTH);
 
@@ -54,8 +56,6 @@ public class EntradaVisao extends JFrame
             lblIng = new JLabel();
             lblIng.setIcon(ingIco);
             add(lblIng);
-
-           
         }
     }
 
@@ -327,13 +327,20 @@ public class EntradaVisao extends JFrame
             getDataEntrada(),
             getDataValidade());
             modelo.salvar();
-
-/*
-            EstoqueModelo modelo2 = new EstoqueModelo(getId(), getQtdEntrada(), getIngrediente(),  getUnidadeMedida(), getDataEntrada());
-            modelo2.salvar();
             dispose();
-        */
+        }
 
+        public void alterar()
+        {
+            EntradaModelo modelo = new EntradaModelo(getId(), getQtdEntrada(),getCustoUnit(),
+            getCustoTotal(),
+            getIngrediente(),
+            getUnidadeMedida(),
+            getDataEntrada(),
+            getDataValidade());
+
+            modelo.editarDados();
+            dispose();
         }
 
 
@@ -356,14 +363,15 @@ public class EntradaVisao extends JFrame
 
             public void actionPerformed(ActionEvent evt)
             {
-                if(evt.getSource() == cancelarJB)
+                 if(evt.getSource() == salvarJB)
                 {
+                    if(editar)
+                        painelCentro.alterar();
+                    else
+                        painelCentro.salvar();
+                }
+                else
                     dispose();
-                }
-                else if(evt.getSource() == salvarJB)
-                {
-                    painelCentro.salvar();
-                }
             }
     }
 

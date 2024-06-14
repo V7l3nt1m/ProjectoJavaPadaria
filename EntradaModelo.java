@@ -203,4 +203,10 @@ public class EntradaModelo implements RegistGeneric
         EntradaFile file = new EntradaFile();
         file.salvarDados(this);
     }
+
+    public void editarDados()
+    {
+        EntradaFile file= new EntradaFile();
+        file.alterarDados(this);
+    }
 }
