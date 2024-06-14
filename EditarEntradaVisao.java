@@ -13,13 +13,13 @@ import SwingComponents.*;
 import Calendario.*;
 import javax.swing.UIManager.*;
 
-public class EditarEntrada extends JFrame
+public class EditarEntradaVisao extends JFrame
 {	
 	
 	PainelCentro centro;
 	PainelSul sul;
 	
-	public EditarEntrada()
+	public EditarEntradaVisao()
 	{
 		super("Pesquisar para Editar Dados");
 		getContentPane().add(centro = new PainelCentro(), BorderLayout.CENTER);
@@ -69,7 +69,7 @@ public class EditarEntrada extends JFrame
 			{
 				EntradaModelo modelo;
 				modelo = EntradaFile.pesquisarEntradaPorNomeM(centro.getNome());
-				new EntradaVisao(true, modelo);
+				new EditarEntradaVisao(true, modelo);
 			}
 			else
 				dispose();
@@ -77,3 +77,10 @@ public class EditarEntrada extends JFrame
 	}
     
 }
+
+/*
+Cadastrar de antemao os ingredientes
+depois quando o usuario cadastrar uma compra de ingredientes, apenas actualizar os valores de quantidade e nivelAtual
+E mais facil ir no registro de compras e criar um popup menu, com duas opcoes: eliminar e editar e passar os dados num actionlistener!!
+estudar bem o sizeoff
+*/

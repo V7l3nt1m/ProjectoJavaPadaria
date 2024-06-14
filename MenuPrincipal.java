@@ -237,7 +237,7 @@ public class MenuPrincipal extends JFrame
                 }
                 else if(evt.getSource() == itemEditarEntrada)
                 {
-                    new EditarEntrada();
+                    new EditarEntradaVisao();
                 }
             }
         }
