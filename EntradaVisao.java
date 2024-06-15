@@ -61,18 +61,25 @@ public class EntradaVisao extends JFrame
 
     public class PainelCentro extends JPanel implements KeyListener
     {
-        private JComboBox ingrediente, unidadeMedida;
+        private JComboBox unidadeMedida;
         private JTextField qtdEntrada, custoUnit, custoTotal, idJTF;
+
+        private JComboBoxPersonal ingrediente, nivelMinimoJCB;
+        private JComboBoxTabela2_Tabela3 ingNivelMinimo;
+
         private JButton dataEntradaBtn, dataValidadeBtn;
         private JLabel lblIng, lblUnid, lblQtdEn, lblDataEnt, lblDataVal, lblCustou, lblCustoTot;
         private JPanel painelData, painelData2;
         private JTextFieldData dataEntrada,dataValidade;
 
         public PainelCentro()
-        {          
+        {   
             setLayout(new GridLayout(7,2));  
+            ingNivelMinimo = new JComboBoxTabela2_Tabela3("MateriaPrima.tab","NivelMinimo.tab");
+
             lblIng = new JLabel("Ingrediente");
-            ingrediente = UInterfaceBox.createJComboBoxPersonalTab2("MateriaPrima.tab");
+            ingrediente = ingNivelMinimo.getComboBoxFather();
+            nivelMinimoJCB = ingNivelMinimo.getComboBoxSun();
 
 			idJTF = new JTextField();
             EntradaFile entradafile = new EntradaFile();
@@ -278,6 +285,11 @@ public class EntradaVisao extends JFrame
             return Double.parseDouble(custoTotal.getText().trim());
         }
 
+        public String getNivelMinimo()
+        {
+            return String.valueOf(nivelMinimoJCB.getSelectedItem());
+        }
+
         public void setId(int id)
         {
             idJTF.setText(""+id);
@@ -327,6 +339,21 @@ public class EntradaVisao extends JFrame
             getDataEntrada(),
             getDataValidade());
             modelo.salvar();
+            
+            EstoqueModelo estoque = new EstoqueModelo(
+                getId(), 
+            (Integer.parseInt(getNivelMinimo())), 
+                (int)getQtdEntrada(), 
+                0,
+                0, 
+                getIngrediente(), 
+                getUnidadeMedida(), 
+                null, 
+                getDataEntrada());
+                JOptionPane.showMessageDialog(null,estoque.toString());
+            estoque.salvar();
+            
+
             dispose();
         }
 

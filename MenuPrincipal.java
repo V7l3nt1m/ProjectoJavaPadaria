@@ -50,7 +50,7 @@ public class MenuPrincipal extends JFrame
         private JPopupMenu popupMenu1,popupMenu2, popupMenu3, popupMenu4, popupMenu5, popupMenu6;
         private JMenuItem itemProdutos, itemMaterial;
         private JMenuItem itemNovaEntrada,itemEditarEntrada, itemNovaVenda, itemSobreAutor, itemSobreSoftw;
-        private JMenuItem itemMateriaisPrima, itemUnidadeMedida, itemProduto;
+        private JMenuItem itemMateriaisPrima, itemUnidadeMedida, itemProduto, itemNivelMinimo;
         private JSeparator sep1, sep2, sep3, sep4,sep5;
 
         public PainelSuperior()
@@ -84,6 +84,7 @@ public class MenuPrincipal extends JFrame
             btnOperacoes = new JButton(operLogo);
             btnOperacoes.setBackground(customColor2);
 
+//tabelas
             lblTable = new JLabel("Tabelas");
             lblTable.setHorizontalAlignment(SwingConstants.CENTER);
             lblTable.setVerticalAlignment(SwingConstants.TOP);
@@ -97,13 +98,17 @@ public class MenuPrincipal extends JFrame
             itemMateriaisPrima = new JMenuItem("Materias Prima");
             itemUnidadeMedida = new JMenuItem("Unidades de Medida");
             itemProduto = new JMenuItem("Produtos");
+            itemNivelMinimo = new JMenuItem("Nivel Minimo");
 
             popupMenu4.add(itemMateriaisPrima);
             popupMenu4.add(sep2);
             popupMenu4.add(itemUnidadeMedida);
             popupMenu4.add(sep3);
             popupMenu4.add(itemProduto);
+            popupMenu4.add(new JSeparator());
+            popupMenu4.add(itemNivelMinimo);
 
+//fim das tabelas
 
             lblAjuda = new JLabel("Ajuda");
             lblAjuda.setHorizontalAlignment(SwingConstants.CENTER);
@@ -182,7 +187,7 @@ public class MenuPrincipal extends JFrame
             itemUnidadeMedida.addActionListener(manipulador);
             itemProduto.addActionListener(manipulador);
             itemNovaEntrada.addActionListener(manipulador);
-
+            itemNivelMinimo.addActionListener(manipulador);
         }
 
          private class ManipuladorEventos implements ActionListener
@@ -213,6 +218,10 @@ public class MenuPrincipal extends JFrame
                 else if(evt.getSource() == itemUnidadeMedida)
                 {
                     Tabela2.editarNovosItems("UnidadeMedida.tab", "Nova Unidade de Medida");
+                }
+                else if(evt.getSource() == itemNivelMinimo)
+                {
+                    Tabela3_2.editarNovosItems("MateriaPrima.tab", "NivelMinimo.tab", "Materias Primas", "Nivel Minimo", "Novo Nivel");
                 }
                 else if(evt.getSource() == btnAjuda)
                 {

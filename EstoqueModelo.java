@@ -25,7 +25,7 @@ public class EstoqueModelo implements RegistGeneric
     public EstoqueModelo()
     {
         id = 0;
-        nivelMinimo = 0;
+        nivelMinimo = 1;
         nivelAtual = 0;
         precoUnit = 0.0;
         precoTotal = 0.0;

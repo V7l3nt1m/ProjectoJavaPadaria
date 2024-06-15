@@ -69,6 +69,7 @@ producao e estoque de uma padaria;
 - Produto.tab
 - MateriaPrima.tab
 - UnidadeMedida.tab
+- NivelMinimo.tab
 
 
 6. Diversos
