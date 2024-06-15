@@ -368,6 +368,7 @@ public class EntradaVisao extends JFrame
             {
                 int novoNivel = dados.getNivelAtual() + getQtdEntrada();
                 dados.setNivelAtual(novoNivel);
+                dados.setDataEntradaEstoque(getDataEntrada());
                 dados.actualizar();
             }
             else
