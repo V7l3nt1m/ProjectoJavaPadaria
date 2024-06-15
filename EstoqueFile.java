@@ -26,7 +26,6 @@ public class EstoqueFile extends ObjectsFile
 		EstoqueModelo modelo = new EstoqueModelo();
 		
 		int qtdRegistros = (int)(ficheiro.getNregistos());
-		System.out.println(qtdRegistros);
 		String [][] dados = new String[qtdRegistros][6];
 
 		try
@@ -77,6 +76,33 @@ public class EstoqueFile extends ObjectsFile
 			ex.printStackTrace();
 		}	
 		return modelo;	
+	}
+
+	public static StringVector getAllIngredientes()
+	{
+		EstoqueFile ficheiro = new EstoqueFile();
+		EstoqueModelo modelo = new EstoqueModelo();
+		StringVector vector = new StringVector();
+		
+		try
+		{
+			ficheiro.stream.seek(4);
+			
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
+			{
+				modelo.read( ficheiro.stream );
+				
+				vector.add( modelo.getIngrediente() );
+			}
+						
+			vector.sort();
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}	
+	
+		return vector;
 	}
 	
 	public void salvarDados(EstoqueModelo modelo)
@@ -133,5 +159,12 @@ public class EstoqueFile extends ObjectsFile
 		{
 			ex.printStackTrace();
 		}
+	}
+
+	public static void main(String args[])
+	{
+		StringVector vector = getAllIngredientes();
+		for(int i =0; i<vector.size(); i++)
+			System.out.println(vector.get(i));
 	}
 }

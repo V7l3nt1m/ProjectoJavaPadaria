@@ -182,6 +182,7 @@ public class MenuPrincipal extends JFrame
             btnAjuda.addActionListener(manipulador);
             btnOperacoes.addActionListener(manipulador);
             btnEstoque.addActionListener(manipulador);
+            btnProducao.addActionListener(manipulador);
             itemMaterial.addActionListener(manipulador);
             itemMateriaisPrima.addActionListener(manipulador);
             itemUnidadeMedida.addActionListener(manipulador);
@@ -244,11 +245,12 @@ public class MenuPrincipal extends JFrame
                     else
                         JOptionPane.showMessageDialog(null, "Não há registros", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
-                    
                 else if(evt.getSource() == itemNovaEntrada)
                 {
                     new EntradaVisao(false, new EntradaModelo());
                 }
+                else if(evt.getSource() == btnProducao)
+                    new ProducaoVisao();
             }
         }
 

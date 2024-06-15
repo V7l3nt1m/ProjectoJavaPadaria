@@ -68,7 +68,6 @@ public class EntradaVisao extends JFrame
         private JComboBoxPersonal ingrediente, nivelMinimoJCB;
         private JComboBoxTabela2_Tabela3 ingNivelMinimo;
 
-        private JButton dataEntradaBtn, dataValidadeBtn;
         private JLabel lblIng, lblUnid, lblQtdEn, lblDataEnt, lblDataVal, lblCustou, lblCustoTot;
         private JPanel painelData, painelData2;
         private JTextFieldData dataEntrada,dataValidade;
@@ -357,7 +356,6 @@ public class EntradaVisao extends JFrame
             getDataValidade(), true);
             
             modelo.salvar();
-            
             
             EstoqueModelo dados = EstoqueFile.pesquisarIngredienteEstoque(getIngrediente());
             File arquivoEstoque = new File("EstoqueFile.dat");

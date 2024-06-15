@@ -2,8 +2,8 @@
 Tema: Gestão de uma Padaria
 Nome: Valentim Loth Simão Prado
 Numero: 33031
-Ficheiro: EntradaFile.java
-Data: 30.05.2024
+Ficheiro: ProducaoFile.java
+Data: 15.06.2024
 --------------------------------------*/
 
 import javax.swing.*;
@@ -12,19 +12,19 @@ import Calendario.*;
 import java.io.*;
 import java.util.*;
 
-public class EntradaFile extends ObjectsFile
+public class ProducaoFile extends ObjectsFile
 {
 	
-	public EntradaFile()
+	public ProducaoFile()
 	{
-		super("EntradaFile.dat", new EntradaModelo() );
+		super("ProducaoFile.dat", new ProducaoModelo() );
 	}
 
 	
 	public static String[][] listarMaterialV()
 	{
-		EntradaFile ficheiro = new EntradaFile();
-		EntradaModelo modelo = new EntradaModelo();
+		ProducaoFile ficheiro = new ProducaoFile();
+		ProducaoModelo modelo = new ProducaoModelo();
 		String [][] dados=null;
 		int qtdRegistros = (int)(ficheiro.getNregistos()+1);
 		int index = 0;
@@ -50,13 +50,13 @@ public class EntradaFile extends ObjectsFile
 				if(modelo.getStatus() == true)
 				{
 					dados[contador][0] = "" + modelo.getId();
-					dados[contador][1] = modelo.getIngrediente();
-					dados[contador][2] = modelo.getUnidadeMedida();
-					dados[contador][3] = "" + modelo.getQtdEntrada();
-					dados[contador][4] = "" +  modelo.getCustoUnit();
+					dados[contador][1] = ""+modelo.getQtdProducao();
+					dados[contador][2] = ""+modelo.getQtdProducao();
+					dados[contador][3] = "" + modelo.getProduto();
+					dados[contador][4] = "" +  modelo.getPrecoUni();
 					dados[contador][5] = "" + modelo.getCustoTotal();
-					dados[contador][6] = modelo.getDataEntrada();
-					dados[contador][7] = modelo.getDataValidade();
+					dados[contador][6] = ""+modelo.getDataProd();
+					dados[contador][7] = ""+modelo.getStatus();
 					contador++;
 				}
 			}
@@ -71,10 +71,10 @@ public class EntradaFile extends ObjectsFile
 
 	
 
-	public static StringVector getAllNames()
+	public static StringVector getAllProdutos()
 	{
-		EntradaFile ficheiro = new EntradaFile();
-		EntradaModelo modelo = new EntradaModelo();
+		ProducaoFile ficheiro = new ProducaoFile();
+		ProducaoModelo modelo = new ProducaoModelo();
 		StringVector vector = new StringVector();
 
 		try
@@ -84,7 +84,7 @@ public class EntradaFile extends ObjectsFile
 			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
 			{
 				modelo.read( ficheiro.stream );
-                uniqueSet.add(modelo.getIngrediente());
+                uniqueSet.add(modelo.getProduto());
 			}
 			vector.addAll(uniqueSet);
 			vector.sort();
@@ -97,43 +97,10 @@ public class EntradaFile extends ObjectsFile
 		return vector;
 	}
 
-	public static void listarMaterial()
+	public static ProducaoModelo pesquisarEntradaPorId(String id)
 	{
-		EntradaFile ficheiro = new EntradaFile();
-		EntradaModelo modelo = new EntradaModelo();
-
-		String output = "Listagem de Dados do Ficheiro\n\n";
-
-		try
-		{
-			ficheiro.stream.seek(4);
-			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
-			{
-				modelo.read( ficheiro.stream );
-				if(modelo.getStatus() == true)
-				{
-					output += "---------------------------------\n";
-					output += modelo.toString() + "\n";
-				}
-			}
-
-			JTextArea area = new JTextArea(40, 60);
-			area.setText( output );
-			area.setFocusable(false);
-			JOptionPane.showMessageDialog(null, new JScrollPane( area ), 
-					"Gestao de Padaria", JOptionPane.INFORMATION_MESSAGE);
-		}
-        catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}	
-		
-	}
-
-	public static EntradaModelo pesquisarEntradaPorId(String id)
-	{
-		EntradaFile ficheiro = new EntradaFile();
-		EntradaModelo modelo = new EntradaModelo();
+		ProducaoFile ficheiro = new ProducaoFile();
+		ProducaoModelo modelo = new ProducaoModelo();
 		try
 		{
 			ficheiro.stream.seek(4);
@@ -152,12 +119,11 @@ public class EntradaFile extends ObjectsFile
 
 		return modelo;
 	}
-
-	public static Double getCustoUnidade(String materiaP)
+	
+	public static ProducaoModelo pesquisarEntradaPorProduto(String prodProcurado)
 	{
-		EntradaFile ficheiro = new EntradaFile();
-		EntradaModelo modelo = new EntradaModelo();
-		Double custoUni=0.0;
+		ProducaoFile ficheiro = new ProducaoFile();
+		ProducaoModelo modelo = new ProducaoModelo();
 		try
 		{
 			ficheiro.stream.seek(4);
@@ -166,35 +132,7 @@ public class EntradaFile extends ObjectsFile
 			{
 				modelo.read( ficheiro.stream );
 				
-				if (modelo.getIngrediente().equalsIgnoreCase( materiaP ) &&
-				 modelo.getStatus() == true)
-				{
-					custoUni = modelo.getCustoUnit();
-				}
-			}					
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}		
-
-		return custoUni;
-	
-	}
-	
-	public static EntradaModelo pesquisarEntradaPorNomeM(String nomeProcurado)
-	{
-		EntradaFile ficheiro = new EntradaFile();
-		EntradaModelo modelo = new EntradaModelo();
-		try
-		{
-			ficheiro.stream.seek(4);
-			
-			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
-			{
-				modelo.read( ficheiro.stream );
-				
-				if (modelo.getIngrediente().equalsIgnoreCase( nomeProcurado ) &&
+				if (modelo.getProduto().equalsIgnoreCase( prodProcurado ) &&
 				 modelo.getStatus() == true)
 				{
 					return modelo;
@@ -211,8 +149,8 @@ public class EntradaFile extends ObjectsFile
 
 	public static void pesquisarEntradaPorNome(String nomeProcurado)
 	{
-		EntradaFile ficheiro = new EntradaFile();
-		EntradaModelo modelo = new EntradaModelo();
+		ProducaoFile ficheiro = new ProducaoFile();
+		ProducaoModelo modelo = new ProducaoModelo();
 		String output = "";
 		try
 		{
@@ -222,7 +160,7 @@ public class EntradaFile extends ObjectsFile
 			{
 				modelo.read( ficheiro.stream );
 				
-				if (modelo.getIngrediente().equalsIgnoreCase( nomeProcurado ) && modelo.getStatus() == true)
+				if (modelo.getProduto().equalsIgnoreCase( nomeProcurado ) && modelo.getStatus() == true)
 				{
 					output += modelo.toString();
 					output += "---------------------------------------";
@@ -237,7 +175,7 @@ public class EntradaFile extends ObjectsFile
 		}		
 	}
 	
-	public void salvarDados(EntradaModelo modelo)
+	public void salvarDados(ProducaoModelo modelo)
 	{
 		try
 		{
@@ -249,7 +187,6 @@ public class EntradaFile extends ObjectsFile
 
 			incrementarProximoCodigo();
 
-
 			JOptionPane.showMessageDialog(null, "Dados Salvos com Sucesso!");
 		}
 		catch (IOException ex)
@@ -259,9 +196,9 @@ public class EntradaFile extends ObjectsFile
 		}
 	}
 
-	public void alterarDados(EntradaModelo modelo_novo)
+	public void alterarDados(ProducaoModelo modelo_novo)
 	{
-		EntradaModelo modelo_antigo = new EntradaModelo();
+		ProducaoModelo modelo_antigo = new ProducaoModelo();
 		
 		try
 		{
@@ -298,9 +235,9 @@ public class EntradaFile extends ObjectsFile
 		
 	}
 
-	public void eliminarDados(EntradaModelo modelo_novo)
+	public void eliminarDados(ProducaoModelo modelo_novo)
 	{
-		EntradaModelo modelo_antigo = new EntradaModelo();
+		ProducaoModelo modelo_antigo = new ProducaoModelo();
 		
 		try
 		{

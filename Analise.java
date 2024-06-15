@@ -44,12 +44,13 @@ producao e estoque de uma padaria;
 
 - ProducaoModelo
 	int id
-    EstoqueModelo materia
-    String tipo
     String produto
 	int qtdProd
     String dataProd
+    double precoUnit
     double custoProd
+
+    //produto, custoDeProd, quantidade, dataProd, precoUnit,
 
 - VendaModelo
 	int id
