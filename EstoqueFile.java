@@ -77,6 +77,7 @@ public class EstoqueFile extends ObjectsFile
 		}	
 		return modelo;	
 	}
+	
 
 	public static StringVector getAllIngredientes()
 	{

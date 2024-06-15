@@ -66,7 +66,7 @@ public class ProducaoVisao extends JFrame
     {
         private JComboBox produtoJCB;
 
-        private JTextField qtdProducao,idJTF, precoUni,custoTotal;
+        private JTextField idEstoque,qtdProducao,idJTF, precoUni,custoTotal;
 
         private JLabel lblIngredientes,lblProduto,lblPreco,lblIng,lblCustoTot, lblQtdEn, lblDataEnt, lblCustou;
         private JPanel painelData, painelData2;
@@ -85,6 +85,10 @@ public class ProducaoVisao extends JFrame
 			idJTF = new JTextField();
             ProducaoFile producaofile = new ProducaoFile();
 			idJTF.setText( "" + producaofile.getProximoCodigo() );
+
+            idEstoque = new JTextField();
+            EstoqueFile entradafile2 = new EstoqueFile();
+			idEstoque.setText( "" + entradafile2.getProximoCodigo() );
 
             lblProduto = new JLabel("Produto");
             produtoJCB = UInterfaceBox.createJComboBoxPersonalTab2("Produto.tab");
@@ -237,8 +241,17 @@ public class ProducaoVisao extends JFrame
             }
              
         }
-        
 
+         public int getId2()
+        {
+            return Integer.parseInt( idEstoque.getText().trim());
+        }
+        
+        public void setEstoqueId(int id)
+        {
+            idEstoque.setText(""+id);
+        }
+        
         public int getId()
         {
             return Integer.parseInt( idJTF.getText().trim());
@@ -269,7 +282,6 @@ public class ProducaoVisao extends JFrame
         public String getProduto()
         {
             return String.valueOf(produtoJCB.getSelectedItem());
-
         }
 
         public String getDataProd()
@@ -360,6 +372,27 @@ public class ProducaoVisao extends JFrame
                     
                     if (count == ingredientesUsados.length) {
                         // Todos os ingredientes têm quantidade suficiente, podemos salvar os dados
+
+                        EstoqueModelo modeloEstoque2 = fileEstoque.pesquisarIngredienteEstoque(getProduto());
+                        if(modeloEstoque2.getIngrediente().equals(getProduto()))
+                        {
+                            int novoNivelEstoque2 = modeloEstoque2.getNivelAtual() + getQtdProducao();
+                            modeloEstoque2.setNivelAtual(novoNivelEstoque2);
+                            modeloEstoque2.actualizar();
+                        }
+                        else
+                        {
+                            EstoqueModelo novoEstoque = new EstoqueModelo(
+                                getId2(), 1, 
+                                (int)getQtdProducao(), 
+                                getPrecoUni(),
+                                0.0, 
+                                getProduto(), 
+                                "unidade", 
+                                getDataProd());
+                                novoEstoque.salvar();
+                        }
+
                         ProducaoModelo modelo = new ProducaoModelo(
                             getId(), getQtdProducao(), 
                             getPrecoUni(), getCustoTotal(),

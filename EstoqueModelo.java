@@ -32,12 +32,10 @@ public class EstoqueModelo implements RegistGeneric
 
 		ingrediente = new StringBufferModelo("", 50); 
 		unidadeMedida = new StringBufferModelo("", 20);
-        produto = new StringBufferModelo("", 50); 
 		dataEntradaEstoque = new DataModelo();
     }
 
-    public EstoqueModelo(int id, int nivelMinimo, int nivelAtual, double precoUnit, double precoTotal, String ingrediente, String unidadeMedida,
-   String produto, String dataEntradaEstoque)
+    public EstoqueModelo(int id, int nivelMinimo, int nivelAtual, double precoUnit, double precoTotal, String ingrediente, String unidadeMedida, String dataEntradaEstoque)
     {
         this.id = id;
         this.nivelMinimo = nivelMinimo;
@@ -46,7 +44,6 @@ public class EstoqueModelo implements RegistGeneric
         this.precoTotal = precoTotal;
 		this.ingrediente = new StringBufferModelo(ingrediente, 50); 
 		this.unidadeMedida = new StringBufferModelo(unidadeMedida, 20);
-        this.produto = new StringBufferModelo(produto, 50); 
 		this.dataEntradaEstoque = new DataModelo(dataEntradaEstoque);
     }
 
@@ -85,13 +82,6 @@ public class EstoqueModelo implements RegistGeneric
         {
             return precoTotal;
         }
-
-        public String getProduto()
-        {
-            return produto.toStringEliminatingSpaces();
-
-        }
-
         public String getDataEntradaEstoque()
         {
             return dataEntradaEstoque.toString();
@@ -128,12 +118,6 @@ public class EstoqueModelo implements RegistGeneric
         {
             dataEntradaEstoque = new DataModelo( novaDataEntradaEstoque );
         }
-
-         public void setProduto(String novoProduto)
-        {
-            produto = new StringBufferModelo(novoProduto, 20);
-
-        }
        
         public void setPrecoUnit(double novoPrecoUnit)
         {
@@ -152,7 +136,6 @@ public class EstoqueModelo implements RegistGeneric
 
             str += "Id: " + getId() + "\n";
             str += "Ingrediente: " + getIngrediente() + "\n";
-            str += "Produto: " + getProduto() + "\n";
             str += "Unidade de Medida: " + getUnidadeMedida() + "\n";
             str += "Nivel Minimo: " + getNivelMinimo() + "\n";
             str += "Nivel Atual: " + getNivelAtual() + "\n";
@@ -186,7 +169,6 @@ public class EstoqueModelo implements RegistGeneric
             stream.writeDouble(precoTotal);
 			ingrediente.write(stream); 
             unidadeMedida.write(stream);
-            produto.write(stream); 
 			dataEntradaEstoque.write(stream);
 			
 		}
@@ -207,7 +189,6 @@ public class EstoqueModelo implements RegistGeneric
             precoTotal = stream.readDouble();
 			ingrediente.read(stream); 
             unidadeMedida.read(stream); 
-            produto.read(stream);
             dataEntradaEstoque.read(stream);		
 		}
 		catch (IOException ex)

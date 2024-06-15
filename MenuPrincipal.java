@@ -189,6 +189,7 @@ public class MenuPrincipal extends JFrame
             itemProdutos.addActionListener(manipulador);
             itemNovaEntrada.addActionListener(manipulador);
             itemNivelMinimo.addActionListener(manipulador);
+            itemNovaVenda.addActionListener(manipulador);
         }
 
          private class ManipuladorEventos implements ActionListener
@@ -253,6 +254,8 @@ public class MenuPrincipal extends JFrame
                 }
                 else if(evt.getSource() == btnProducao)
                     new ProducaoVisao(false, new ProducaoModelo());
+                else if(evt.getSource() == itemNovaVenda)
+                    new VendaVisao(false, new VendaModelo());
             }
         }
 

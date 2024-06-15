@@ -373,12 +373,12 @@ public class EntradaVisao extends JFrame
                 getId2(), 
             (Integer.parseInt(getNivelMinimo())), 
                 (int)getQtdEntrada(), 
-                0,
-                0, 
+                0.0,
+                0.0, 
                 getIngrediente(), 
                 getUnidadeMedida(), 
-                null, 
                 getDataEntrada());
+
                 novoEstoque.salvar();
             }
             
