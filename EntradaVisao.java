@@ -11,6 +11,7 @@ import java.awt.event.*;
 import SwingComponents.*;
 import Calendario.*;
 import javax.swing.UIManager.*;
+import java.io.File;
 
 public class EntradaVisao extends JFrame
 {
@@ -62,7 +63,7 @@ public class EntradaVisao extends JFrame
     public class PainelCentro extends JPanel implements KeyListener
     {
         private JComboBox unidadeMedida;
-        private JTextField qtdEntrada, custoUnit, custoTotal, idJTF;
+        private JTextField qtdEntrada, custoUnit, custoTotal, idJTF, idEstoque;
 
         private JComboBoxPersonal ingrediente, nivelMinimoJCB;
         private JComboBoxTabela2_Tabela3 ingNivelMinimo;
@@ -84,6 +85,10 @@ public class EntradaVisao extends JFrame
 			idJTF = new JTextField();
             EntradaFile entradafile = new EntradaFile();
 			idJTF.setText( "" + entradafile.getProximoCodigo() );
+
+            idEstoque = new JTextField();
+            EstoqueFile entradafile2 = new EstoqueFile();
+			idEstoque.setText( "" + entradafile2.getProximoCodigo() );
 
 
             lblUnid = new JLabel("Unidade de Medida");
@@ -242,6 +247,11 @@ public class EntradaVisao extends JFrame
             }
             
         }
+
+        public int getId2()
+        {
+            return Integer.parseInt( idEstoque.getText().trim());
+        }
         
 
         public int getId()
@@ -290,6 +300,11 @@ public class EntradaVisao extends JFrame
             return String.valueOf(nivelMinimoJCB.getSelectedItem());
         }
 
+        public void setEstoqueId(int id)
+        {
+            idEstoque.setText(""+id);
+        }
+
         public void setId(int id)
         {
             idJTF.setText(""+id);
@@ -334,17 +349,22 @@ public class EntradaVisao extends JFrame
 
         public void salvar()
         {
+            
+            
             EntradaModelo modelo = new EntradaModelo(getId(), getQtdEntrada(),getCustoUnit(),
             getCustoTotal(),
             getIngrediente(),
             getUnidadeMedida(),
             getDataEntrada(),
             getDataValidade());
+            
             modelo.salvar();
             
+            
             EstoqueModelo dados = EstoqueFile.pesquisarIngredienteEstoque(getIngrediente());
-
-            if(dados != null)
+            File arquivoEstoque = new File("EstoqueFile.dat");
+           
+           if((arquivoEstoque.exists()) && (dados.getIngrediente()).equals(getIngrediente()))
             {
                 int novoNivel = dados.getNivelAtual() + getQtdEntrada();
                 dados.setNivelAtual(novoNivel);
@@ -353,7 +373,7 @@ public class EntradaVisao extends JFrame
             else
             {
                 EstoqueModelo novoEstoque = new EstoqueModelo(
-                getId(), 
+                getId2(), 
             (Integer.parseInt(getNivelMinimo())), 
                 (int)getQtdEntrada(), 
                 0,
@@ -365,7 +385,8 @@ public class EntradaVisao extends JFrame
                 novoEstoque.salvar();
             }
             
-            dispose();
+            
+           dispose();
         }
 
         public void alterar()

@@ -20,6 +20,41 @@ public class EstoqueFile extends ObjectsFile
 		super("EstoqueFile.dat", new EstoqueModelo() );
 	}
 
+	public static String [][] estoqueMatriz()
+	{
+		EstoqueFile ficheiro = new EstoqueFile();
+		EstoqueModelo modelo = new EstoqueModelo();
+		
+		int qtdRegistros = (int)(ficheiro.getNregistos());
+		System.out.println(qtdRegistros);
+		String [][] dados = new String[qtdRegistros][6];
+
+		try
+		{
+			ficheiro.stream.seek(4);
+			for (int c = 0; c < qtdRegistros; ++c)
+			{
+				modelo.read( ficheiro.stream );
+				
+				dados[c][0] = "" + modelo.getId();
+				dados[c][1] = modelo.getIngrediente();
+				dados[c][2] = modelo.getUnidadeMedida();
+				dados[c][3] = "" + modelo.getNivelMinimo();
+				dados[c][4] = "" + modelo.getNivelAtual();
+				dados[c][5] = modelo.getDataEntradaEstoque();
+			
+			}
+
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}	
+
+		return dados;
+	}
+
+
 	public static EstoqueModelo pesquisarIngredienteEstoque(String ingrediente)
 	{
 		EstoqueFile ficheiro = new EstoqueFile();

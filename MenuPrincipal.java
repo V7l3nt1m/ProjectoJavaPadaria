@@ -12,7 +12,7 @@ import java.awt.*;
 import SwingComponents.*;
 import Calendario.*;
 import javax.swing.UIManager.*;
-
+import java.io.File;
 
 
 
@@ -236,7 +236,15 @@ public class MenuPrincipal extends JFrame
                     popupMenu2.show(btnEstoque, 0,btnEstoque.getHeight());
                 }
                 else if(evt.getSource() == itemMaterial)
-                    new EstoqueVisao();
+                {
+                    File estoqueFileE = new File("EstoqueFile.dat");
+                    File entradafileE = new File("EntradaFile.dat");
+                    if(estoqueFileE.exists() && estoqueFileE.exists())
+                        new EstoqueVisao();
+                    else
+                        JOptionPane.showMessageDialog(null, "Não há registros", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                    
                 else if(evt.getSource() == itemNovaEntrada)
                 {
                     new EntradaVisao(false, new EntradaModelo());

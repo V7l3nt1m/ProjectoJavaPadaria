@@ -167,7 +167,7 @@ public class EstoqueModelo implements RegistGeneric
             
             try
             {
-                return 4*2+8*2+50*2+8*2+24*3; // 212 bytes
+                return 100 * 2 + 4 + 12 + 1;// 212 bytes
             }
             catch(Exception ex)
             {

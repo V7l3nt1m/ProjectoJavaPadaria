@@ -55,6 +55,7 @@ public class EstoqueVisao extends JFrame
         private Vector<String> dados = new Vector();
 
 
+
         public PainelCentro()
         {
             setLayout(new GridLayout(1,1));
@@ -158,7 +159,7 @@ public class EstoqueVisao extends JFrame
 
     class PainelCentro3 extends JPanel implements MouseListener, ActionListener
     {
-        private String [] colunas = {"ID", "Ingrediente", "Unidade Medida", "Quantidade"};
+        private String [] colunas = {"ID", "Ingrediente", "Unidade Medida", "Nivel Minimo", "NivelAtual", "Ultima Reposicao"};
         private JScrollPane sp;
         private JTable tabelaMateriaEstoque;
         private JPopupMenu popMenu;
@@ -169,7 +170,7 @@ public class EstoqueVisao extends JFrame
         public PainelCentro3()
         {
             setLayout(new GridLayout(1,1));
-            tabelaMateriaEstoque = new JTable(EntradaFile.listarMaterialEstoqueAgrupado(), colunas);
+            tabelaMateriaEstoque = new JTable(EstoqueFile.estoqueMatriz(), colunas);
             add(sp = new JScrollPane(tabelaMateriaEstoque));
 
             popMenu = new JPopupMenu();
