@@ -330,6 +330,8 @@ public class EntradaVisao extends JFrame
             custoTotal.setText("" + custoTot);
         }
 
+        
+
         public void salvar()
         {
             EntradaModelo modelo = new EntradaModelo(getId(), getQtdEntrada(),getCustoUnit(),
@@ -340,7 +342,17 @@ public class EntradaVisao extends JFrame
             getDataValidade());
             modelo.salvar();
             
-            EstoqueModelo estoque = new EstoqueModelo(
+            EstoqueModelo dados = EstoqueFile.pesquisarIngredienteEstoque(getIngrediente());
+
+            if(dados != null)
+            {
+                int novoNivel = dados.getNivelAtual() + getQtdEntrada();
+                dados.setNivelAtual(novoNivel);
+                dados.actualizar();
+            }
+            else
+            {
+                EstoqueModelo novoEstoque = new EstoqueModelo(
                 getId(), 
             (Integer.parseInt(getNivelMinimo())), 
                 (int)getQtdEntrada(), 
@@ -350,10 +362,9 @@ public class EntradaVisao extends JFrame
                 getUnidadeMedida(), 
                 null, 
                 getDataEntrada());
-                JOptionPane.showMessageDialog(null,estoque.toString());
-            estoque.salvar();
+                novoEstoque.salvar();
+            }
             
-
             dispose();
         }
 

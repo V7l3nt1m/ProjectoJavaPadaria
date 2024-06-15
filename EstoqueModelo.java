@@ -217,6 +217,12 @@ public class EstoqueModelo implements RegistGeneric
 		}
     }
 
+    public void actualizar()
+    {
+        EstoqueFile file = new EstoqueFile();
+        file.adicionarDados(this);
+    }
+
     public void salvar()
     {
         EstoqueFile file = new EstoqueFile();

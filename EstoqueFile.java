@@ -19,6 +19,30 @@ public class EstoqueFile extends ObjectsFile
 	{
 		super("EstoqueFile.dat", new EstoqueModelo() );
 	}
+
+	public static EstoqueModelo pesquisarIngredienteEstoque(String ingrediente)
+	{
+		EstoqueFile ficheiro = new EstoqueFile();
+		EstoqueModelo modelo = new EstoqueModelo();
+		
+		try
+		{
+			ficheiro.stream.seek(4);
+			
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
+			{
+				modelo.read( ficheiro.stream );
+				
+				if (modelo.getIngrediente().equalsIgnoreCase( ingrediente ))
+					return modelo;
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}	
+		return modelo;	
+	}
 	
 	public void salvarDados(EstoqueModelo modelo)
 	{
@@ -38,6 +62,41 @@ public class EstoqueFile extends ObjectsFile
 		{
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Falha ao Salvar um Novo Material");
+		}
+	}
+
+	public void adicionarDados(EstoqueModelo modelo_novo)
+	{
+		EstoqueModelo modelo_antigo = new EstoqueModelo();
+		
+		try
+		{
+			stream.seek(4);
+			
+			for(int i = 0; i < getNregistos(); ++i)
+			{
+				modelo_antigo.read( stream );
+				
+				if (i == 0 && modelo_antigo.getId() == modelo_novo.getId())
+				{
+					stream.seek(4); 
+					modelo_novo.write( stream );
+					return;
+				}	
+				else
+				{
+					if (modelo_antigo.getId() + 1 == modelo_novo.getId())
+					{
+						modelo_novo.write( stream);
+						return;
+					}
+							
+				}			
+			}			
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
 		}
 	}
 }
