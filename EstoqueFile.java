@@ -160,11 +160,4 @@ public class EstoqueFile extends ObjectsFile
 			ex.printStackTrace();
 		}
 	}
-
-	public static void main(String args[])
-	{
-		StringVector vector = getAllIngredientes();
-		for(int i =0; i<vector.size(); i++)
-			System.out.println(vector.get(i));
-	}
 }

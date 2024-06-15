@@ -186,7 +186,7 @@ public class MenuPrincipal extends JFrame
             itemMaterial.addActionListener(manipulador);
             itemMateriaisPrima.addActionListener(manipulador);
             itemUnidadeMedida.addActionListener(manipulador);
-            itemProduto.addActionListener(manipulador);
+            itemProdutos.addActionListener(manipulador);
             itemNovaEntrada.addActionListener(manipulador);
             itemNivelMinimo.addActionListener(manipulador);
         }
@@ -236,6 +236,8 @@ public class MenuPrincipal extends JFrame
                 {
                     popupMenu2.show(btnEstoque, 0,btnEstoque.getHeight());
                 }
+                else if(evt.getSource() == itemProdutos)
+                    new EstoqueProdutoVisao();
                 else if(evt.getSource() == itemMaterial)
                 {
                     File estoqueFileE = new File("EstoqueFile.dat");
@@ -251,8 +253,6 @@ public class MenuPrincipal extends JFrame
                 }
                 else if(evt.getSource() == btnProducao)
                     new ProducaoVisao(false, new ProducaoModelo());
-                else if(evt.getSource() == itemProduto)
-                    new EstoqueProdutoVisao();
             }
         }
 

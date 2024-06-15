@@ -25,7 +25,7 @@ public class ProducaoFile extends ObjectsFile
 		ProducaoFile ficheiro = new ProducaoFile();
 		ProducaoModelo modelo = new ProducaoModelo();
 		String [][] dados=null;
-		int qtdRegistros = (int)(ficheiro.getNregistos());
+		int qtdRegistros = (int)(ficheiro.getNregistos()+1);
 		int index = 0;
 		int contador =0;
 		try

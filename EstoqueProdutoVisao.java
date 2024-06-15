@@ -70,9 +70,9 @@ public class EstoqueProdutoVisao extends JFrame
                 int selectedRow = tabelaProd.getSelectedRow();
                 String id = ""+tabelaProd.getValueAt(selectedRow,0);
                 ProducaoModelo modelo;
-                //modelo = EntradaFile.pesquisarEntradaPorId(id);
-                //dispose();
-                //new EntradaVisao(true, modelo);
+                modelo = ProducaoFile.pesquisarEntradaPorId(id);
+                dispose();
+                new ProducaoVisao(true, modelo);
             }
             else
             {
@@ -85,8 +85,8 @@ public class EstoqueProdutoVisao extends JFrame
                 {
                     int selectedRow = tabelaProd.getSelectedRow();
                     String id = ""+tabelaProd.getValueAt(selectedRow,0);
-                    EntradaModelo modelo;
-                    modelo = EntradaFile.pesquisarEntradaPorId(""+id);
+                    ProducaoModelo modelo;
+                    modelo = ProducaoFile.pesquisarEntradaPorId(""+id);
                     modelo.setStatus(false);
                     modelo.eliminar();
                     dispose();

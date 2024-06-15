@@ -305,7 +305,6 @@ public class ProducaoVisao extends JFrame
                 String valor = valores[i][1];
                 // Procura o índice do ingrediente no vectorIngredientes
                 int index = vectorIngredientes.indexOf(ingrediente);
-
                 inputs[index].setText(valor);
             }
         }
@@ -329,6 +328,17 @@ public class ProducaoVisao extends JFrame
         public void setCustoTotal(double custoTot)
         {
             custoTotal.setText("" + custoTot);
+        }
+
+        public void alterar()
+        {
+            ProducaoModelo modelo = new ProducaoModelo(
+                            getId(), getQtdProducao(), 
+                            getPrecoUni(), getCustoTotal(),
+                            getProduto(), getDataProd(), true
+                        );
+                        modelo.editarDados();
+                        dispose();
         }
         
 
@@ -391,7 +401,12 @@ public class ProducaoVisao extends JFrame
             {
                 
                  if(evt.getSource() == salvarJB)
-                    painelCentro.salvar();
+                 {
+                    if(editar)
+                        painelCentro.alterar();
+                    else
+                        painelCentro.salvar();
+                 }
                 else
                     dispose();
             }
