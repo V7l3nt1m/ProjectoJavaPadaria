@@ -16,11 +16,11 @@ import java.io.*;
 
 public class ProducaoModelo implements RegistGeneric
 {
-    int id, qtdProd;
-    StringBufferModelo produto;
-    Double precoUni, custoTotal;
-    DataModelo dataProd;
-    boolean status;
+    private int id, qtdProd;
+    private StringBufferModelo produto;
+    private Double precoUni, custoTotal;
+    private DataModelo dataProd;
+    private boolean status;
 
     public ProducaoModelo()
     {
@@ -40,7 +40,7 @@ public class ProducaoModelo implements RegistGeneric
         this.qtdProd = qtdProd;
         this.precoUni = precoUni;
         this.custoTotal = custoTotal;
-		this.produto = new StringBufferModelo(produto, 50); 
+		this.produto = new StringBufferModelo(produto, 20); 
 		this.dataProd = new DataModelo(dataProd);
         this.status = estado;
     }
@@ -135,7 +135,7 @@ public class ProducaoModelo implements RegistGeneric
             
             try
             {
-                return 390;// 212 bytes
+                return 120;// 269 bytes
             }
             catch(Exception ex)
             {
@@ -154,7 +154,6 @@ public class ProducaoModelo implements RegistGeneric
 			produto.write(stream); 
 			dataProd.write(stream);
             stream.writeBoolean(status);
-			
 		}
 		catch (IOException ex)
 		{
@@ -195,7 +194,7 @@ public class ProducaoModelo implements RegistGeneric
 
     public void editarDados()
     {
-        ProducaoFile file= new ProducaoFile();
+        ProducaoFile file = new ProducaoFile();
         file.alterarDados(this);
     }
 }

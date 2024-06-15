@@ -19,14 +19,13 @@ public class ProducaoFile extends ObjectsFile
 	{
 		super("ProducaoFile.dat", new ProducaoModelo() );
 	}
-
 	
 	public static String[][] listarMaterialV()
 	{
 		ProducaoFile ficheiro = new ProducaoFile();
 		ProducaoModelo modelo = new ProducaoModelo();
 		String [][] dados=null;
-		int qtdRegistros = (int)(ficheiro.getNregistos()+1);
+		int qtdRegistros = (int)(ficheiro.getNregistos());
 		int index = 0;
 		int contador =0;
 		try
@@ -40,7 +39,7 @@ public class ProducaoFile extends ObjectsFile
 					index++;
 				}
 			}
-			dados = new String[index][7];
+			dados = new String[index][6];
 
 			ficheiro.stream.seek(4);
 
@@ -55,7 +54,6 @@ public class ProducaoFile extends ObjectsFile
 					dados[contador][3] = "" +  modelo.getPrecoUni();
 					dados[contador][4] = "" + modelo.getCustoTotal();
 					dados[contador][5] = ""+modelo.getDataProd();
-					dados[contador][6] = ""+modelo.getStatus();
 					contador++;
 				}
 			}
@@ -127,7 +125,7 @@ public class ProducaoFile extends ObjectsFile
 		{
 			ficheiro.stream.seek(4);
 			
-			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
+			for (int i = 0; i < ficheiro.getNregistos()+2; ++i)
 			{
 				modelo.read( ficheiro.stream );
 				
@@ -178,6 +176,8 @@ public class ProducaoFile extends ObjectsFile
 	{
 		try
 		{
+			JOptionPane.showMessageDialog(null,modelo.toString());
+			
 			//colocar o File Pointer no final do ficheiro
 			stream.seek( stream.length() );
 			
@@ -187,12 +187,14 @@ public class ProducaoFile extends ObjectsFile
 			incrementarProximoCodigo();
 
 			JOptionPane.showMessageDialog(null, "Dados Salvos com Sucesso!");
+			
 		}
 		catch (IOException ex)
 		{
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Falha ao Salvar um Novo Material");
 		}
+		
 	}
 
 	public void alterarDados(ProducaoModelo modelo_novo)
@@ -271,17 +273,5 @@ public class ProducaoFile extends ObjectsFile
 		}
 
 		
-	}
-
-	public static void main(String args[])
-	{
-		String matriz [][] = listarMaterialV();
-
-		for (int i = 0; i < matriz.length; i++) {
-    for (int j = 0; j < matriz[i].length; j++) {
-        System.out.print(matriz[i][j] + " "); // Imprime o elemento seguido de um espaço
-    }
-    System.out.println(); // Pula para a próxima linha após imprimir todos os elementos da linha atual
-}
 	}
 }
