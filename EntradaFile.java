@@ -26,24 +26,29 @@ public class EntradaFile extends ObjectsFile
 		EntradaFile ficheiro = new EntradaFile();
 		EntradaModelo modelo = new EntradaModelo();
 		
-		int qtdRegistros = (int)(ficheiro.getNregistos()+1);
+		int qtdRegistros = (int)(ficheiro.getNregistos());
 		
 		String [][] dados = new String[qtdRegistros][8];
 
 		try
 		{
 			ficheiro.stream.seek(4);
+			int index = 0;
 			for (int c = 0; c < qtdRegistros; ++c)
 			{
 				modelo.read( ficheiro.stream );
-				dados[c][0] = "" + modelo.getId();
-				dados[c][1] = modelo.getIngrediente();
-				dados[c][2] = modelo.getUnidadeMedida();
-				dados[c][3] = "" + modelo.getQtdEntrada();
-				dados[c][4] = "" +  modelo.getCustoUnit();
-				dados[c][5] = "" + modelo.getCustoTotal();
-				dados[c][6] = modelo.getDataEntrada();
-				dados[c][7] = modelo.getDataValidade();
+				if(modelo.getStatus())
+				{
+					dados[index][0] = "" + modelo.getId();
+					dados[index][1] = modelo.getIngrediente();
+					dados[index][2] = modelo.getUnidadeMedida();
+					dados[index][3] = "" + modelo.getQtdEntrada();
+					dados[index][4] = "" +  modelo.getCustoUnit();
+					dados[index][5] = "" + modelo.getCustoTotal();
+					dados[index][6] = modelo.getDataEntrada();
+					dados[index][7] = modelo.getDataValidade();
+					index++;
+				}
 			}
 
 		}
@@ -51,7 +56,7 @@ public class EntradaFile extends ObjectsFile
 		{
 			ex.printStackTrace();
 		}	
-
+		
 		return dados;
 	}
 
@@ -149,7 +154,8 @@ public class EntradaFile extends ObjectsFile
 			{
 				modelo.read( ficheiro.stream );
 				
-				if (modelo.getIngrediente().equalsIgnoreCase( nomeProcurado ) )
+				if (modelo.getIngrediente().equalsIgnoreCase( nomeProcurado ) &&
+				 modelo.getStatus() == true)
 				{
 					return modelo;
 				}
@@ -176,7 +182,7 @@ public class EntradaFile extends ObjectsFile
 			{
 				modelo.read( ficheiro.stream );
 				
-				if (modelo.getIngrediente().equalsIgnoreCase( nomeProcurado ) )
+				if (modelo.getIngrediente().equalsIgnoreCase( nomeProcurado ) && modelo.getStatus() == true)
 				{
 					output += modelo.toString();
 					output += "---------------------------------------";
@@ -251,4 +257,45 @@ public class EntradaFile extends ObjectsFile
 
 		
 	}
+
+	public void eliminarDados(EntradaModelo modelo_novo)
+	{
+		EntradaModelo modelo_antigo = new EntradaModelo();
+		
+		try
+		{
+			stream.seek(4);
+			
+			for(int i = 0; i < getNregistos(); ++i)
+			{
+				modelo_antigo.read( stream );
+				
+				if (i == 0 && modelo_antigo.getId() == modelo_novo.getId())
+				{
+					stream.seek(4); 
+					modelo_novo.write( stream );
+					JOptionPane.showMessageDialog(null, "Dados Eliminados com sucesso!");
+					return;
+				}	
+				else
+				{
+					if (modelo_antigo.getId() + 1 == modelo_novo.getId())
+					{
+						modelo_novo.write( stream);
+						JOptionPane.showMessageDialog(null, "Dados Eliminados alterados com sucesso!");
+						return;
+					}
+							
+				}			
+			}			
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+
+		
+	}
+
+	
 }

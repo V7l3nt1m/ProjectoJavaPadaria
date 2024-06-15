@@ -348,15 +348,13 @@ public class EntradaVisao extends JFrame
         
 
         public void salvar()
-        {
-            
-            
+        {    
             EntradaModelo modelo = new EntradaModelo(getId(), getQtdEntrada(),getCustoUnit(),
             getCustoTotal(),
             getIngrediente(),
             getUnidadeMedida(),
             getDataEntrada(),
-            getDataValidade());
+            getDataValidade(), true);
             
             modelo.salvar();
             
@@ -397,12 +395,11 @@ public class EntradaVisao extends JFrame
             getIngrediente(),
             getUnidadeMedida(),
             getDataEntrada(),
-            getDataValidade());
+            getDataValidade(),true);
 
             modelo.editarDados();
             dispose();
         }
-
 
     }
 

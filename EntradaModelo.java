@@ -20,6 +20,7 @@ public class EntradaModelo implements RegistGeneric
     StringBufferModelo ingrediente, unidadeMedida;
     Double custoUnit, custoTotal;
     DataModelo dataEntrada, dataValidade;
+    boolean status;
 
 
     public EntradaModelo()
@@ -32,10 +33,11 @@ public class EntradaModelo implements RegistGeneric
 		unidadeMedida = new StringBufferModelo("", 20);
 		dataEntrada = new DataModelo();
         dataValidade = new DataModelo();
+        status = false;
     }
 
     public EntradaModelo(int id, int qtdEntrada, double custoUnit, double custoTotal, String ingrediente, String unidadeMedida,
-   String dataEntrada,  String dataValidade)
+   String dataEntrada,  String dataValidade, boolean estado)
     {
         this.id = id;
         this.qtdEntrada = qtdEntrada;
@@ -45,6 +47,7 @@ public class EntradaModelo implements RegistGeneric
 		this.unidadeMedida = new StringBufferModelo(unidadeMedida, 20);
 		this.dataEntrada = new DataModelo(dataEntrada);
 		this.dataValidade = new DataModelo(dataValidade);
+        this.status = estado;
     }
 
         public int getId()
@@ -86,6 +89,11 @@ public class EntradaModelo implements RegistGeneric
         public String getDataValidade()
         {
             return dataValidade.toString();
+        }
+
+        public boolean getStatus()
+        {
+            return status;
         }
 
 
@@ -130,6 +138,11 @@ public class EntradaModelo implements RegistGeneric
             custoTotal = novoCustoTotal;
         }
 
+        public void setStatus(boolean new_status)
+        {
+            this.status = new_status;
+        }
+
         public String toString()
         {
             String str = "Dados das Entradas Modelo\n\n";
@@ -142,6 +155,7 @@ public class EntradaModelo implements RegistGeneric
             str += "Data de Validade: " + getDataValidade() + "\n";
             str += "Custo Unitario: " + getCustoUnit() + "\n";
             str += "Custo Total: " + getCustoTotal() + "\n";
+            str += "Estado: " + getStatus() + "\n"; 
             return str;
         }
 
@@ -170,6 +184,7 @@ public class EntradaModelo implements RegistGeneric
 			unidadeMedida.write(stream);
 			dataEntrada.write(stream);
 			dataValidade.write(stream);
+            stream.writeBoolean(status);
 			
 		}
 		catch (IOException ex)
@@ -189,7 +204,8 @@ public class EntradaModelo implements RegistGeneric
 			ingrediente.read(stream); 
             unidadeMedida.read(stream); 
             dataEntrada.read(stream);
-            dataValidade.read(stream);		
+            dataValidade.read(stream);	
+            status = stream.readBoolean();	
 		}
 		catch (IOException ex)
 		{
@@ -198,6 +214,12 @@ public class EntradaModelo implements RegistGeneric
 		}
     }
 
+    public void eliminar()
+    {
+        EntradaFile file = new EntradaFile();
+        file.eliminarDados(this);
+    }
+    
     public void salvar()
     {
         EntradaFile file = new EntradaFile();

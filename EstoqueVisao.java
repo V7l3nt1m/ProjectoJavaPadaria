@@ -83,6 +83,24 @@ public class EstoqueVisao extends JFrame
                 dispose();
                 new EntradaVisao(true, modelo);
             }
+            else
+            {
+                int resposta = JOptionPane.showConfirmDialog(null,"Deseja Eliminar os dados","Eliminar dados", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                if(resposta == 1)
+                {
+                    JOptionPane.showMessageDialog(null, "Operacao cancelada", "Eliminar os dados", JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                {
+                    int selectedRow = tabelaMateria.getSelectedRow();
+                    String id = ""+tabelaMateria.getValueAt(selectedRow,0);
+                    EntradaModelo modelo;
+                    modelo = EntradaFile.pesquisarEntradaPorId(""+id);
+                    modelo.setStatus(false);
+                    modelo.eliminar();
+                    dispose();
+                }
+            }
             
         }
 
@@ -192,8 +210,7 @@ public class EstoqueVisao extends JFrame
             
             if(e.getSource() == editar)
             {
-                for(int i =0; i<dados.size();i++)
-                    System.out.println(dados.get(i));
+               //variavel dados
             }
             
         }
