@@ -21,16 +21,21 @@ public class ProducaoVisao extends JFrame
     private PainelCentro painelCentro;
     boolean editar;
     
-    public ProducaoVisao()
+    public ProducaoVisao(boolean alterar, ProducaoModelo modelo)
     {
         super("Producao");
         definirTema();
         setLayout(new BorderLayout());
 
+        editar = alterar;
+
         getContentPane().add(painelNorte = new PainelNorte(), BorderLayout.NORTH);
 
-        getContentPane().add(painelCentro = new PainelCentro(), BorderLayout.CENTER);
-  
+        if (!alterar)
+            getContentPane().add(painelCentro = new PainelCentro(), BorderLayout.CENTER);
+        else
+            getContentPane().add(painelCentro = new PainelCentro(modelo), BorderLayout.CENTER);
+
 
         getContentPane().add(painelSul = new PainelSul(), BorderLayout.SOUTH);
 
@@ -143,6 +148,58 @@ public class ProducaoVisao extends JFrame
             qtdProducao.addKeyListener(this);
             custoTotal.addKeyListener(this);
            
+        }
+
+        public PainelCentro(ProducaoModelo modelo)
+        {
+            setLayout(new GridLayout(7,2));  
+            
+			idJTF = new JTextField();
+            ProducaoFile producaofile = new ProducaoFile();
+			idJTF.setText( "" + modelo.getId() );
+
+            lblProduto = new JLabel("Produto");
+            produtoJCB = UInterfaceBox.createJComboBoxPersonalTab2("Produto.tab");
+            produtoJCB.setSelectedItem(modelo.getProduto());
+
+            lblQtdEn = new JLabel("Quantidade");
+            qtdProducao = new JTextField();
+            qtdProducao.setText(""+modelo.getQtdProducao());
+
+            lblDataEnt = new JLabel("Data de Producao");
+
+            painelData = new JPanel( new GridLayout(1, 1) );
+            dataProdu = new JTextFieldData("Data?");
+            dataProdu.getDTestField().setText(modelo.getDataProd());
+
+            painelData.add( dataProdu.getDTestField() );
+			painelData.add( dataProdu.getDButton() );
+
+            lblPreco = new JLabel("Preco/unidade");
+            precoUni = new JTextField("0");
+            precoUni.setText(""+modelo.getPrecoUni());
+
+            lblCustoTot = new JLabel("Custo Total");
+            custoTotal = new JTextField("0");   
+            custoTotal.setText(""+modelo.getCustoTotal());
+
+            lblIngredientes = new JLabel("Ingredientes usados");     
+
+            add(lblProduto);
+            add(produtoJCB);
+
+            add(lblQtdEn);
+            add(qtdProducao);
+
+            add(lblDataEnt);
+            add(painelData);
+
+            add(lblPreco);
+            add(precoUni);
+
+            add(lblCustoTot);
+            add(custoTotal);
+
         }
 
         public void keyTyped(KeyEvent evt)
@@ -275,37 +332,41 @@ public class ProducaoVisao extends JFrame
         }
         
 
-        public void salvar()
+        public void salvar() 
         { 
-
             EstoqueFile fileEstoque = new EstoqueFile();
-            int count = 3;
-            String [][] ingredientesUsados = getValoresIng();
+            int count = 0; // Contador para verificar quantos ingredientes têm níveis adequados
+            String[][] ingredientesUsados = getValoresIng();
 
-            for(int g =0; g<ingredientesUsados.length; g++)
-            {
+            for (int g = 0; g < ingredientesUsados.length; g++) {
                 EstoqueModelo modeloEstoque = fileEstoque.pesquisarIngredienteEstoque(ingredientesUsados[g][0]);
-                int novoNivel = modeloEstoque.getNivelAtual()-Integer.parseInt(ingredientesUsados[g][1]);
-                if(novoNivel<0)
-                {
-                    JOptionPane.showMessageDialog(null, "O Ingrediente: "+ingredientesUsados[g][0]+" não possui essa quantidade em estoque.", "Quantidade de material invalida", JOptionPane.ERROR_MESSAGE);
-                    count--;
-                }
-                else if(novoNivel>=0 && count!=3)
-                    count--;
-                else
-                {
-                    ProducaoModelo modelo = new ProducaoModelo(
-                getId(), getQtdProducao(), 
-                getPrecoUni(),getCustoTotal(),
-                getProduto(),getDataProd(), true
-            );
-                    modelo.salvar();
-                    modeloEstoque.setNivelAtual(novoNivel);
-                    modeloEstoque.actualizar();
-                    dispose();
-                }
+                int novoNivel = modeloEstoque.getNivelAtual() - Integer.parseInt(ingredientesUsados[g][1]);
                 
+                if (novoNivel < 0) {
+                    JOptionPane.showMessageDialog(null, "O Ingrediente: " + ingredientesUsados[g][0] + " não possui essa quantidade em estoque.", "Quantidade de material inválida", JOptionPane.ERROR_MESSAGE);
+                    break; // Interrompe o loop se encontrar um ingrediente com quantidade insuficiente
+                } else {
+                    count++; // Incrementa o contador de ingredientes com quantidade suficiente
+                    
+                    if (count == ingredientesUsados.length) {
+                        // Todos os ingredientes têm quantidade suficiente, podemos salvar os dados
+                        ProducaoModelo modelo = new ProducaoModelo(
+                            getId(), getQtdProducao(), 
+                            getPrecoUni(), getCustoTotal(),
+                            getProduto(), getDataProd(), true
+                        );
+                        modelo.salvar();
+                        dispose();// Salva o modelo de produção
+                        
+                        // Atualiza o nível de estoque para cada ingrediente
+                        for (int i = 0; i < ingredientesUsados.length; i++) {
+                            EstoqueModelo estoque = fileEstoque.pesquisarIngredienteEstoque(ingredientesUsados[i][0]);
+                            int novoNivelEstoque = estoque.getNivelAtual() - Integer.parseInt(ingredientesUsados[i][1]);
+                            estoque.setNivelAtual(novoNivelEstoque);
+                            estoque.actualizar(); // Atualiza o estoque
+                        }
+                    }
+                }
             }
         }
 
@@ -328,14 +389,9 @@ public class ProducaoVisao extends JFrame
 
             public void actionPerformed(ActionEvent evt)
             {
+                
                  if(evt.getSource() == salvarJB)
-                {
-                    if(editar)
-                        //painelCentro.alterar();
-                        System.out.println("fasz nada");
-                    else
-                        painelCentro.salvar();
-                }
+                    painelCentro.salvar();
                 else
                     dispose();
             }
@@ -353,10 +409,5 @@ public class ProducaoVisao extends JFrame
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
         }
-    }
-
-    public static void main(String args[])
-    {
-        new ProducaoVisao();
     }
 }

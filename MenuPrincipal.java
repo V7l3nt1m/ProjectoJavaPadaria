@@ -250,7 +250,9 @@ public class MenuPrincipal extends JFrame
                     new EntradaVisao(false, new EntradaModelo());
                 }
                 else if(evt.getSource() == btnProducao)
-                    new ProducaoVisao();
+                    new ProducaoVisao(false, new ProducaoModelo());
+                else if(evt.getSource() == itemProduto)
+                    new EstoqueProdutoVisao();
             }
         }
 

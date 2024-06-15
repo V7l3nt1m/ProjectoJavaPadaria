@@ -2,8 +2,8 @@
 Tema: Gestão de uma Padaria
 Nome: Valentim Loth Simão Prado
 Numero: 33031
-Ficheiro: EstoqueVisao.java
-Data: 04.05.2024
+Ficheiro: EstoqueProdutoVisao.java
+Data: 15.06.2024
 --------------------------------------*/
 
 import javax.swing.*;
@@ -14,29 +14,22 @@ import Calendario.*;
 import javax.swing.UIManager.*;
 import java.util.*;
 
-public class EstoqueVisao extends JFrame
+public class EstoqueProdutoVisao extends JFrame
 {
     private PainelCentro painelCentro;
-    private PainelCentro2 painelCentro2;
-    private PainelCentro3 painelCentro3;
 
     private JTabbedPane tabPanel;
 
 
-    public EstoqueVisao()
+    public EstoqueProdutoVisao()
     {
         super("Material em Armazém");
         definirTema();
         getContentPane().add(painelCentro = new PainelCentro(), BorderLayout.CENTER);
-        getContentPane().add(painelCentro2 = new PainelCentro2(), BorderLayout.CENTER);
-        getContentPane().add(painelCentro3 = new PainelCentro3(), BorderLayout.CENTER);
 
 
         tabPanel = new JTabbedPane();
-        tabPanel.addTab("Registro de compras", painelCentro);
-        tabPanel.addTab("Estoque", painelCentro3);
-        tabPanel.addTab("Pesquisa", painelCentro2);
-
+        tabPanel.addTab("Produtos", painelCentro);
 
         getContentPane().add(tabPanel, BorderLayout.NORTH);
 
@@ -47,20 +40,18 @@ public class EstoqueVisao extends JFrame
 
     class PainelCentro extends JPanel implements MouseListener, ActionListener
     {
-        private String [] colunas = {"ID", "Ingrediente", "Unidade Medida", "Quantidade", "Custo/Unidade", "Custo Total", "Data de Entrada" , "Data de Validade"};
+        private String [] colunas = {"ID", "Produto", "Quantidade", "Preço/Unidade", "Custo Total Producao", "Data de Producao"};
         private JScrollPane sp;
-        private JTable tabelaMateria;
+        private JTable tabelaProd;
         private JPopupMenu popMenu;
         private JMenuItem editar, eliminar;
         private Vector<String> dados = new Vector();
 
-
-
         public PainelCentro()
         {
             setLayout(new GridLayout(1,1));
-            tabelaMateria = new JTable(EntradaFile.listarMaterialV(), colunas);
-            sp = new JScrollPane(tabelaMateria);
+            tabelaProd = new JTable(ProducaoFile.listarMaterialV(), colunas);
+            sp = new JScrollPane(tabelaProd);
             add(sp);
 
             popMenu = new JPopupMenu();
@@ -69,19 +60,19 @@ public class EstoqueVisao extends JFrame
 
             eliminar.addActionListener(this);
             editar.addActionListener(this);
-            tabelaMateria.addMouseListener(this);
+            tabelaProd.addMouseListener(this);
         }
 
         public void actionPerformed(ActionEvent e)
         {
             if(e.getSource() == editar)
             {
-                int selectedRow = tabelaMateria.getSelectedRow();
-                String id = ""+tabelaMateria.getValueAt(selectedRow,0);
-                EntradaModelo modelo;
-                modelo = EntradaFile.pesquisarEntradaPorId(id);
-                dispose();
-                new EntradaVisao(true, modelo);
+                int selectedRow = tabelaProd.getSelectedRow();
+                String id = ""+tabelaProd.getValueAt(selectedRow,0);
+                ProducaoModelo modelo;
+                //modelo = EntradaFile.pesquisarEntradaPorId(id);
+                //dispose();
+                //new EntradaVisao(true, modelo);
             }
             else
             {
@@ -92,8 +83,8 @@ public class EstoqueVisao extends JFrame
                 }
                 else
                 {
-                    int selectedRow = tabelaMateria.getSelectedRow();
-                    String id = ""+tabelaMateria.getValueAt(selectedRow,0);
+                    int selectedRow = tabelaProd.getSelectedRow();
+                    String id = ""+tabelaProd.getValueAt(selectedRow,0);
                     EntradaModelo modelo;
                     modelo = EntradaFile.pesquisarEntradaPorId(""+id);
                     modelo.setStatus(false);
@@ -134,67 +125,15 @@ public class EstoqueVisao extends JFrame
         {
             if(evt.isPopupTrigger() && evt.getComponent() instanceof JTable)
             {
-                int row = tabelaMateria.rowAtPoint(evt.getPoint());
+                int row = tabelaProd.rowAtPoint(evt.getPoint());
 
                 if(row >= 0 )
                 {
-                    tabelaMateria.setRowSelectionInterval(row, row);
+                    tabelaProd.setRowSelectionInterval(row, row);
                     popMenu.show(evt.getComponent(), evt.getX(), evt.getY());
                 }
             }
         }  
-    }
-
-    
-
-    class PainelCentro2 extends JPanel implements ActionListener
-    {
-        private JLabel pesqlbl;
-        private JComboBox nomeProd;
-        private JButton pesquisarBtn;
-
-        public PainelCentro2()
-        {
-            add(pesqlbl = new JLabel("Pesquisa por:"));
-            add(nomeProd = new JComboBox(EntradaFile.getAllNames()));
-            add(pesquisarBtn = new JButton("Pesquisar"));
-            pesquisarBtn.addActionListener(this);
-        }
-
-        public String getNome()
-        {
-            return String.valueOf(nomeProd.getSelectedItem());
-        }
-
-        public void actionPerformed(ActionEvent evt)
-        {
-            if(evt.getSource() == pesquisarBtn)
-            {
-                EntradaFile.pesquisarEntradaPorNome(getNome());
-            }
-        }
-    }
-
-    class PainelCentro3 extends JPanel
-    {
-        private String [] colunas = {"ID", "Ingrediente", "Unidade Medida", "Nivel Minimo", "NivelAtual", "Ultima Reposicao"};
-        private JScrollPane sp;
-        private JTable tabelaMateriaEstoque;
-        private JPopupMenu popMenu;
-        private JMenuItem editar, eliminar;
-        private Vector<String> dados = new Vector();
-        
-
-        public PainelCentro3()
-        {
-            setLayout(new GridLayout(1,1));
-            tabelaMateriaEstoque = new JTable(EstoqueFile.estoqueMatriz(), colunas);
-            add(sp = new JScrollPane(tabelaMateriaEstoque));
-
-            popMenu = new JPopupMenu();
-            popMenu.add(editar = new JMenuItem("Editar"));
-            popMenu.add(eliminar = new JMenuItem("Eliminar"));
-        }
     }
 
     
@@ -214,7 +153,7 @@ public class EstoqueVisao extends JFrame
 
     public static void main(String args[])
     {
-        new EstoqueVisao();
+        new EstoqueProdutoVisao();
     }
 }
 

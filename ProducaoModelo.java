@@ -135,7 +135,7 @@ public class ProducaoModelo implements RegistGeneric
             
             try
             {
-                return 340; // 212 bytes
+                return 390;// 212 bytes
             }
             catch(Exception ex)
             {

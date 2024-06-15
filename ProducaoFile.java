@@ -40,7 +40,7 @@ public class ProducaoFile extends ObjectsFile
 					index++;
 				}
 			}
-			dados = new String[index][8];
+			dados = new String[index][7];
 
 			ficheiro.stream.seek(4);
 
@@ -51,12 +51,11 @@ public class ProducaoFile extends ObjectsFile
 				{
 					dados[contador][0] = "" + modelo.getId();
 					dados[contador][1] = ""+modelo.getQtdProducao();
-					dados[contador][2] = ""+modelo.getQtdProducao();
-					dados[contador][3] = "" + modelo.getProduto();
-					dados[contador][4] = "" +  modelo.getPrecoUni();
-					dados[contador][5] = "" + modelo.getCustoTotal();
-					dados[contador][6] = ""+modelo.getDataProd();
-					dados[contador][7] = ""+modelo.getStatus();
+					dados[contador][2] = "" + modelo.getProduto();
+					dados[contador][3] = "" +  modelo.getPrecoUni();
+					dados[contador][4] = "" + modelo.getCustoTotal();
+					dados[contador][5] = ""+modelo.getDataProd();
+					dados[contador][6] = ""+modelo.getStatus();
 					contador++;
 				}
 			}
@@ -272,5 +271,17 @@ public class ProducaoFile extends ObjectsFile
 		}
 
 		
+	}
+
+	public static void main(String args[])
+	{
+		String matriz [][] = listarMaterialV();
+
+		for (int i = 0; i < matriz.length; i++) {
+    for (int j = 0; j < matriz[i].length; j++) {
+        System.out.print(matriz[i][j] + " "); // Imprime o elemento seguido de um espaço
+    }
+    System.out.println(); // Pula para a próxima linha após imprimir todos os elementos da linha atual
+}
 	}
 }

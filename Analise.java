@@ -39,8 +39,6 @@ producao e estoque de uma padaria;
     int nivelMinimo
     int nivelAtual
     double precoTotal
-    ProducaoModelo produtoAcabado
-
 
 - ProducaoModelo
 	int id
