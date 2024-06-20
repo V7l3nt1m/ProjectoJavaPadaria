@@ -66,6 +66,34 @@ public class EstoqueFile extends ObjectsFile
 		return dados;
 	}
 
+	public static void pesquisarIngredienteEstoqueV(String nomeProcurado)
+	{
+		EstoqueFile ficheiro = new EstoqueFile();
+		EstoqueModelo modelo = new EstoqueModelo();
+		String output = "";
+		try
+		{
+			ficheiro.stream.seek(4);
+			
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
+			{
+				modelo.read( ficheiro.stream );
+				
+				if (modelo.getIngrediente().equalsIgnoreCase( nomeProcurado ) && modelo.getStatus() == true)
+				{
+					output += modelo.toString();
+					output += "---------------------------------------";
+					JOptionPane.showMessageDialog(null, modelo.toString(), 
+					"Gestao de Padaria", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}		
+	}
+
 	public static EstoqueModelo pesquisarIngredienteEstoque(String ingrediente)
 	{
 		EstoqueFile ficheiro = new EstoqueFile();

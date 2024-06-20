@@ -146,7 +146,7 @@ public class EstoqueModelo implements RegistGeneric
     
         public String toString()
         {
-            String str = "Dados das Entradas Modelo\n\n";
+            String str = "Dados do Estoque Modelo\n\n";
 
             str += "Id: " + getId() + "\n";
             str += "Ingrediente: " + getIngrediente() + "\n";

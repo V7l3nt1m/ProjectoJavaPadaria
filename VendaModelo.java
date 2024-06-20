@@ -142,7 +142,7 @@ public class VendaModelo implements RegistGeneric
 
         public String toString()
         {
-            String str = "Dados de Producao\n\n";
+            String str = "Dados da Venda\n\n";
 
             str += "Id: " + getId() + "\n";
             str += "Quantidade: " + getQtdEntrada() + "\n";

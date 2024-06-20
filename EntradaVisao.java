@@ -349,8 +349,7 @@ public class EntradaVisao extends JFrame
         
 
         public void salvar()
-        {    
-            
+        {       
             EntradaModelo modelo = new EntradaModelo(getId(), getQtdEntrada(),getCustoUnit(),
             getCustoTotal(),
             getIngrediente(),
