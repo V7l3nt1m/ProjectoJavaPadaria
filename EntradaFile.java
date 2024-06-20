@@ -26,7 +26,7 @@ public class EntradaFile extends ObjectsFile
 		EntradaFile ficheiro = new EntradaFile();
 		EntradaModelo modelo = new EntradaModelo();
 		String [][] dados=null;
-		int qtdRegistros = (int)(ficheiro.getNregistos()+1);
+		int qtdRegistros = (int)(ficheiro.getNregistos());
 		int index = 0;
 		int contador =0;
 		try
@@ -81,7 +81,7 @@ public class EntradaFile extends ObjectsFile
 		{
 			ficheiro.stream.seek(4);
 			Set<String> uniqueSet = new LinkedHashSet<>();
-			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
 			{
 				modelo.read( ficheiro.stream );
                 uniqueSet.add(modelo.getIngrediente());
@@ -107,7 +107,7 @@ public class EntradaFile extends ObjectsFile
 		try
 		{
 			ficheiro.stream.seek(4);
-			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
 			{
 				modelo.read( ficheiro.stream );
 				if(modelo.getStatus() == true)
@@ -138,7 +138,7 @@ public class EntradaFile extends ObjectsFile
 		{
 			ficheiro.stream.seek(4);
 			
-			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
 			{
 				modelo.read( ficheiro.stream );
 				if((""+modelo.getId()).equals(id))
@@ -162,7 +162,7 @@ public class EntradaFile extends ObjectsFile
 		{
 			ficheiro.stream.seek(4);
 			
-			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
 			{
 				modelo.read( ficheiro.stream );
 				
@@ -218,7 +218,7 @@ public class EntradaFile extends ObjectsFile
 		{
 			ficheiro.stream.seek(4);
 			
-			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
 			{
 				modelo.read( ficheiro.stream );
 				

@@ -66,9 +66,7 @@ public class ProducaoFile extends ObjectsFile
 		return dados;
 	}
 
-	
-
-	public static StringVector getAllProdutos()
+		public static StringVector getAllProdutosToSell()
 	{
 		ProducaoFile ficheiro = new ProducaoFile();
 		ProducaoModelo modelo = new ProducaoModelo();
@@ -81,7 +79,36 @@ public class ProducaoFile extends ObjectsFile
 			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
 			{
 				modelo.read( ficheiro.stream );
-                uniqueSet.add(modelo.getProduto());
+				if(modelo.getStatus() == true)
+                	uniqueSet.add(modelo.getProduto());
+			}
+			vector.addAll(uniqueSet);
+			vector.sort();
+		}
+        catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}	
+
+		return vector;
+	}
+	
+
+	public static StringVector getAllProdutos()
+	{
+		ProducaoFile ficheiro = new ProducaoFile();
+		ProducaoModelo modelo = new ProducaoModelo();
+		StringVector vector = new StringVector();
+
+		try
+		{
+			ficheiro.stream.seek(4);
+			Set<String> uniqueSet = new LinkedHashSet<>();
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
+			{
+				modelo.read( ficheiro.stream );
+				if(modelo.getStatus() == true)
+                	uniqueSet.add(modelo.getProduto());
 			}
 			vector.addAll(uniqueSet);
 			vector.sort();
@@ -102,10 +129,10 @@ public class ProducaoFile extends ObjectsFile
 		{
 			ficheiro.stream.seek(4);
 			
-			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
 			{
 				modelo.read( ficheiro.stream );
-				if((""+modelo.getId()).equals(id))
+				if((""+modelo.getId()).equals(id) && modelo.getStatus() == true)
 					return modelo;
 			}					
 		}
@@ -125,7 +152,7 @@ public class ProducaoFile extends ObjectsFile
 		{
 			ficheiro.stream.seek(4);
 			
-			for (int i = 0; i < ficheiro.getNregistos()+2; ++i)
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
 			{
 				modelo.read( ficheiro.stream );
 				
@@ -153,7 +180,7 @@ public class ProducaoFile extends ObjectsFile
 		{
 			ficheiro.stream.seek(4);
 			
-			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
 			{
 				modelo.read( ficheiro.stream );
 				

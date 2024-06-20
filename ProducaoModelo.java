@@ -135,7 +135,7 @@ public class ProducaoModelo implements RegistGeneric
             
             try
             {
-                return 120;// 269 bytes
+                return 20 + 4*2 + 8*2 + 12 + 1;// 269 bytes
             }
             catch(Exception ex)
             {
@@ -176,7 +176,7 @@ public class ProducaoModelo implements RegistGeneric
 		catch (IOException ex)
 		{
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Falha ao tentar Ler no Ficheiro");
+			JOptionPane.showMessageDialog(null, "Falha ao tentar Ler no Ficheiro Producao");
 		}
     }
 

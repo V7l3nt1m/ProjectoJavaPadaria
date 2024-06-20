@@ -66,7 +66,7 @@ public class EntradaVisao extends JFrame
         private JTextField qtdEntrada, custoUnit, custoTotal, idJTF, idEstoque;
 
         private JComboBoxPersonal ingrediente, nivelMinimoJCB;
-        private JComboBoxTabela2_Tabela3 ingNivelMinimo;
+        private JComboBoxTabela2_Tabela3 ingNivelMinimo, unidadeMat;
 
         private JLabel lblIng, lblUnid, lblQtdEn, lblDataEnt, lblDataVal, lblCustou, lblCustoTot;
         private JPanel painelData, painelData2;
@@ -76,6 +76,7 @@ public class EntradaVisao extends JFrame
         {   
             setLayout(new GridLayout(7,2));  
             ingNivelMinimo = new JComboBoxTabela2_Tabela3("MateriaPrima.tab","NivelMinimo.tab");
+            unidadeMat = new JComboBoxTabela2_Tabela3("MateriaPrima.tab","UnidadeMedida.tab");
 
             lblIng = new JLabel("Ingrediente");
             ingrediente = ingNivelMinimo.getComboBoxFather();
@@ -91,7 +92,8 @@ public class EntradaVisao extends JFrame
 
 
             lblUnid = new JLabel("Unidade de Medida");
-            unidadeMedida = UInterfaceBox.createJComboBoxPersonalTab2("UnidadeMedida.tab");
+            ingrediente = unidadeMat.getComboBoxFather();
+            unidadeMedida = unidadeMat.getComboBoxSun();
 
             lblQtdEn = new JLabel("Quantidade");
             qtdEntrada = new JTextField();
@@ -147,16 +149,16 @@ public class EntradaVisao extends JFrame
         { 
             setLayout(new GridLayout(7,2));  
             lblIng = new JLabel("Ingrediente");
-            ingrediente = UInterfaceBox.createJComboBoxPersonalTab2("MateriaPrima.tab");
+            unidadeMat = new JComboBoxTabela2_Tabela3("MateriaPrima.tab","UnidadeMedida.tab");
+            ingrediente = unidadeMat.getComboBoxFather();
             ingrediente.setSelectedItem(modelo.getIngrediente());
 
 			idJTF = new JTextField();
             EntradaFile entradafile = new EntradaFile();
 			idJTF.setText( "" + modelo.getId());
 
-
             lblUnid = new JLabel("Unidade de Medida");
-            unidadeMedida = UInterfaceBox.createJComboBoxPersonalTab2("UnidadeMedida.tab");
+            unidadeMedida = unidadeMat.getComboBoxSun();
             unidadeMedida.setSelectedItem(modelo.getUnidadeMedida());
 
             lblQtdEn = new JLabel("Quantidade");
@@ -348,6 +350,7 @@ public class EntradaVisao extends JFrame
 
         public void salvar()
         {    
+            
             EntradaModelo modelo = new EntradaModelo(getId(), getQtdEntrada(),getCustoUnit(),
             getCustoTotal(),
             getIngrediente(),
@@ -359,13 +362,30 @@ public class EntradaVisao extends JFrame
             
             EstoqueModelo dados = EstoqueFile.pesquisarIngredienteEstoque(getIngrediente());
             File arquivoEstoque = new File("EstoqueFile.dat");
+
+            
            
            if((arquivoEstoque.exists()) && (dados.getIngrediente()).equals(getIngrediente()))
             {
                 int novoNivel = dados.getNivelAtual() + getQtdEntrada();
                 dados.setNivelAtual(novoNivel);
                 dados.setDataEntradaEstoque(getDataEntrada());
+                JOptionPane.showMessageDialog(null,""+dados.toString());
                 dados.actualizar();
+            }
+            else if((arquivoEstoque.exists()) && ! (dados.getIngrediente()).equals(getIngrediente()))
+            {
+                 EstoqueModelo novoEstoque = new EstoqueModelo(
+                getId2(), 
+            (Integer.parseInt(getNivelMinimo())), 
+                (int)getQtdEntrada(), 
+                0.0,
+                0.0, 
+                getIngrediente(), 
+                getUnidadeMedida(), 
+                getDataEntrada(), true);
+
+                novoEstoque.salvar();
             }
             else
             {
@@ -377,11 +397,10 @@ public class EntradaVisao extends JFrame
                 0.0, 
                 getIngrediente(), 
                 getUnidadeMedida(), 
-                getDataEntrada());
+                getDataEntrada(), true);
 
                 novoEstoque.salvar();
             }
-            
             
            dispose();
         }

@@ -134,7 +134,6 @@ public class ProducaoVisao extends JFrame
             inputs = new JTextField[vectorIngredientes.size()];
 
             ingValores = new String[vectorIngredientes.size()][2];
-            
             for(int i = 0; i<vectorIngredientes.size(); i++)
             {
                inputs[i] = new JTextField(5);
@@ -389,7 +388,7 @@ public class ProducaoVisao extends JFrame
                                 0.0, 
                                 getProduto(), 
                                 "unidade", 
-                                getDataProd());
+                                getDataProd(), true);
                                 novoEstoque.salvar();
                         }
 

@@ -34,8 +34,8 @@ public class EstoqueVisao extends JFrame
 
         tabPanel = new JTabbedPane();
         tabPanel.addTab("Registro de compras", painelCentro);
-        tabPanel.addTab("Estoque", painelCentro3);
-        tabPanel.addTab("Pesquisa", painelCentro2);
+        tabPanel.addTab("Estoque", painelCentro2);
+        tabPanel.addTab("Pesquisa", painelCentro3);
 
 
         getContentPane().add(tabPanel, BorderLayout.NORTH);
@@ -145,15 +145,114 @@ public class EstoqueVisao extends JFrame
         }  
     }
 
+     class PainelCentro2 extends JPanel implements MouseListener, ActionListener 
+    {
+        private String [] colunas = {"ID", "Ingrediente/Produto", "Unidade Medida", "Nivel Minimo", "NivelAtual", "Ultima Reposicao"};
+        private JScrollPane sp;
+        private JTable tabelaMateriaEstoque;
+        private JPopupMenu popMenu;
+        private JMenuItem editar, eliminar;
+        private Vector<String> dados = new Vector();
+        
+
+        public PainelCentro2()
+        {
+            setLayout(new GridLayout(1,1));
+            tabelaMateriaEstoque = new JTable(EstoqueFile.estoqueMatriz(), colunas);
+            add(sp = new JScrollPane(tabelaMateriaEstoque));
+
+            popMenu = new JPopupMenu();
+            popMenu.add(editar = new JMenuItem("Editar"));
+            popMenu.add(eliminar = new JMenuItem("Eliminar"));
+
+            eliminar.addActionListener(this);
+            editar.addActionListener(this);
+            tabelaMateriaEstoque.addMouseListener(this);
+        }
+
+        public void actionPerformed(ActionEvent e)
+        {
+            if(e.getSource() == editar)
+            {
+                int selectedRow = tabelaMateriaEstoque.getSelectedRow();
+                String id = ""+tabelaMateriaEstoque.getValueAt(selectedRow,0);
+                EstoqueModelo modelo;
+                modelo = EstoqueFile.pesquisarEntradaPorId(id);
+                dispose();
+                new EditarMateriaPEstoque(modelo);
+            }
+            else
+            {
+                int resposta = JOptionPane.showConfirmDialog(null,"Deseja Eliminar os dados","Eliminar dados", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                if(resposta == 1)
+                {
+                    JOptionPane.showMessageDialog(null, "Operacao cancelada", "Eliminar os dados", JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                {
+                    int selectedRow = tabelaMateriaEstoque.getSelectedRow();
+                    String id = ""+tabelaMateriaEstoque.getValueAt(selectedRow,0);
+                    EstoqueModelo modelo;
+                    modelo = EstoqueFile.pesquisarEntradaPorId(""+id);
+                    modelo.setStatus(false);
+                    modelo.eliminar();
+                    dispose();
+                }
+            }
+            
+        }
+
+        public void mousePressed(MouseEvent evt)
+        {
+           showPopup(evt);
+        }
+
+        public void mouseReleased(MouseEvent evt)
+        {
+           showPopup(evt);
+        }
+
+        public void mouseExited(MouseEvent evt)
+        {
+           showPopup(evt);
+        }
+
+         public void mouseEntered(MouseEvent evt)
+        {
+           showPopup(evt);
+        }
+
+        public void mouseClicked(MouseEvent evt)
+        {
+           showPopup(evt);
+        }
+
+
+        private void showPopup(MouseEvent evt)
+        {
+            if(evt.isPopupTrigger() && evt.getComponent() instanceof JTable)
+            {
+                int row = tabelaMateriaEstoque.rowAtPoint(evt.getPoint());
+
+                if(row >= 0 )
+                {
+                    tabelaMateriaEstoque.setRowSelectionInterval(row, row);
+                    popMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                }
+            }
+        }
+        
+    }
+
     
 
-    class PainelCentro2 extends JPanel implements ActionListener
+    class PainelCentro3 extends JPanel implements ActionListener
     {
         private JLabel pesqlbl;
         private JComboBox nomeProd;
         private JButton pesquisarBtn;
 
-        public PainelCentro2()
+        public PainelCentro3()
         {
             add(pesqlbl = new JLabel("Pesquisa por:"));
             add(nomeProd = new JComboBox(EntradaFile.getAllNames()));
@@ -172,28 +271,6 @@ public class EstoqueVisao extends JFrame
             {
                 EntradaFile.pesquisarEntradaPorNome(getNome());
             }
-        }
-    }
-
-    class PainelCentro3 extends JPanel
-    {
-        private String [] colunas = {"ID", "Ingrediente", "Unidade Medida", "Nivel Minimo", "NivelAtual", "Ultima Reposicao"};
-        private JScrollPane sp;
-        private JTable tabelaMateriaEstoque;
-        private JPopupMenu popMenu;
-        private JMenuItem editar, eliminar;
-        private Vector<String> dados = new Vector();
-        
-
-        public PainelCentro3()
-        {
-            setLayout(new GridLayout(1,1));
-            tabelaMateriaEstoque = new JTable(EstoqueFile.estoqueMatriz(), colunas);
-            add(sp = new JScrollPane(tabelaMateriaEstoque));
-
-            popMenu = new JPopupMenu();
-            popMenu.add(editar = new JMenuItem("Editar"));
-            popMenu.add(eliminar = new JMenuItem("Eliminar"));
         }
     }
 

@@ -18,6 +18,7 @@ public class EstoqueProdutoVisao extends JFrame
 {
     private PainelCentro painelCentro;
 
+
     private JTabbedPane tabPanel;
 
 
@@ -29,7 +30,8 @@ public class EstoqueProdutoVisao extends JFrame
 
 
         tabPanel = new JTabbedPane();
-        tabPanel.addTab("Produtos", painelCentro);
+        tabPanel.addTab("Registro de Producao", painelCentro);
+
 
         getContentPane().add(tabPanel, BorderLayout.NORTH);
 

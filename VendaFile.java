@@ -26,7 +26,7 @@ public class VendaFile extends ObjectsFile
 		VendaFile ficheiro = new VendaFile();
 		VendaModelo modelo = new VendaModelo();
 		String [][] dados=null;
-		int qtdRegistros = (int)(ficheiro.getNregistos()+1);
+		int qtdRegistros = (int)(ficheiro.getNregistos());
 		int index = 0;
 		int contador =0;
 		try
@@ -40,7 +40,7 @@ public class VendaFile extends ObjectsFile
 					index++;
 				}
 			}
-			dados = new String[index][7];
+			dados = new String[index][9];
 
 			ficheiro.stream.seek(4);
 
@@ -55,6 +55,8 @@ public class VendaFile extends ObjectsFile
 					dados[contador][4] = "" +  modelo.getPrecoUni();
 					dados[contador][5] = "" + modelo.getPrecoTotal();
 					dados[contador][6] = modelo.getDataVenda();
+					dados[contador][7] = modelo.getClienteNome();
+					dados[contador][8] = modelo.getTipoPagamento();
 					contador++;
 				}
 			}
@@ -79,10 +81,11 @@ public class VendaFile extends ObjectsFile
 		{
 			ficheiro.stream.seek(4);
 			Set<String> uniqueSet = new LinkedHashSet<>();
-			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
 			{
 				modelo.read( ficheiro.stream );
-                uniqueSet.add(modelo.getProduto());
+				if(modelo.getStatus() == true)
+                	uniqueSet.add(modelo.getProduto());
 			}
 			vector.addAll(uniqueSet);
 			vector.sort();
@@ -136,10 +139,10 @@ public class VendaFile extends ObjectsFile
 		{
 			ficheiro.stream.seek(4);
 			
-			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
 			{
 				modelo.read( ficheiro.stream );
-				if((""+modelo.getId()).equals(id))
+				if((""+modelo.getId()).equals(id) && modelo.getStatus() == true)
 					return modelo;
 			}					
 		}
@@ -159,7 +162,7 @@ public class VendaFile extends ObjectsFile
 		{
 			ficheiro.stream.seek(4);
 			
-			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
 			{
 				modelo.read( ficheiro.stream );
 				
@@ -187,7 +190,7 @@ public class VendaFile extends ObjectsFile
 		{
 			ficheiro.stream.seek(4);
 			
-			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
 			{
 				modelo.read( ficheiro.stream );
 				
@@ -302,7 +305,5 @@ public class VendaFile extends ObjectsFile
 		{
 			ex.printStackTrace();
 		}
-
-		
 	}
 }

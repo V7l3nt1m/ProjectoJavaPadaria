@@ -186,6 +186,7 @@ public class MenuPrincipal extends JFrame
             itemMaterial.addActionListener(manipulador);
             itemMateriaisPrima.addActionListener(manipulador);
             itemUnidadeMedida.addActionListener(manipulador);
+            itemProduto.addActionListener(manipulador);
             itemProdutos.addActionListener(manipulador);
             itemNovaEntrada.addActionListener(manipulador);
             itemNivelMinimo.addActionListener(manipulador);
@@ -219,7 +220,7 @@ public class MenuPrincipal extends JFrame
                 }
                 else if(evt.getSource() == itemUnidadeMedida)
                 {
-                    Tabela2.editarNovosItems("UnidadeMedida.tab", "Nova Unidade de Medida");
+                    Tabela3_2.editarNovosItems("MateriaPrima.tab", "UnidadeMedida.tab", "Materias Primas", "Unidades de Medidas", "Nova Unidade de Medida");
                 }
                 else if(evt.getSource() == itemNivelMinimo)
                 {

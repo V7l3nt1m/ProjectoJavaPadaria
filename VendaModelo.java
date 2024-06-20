@@ -17,7 +17,7 @@ import java.io.*;
 public class VendaModelo implements RegistGeneric
 {
     private int id, qtdEntrada;
-    private StringBufferModelo produto;
+    private StringBufferModelo produto, clienteNome, tipoPagamento;
     private Double precoUni, precoTotal;
     private DataModelo dataVenda;
     private boolean status;
@@ -29,18 +29,22 @@ public class VendaModelo implements RegistGeneric
         precoUni = 0.0;
         precoTotal = 0.0;
 		produto = new StringBufferModelo("", 20);
+        clienteNome = new StringBufferModelo("", 50);
+        tipoPagamento = new StringBufferModelo("", 20);
         dataVenda = new DataModelo();
         status = false;
     }
 
     public VendaModelo(int id, int qtdEntrada, double precoUni, double precoTotal,
-   String produto,  String dataVenda, boolean estado)
+   String produto, String clienteNome, String tipoPagamento,String dataVenda, boolean estado)
     {
         this.id = id;
         this.qtdEntrada = qtdEntrada;
         this.precoUni = precoUni;
         this.precoTotal = precoTotal;
 		this.produto = new StringBufferModelo(produto, 20); 
+        this.clienteNome = new StringBufferModelo(clienteNome, 50);
+        this.tipoPagamento = new StringBufferModelo(tipoPagamento, 20); 
 		this.dataVenda = new DataModelo(dataVenda);
         this.status = estado;
     }
@@ -80,6 +84,16 @@ public class VendaModelo implements RegistGeneric
             return status;
         }
 
+        public String getTipoPagamento()
+        {
+            return tipoPagamento.toStringEliminatingSpaces();
+        }
+
+        public String getClienteNome()
+        {
+             return clienteNome.toStringEliminatingSpaces();
+        }
+
 
         public void setId(int novoId)
         {
@@ -111,6 +125,16 @@ public class VendaModelo implements RegistGeneric
             precoTotal = novoPrecoTotal;
         }
 
+        public void setClienteNome(String novoClienteNome)
+        {
+            clienteNome = new StringBufferModelo(novoClienteNome,50);
+        }
+        
+        public void setTipoPagamento(String novoTipoPagamento)
+        {
+            tipoPagamento = new StringBufferModelo(novoTipoPagamento,20);
+        }
+
         public void setStatus(boolean new_status)
         {
             this.status = new_status;
@@ -126,6 +150,8 @@ public class VendaModelo implements RegistGeneric
             str += "Data da compra: " + getDataVenda() + "\n";
             str += "Preco Unitario: " + getPrecoUni() + "\n";
             str += "Preco Total: " + getPrecoTotal() + "\n";
+            str += "Nome cliente: " + getClienteNome() + "\n"; 
+            str += "Tipo Pagamento: " + getTipoPagamento() + "\n"; 
             str += "Estado: " + getStatus() + "\n"; 
             return str;
         }
@@ -135,7 +161,7 @@ public class VendaModelo implements RegistGeneric
             
             try
             {
-                return 120;// 269 bytes
+                return 90 + 4*2 + 8*2 + 12 + 1;// 269 bytes
             }
             catch(Exception ex)
             {
@@ -152,6 +178,8 @@ public class VendaModelo implements RegistGeneric
             stream.writeDouble(precoUni);
             stream.writeDouble(precoTotal);
 			produto.write(stream); 
+            clienteNome.write(stream);
+            tipoPagamento.write(stream); 
 			dataVenda.write(stream);
             stream.writeBoolean(status);
 		}
@@ -169,7 +197,9 @@ public class VendaModelo implements RegistGeneric
             qtdEntrada = stream.readInt();
             precoUni = stream.readDouble();
             precoTotal = stream.readDouble();
-            produto.read(stream); 
+            produto.read(stream);
+            clienteNome.read(stream);
+            tipoPagamento.read(stream); 
             dataVenda.read(stream);
             status = stream.readBoolean();	
 		}

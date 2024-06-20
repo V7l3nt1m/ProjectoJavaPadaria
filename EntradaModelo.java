@@ -164,7 +164,7 @@ public class EntradaModelo implements RegistGeneric
             
             try
             {
-                return 4*2+8*2+50*2+8*2+24*3; // 212 bytes
+                return 70 * 2 + 4*2 + 1 + 8*2 + 12*2; // (soma dos Stringbuffers)*2 + 4 bytes (id e qtd entrada) + 1 byte (boolean) + 8*2+ 12 bytes * 2(datas) 
             }
             catch(Exception ex)
             {

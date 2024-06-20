@@ -17,9 +17,10 @@ import java.io.*;
 public class EstoqueModelo implements RegistGeneric
 {
     int id, nivelMinimo, nivelAtual;
-    StringBufferModelo ingrediente, unidadeMedida, produto;
+    StringBufferModelo ingrediente, unidadeMedida;
     Double precoUnit, precoTotal; //usar apenas nos produtos acabados
     DataModelo dataEntradaEstoque; //apenas em produtos acabados
+    boolean status;
 
 
     public EstoqueModelo()
@@ -29,13 +30,15 @@ public class EstoqueModelo implements RegistGeneric
         nivelAtual = 0;
         precoUnit = 0.0;
         precoTotal = 0.0;
+        status = false;
+
 
 		ingrediente = new StringBufferModelo("", 50); 
 		unidadeMedida = new StringBufferModelo("", 20);
 		dataEntradaEstoque = new DataModelo();
     }
 
-    public EstoqueModelo(int id, int nivelMinimo, int nivelAtual, double precoUnit, double precoTotal, String ingrediente, String unidadeMedida, String dataEntradaEstoque)
+    public EstoqueModelo(int id, int nivelMinimo, int nivelAtual, double precoUnit, double precoTotal, String ingrediente, String unidadeMedida, String dataEntradaEstoque, boolean estado)
     {
         this.id = id;
         this.nivelMinimo = nivelMinimo;
@@ -45,6 +48,7 @@ public class EstoqueModelo implements RegistGeneric
 		this.ingrediente = new StringBufferModelo(ingrediente, 50); 
 		this.unidadeMedida = new StringBufferModelo(unidadeMedida, 20);
 		this.dataEntradaEstoque = new DataModelo(dataEntradaEstoque);
+        this.status = estado;
     }
 
         public int getId()
@@ -85,6 +89,11 @@ public class EstoqueModelo implements RegistGeneric
         public String getDataEntradaEstoque()
         {
             return dataEntradaEstoque.toString();
+        }
+
+        public boolean getStatus()
+        {
+            return status;
         }
 
         
@@ -129,6 +138,11 @@ public class EstoqueModelo implements RegistGeneric
             precoTotal = novoPrecoTotal;
         }
 
+        public void setStatus(boolean new_status)
+        {
+            this.status = new_status;
+        }
+
     
         public String toString()
         {
@@ -142,6 +156,7 @@ public class EstoqueModelo implements RegistGeneric
             str += "Data de Entrada em Estoque: " + getDataEntradaEstoque() + "\n";
             str += "Preco unitario: " + getPrecoUnit() + "\n";
             str += "Preco total: " + getPrecoTotal() + "\n";
+            str += "Estado: " + getStatus() + "\n"; 
             return str;
         }
 
@@ -150,7 +165,7 @@ public class EstoqueModelo implements RegistGeneric
             
             try
             {
-                return 100 * 2 + 4 + 12 + 1;// 212 bytes
+                return 70*2 + 4*2 + 8*2 + 1 + 12;// 212 bytes
             }
             catch(Exception ex)
             {
@@ -170,6 +185,8 @@ public class EstoqueModelo implements RegistGeneric
 			ingrediente.write(stream); 
             unidadeMedida.write(stream);
 			dataEntradaEstoque.write(stream);
+            stream.writeBoolean(status);
+
 			
 		}
 		catch (IOException ex)
@@ -189,13 +206,21 @@ public class EstoqueModelo implements RegistGeneric
             precoTotal = stream.readDouble();
 			ingrediente.read(stream); 
             unidadeMedida.read(stream); 
-            dataEntradaEstoque.read(stream);		
+            dataEntradaEstoque.read(stream);	
+            status = stream.readBoolean();	
+	
 		}
 		catch (IOException ex)
 		{
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Falha ao tentar Ler no Ficheiro");
+			JOptionPane.showMessageDialog(null, "Falha ao tentar Ler no Ficheiro Estoque");
 		}
+    }
+
+    public void eliminar()
+    {
+        EstoqueFile file = new EstoqueFile();
+        file.eliminarDados(this);
     }
 
     public void actualizar()
@@ -208,5 +233,11 @@ public class EstoqueModelo implements RegistGeneric
     {
         EstoqueFile file = new EstoqueFile();
         file.salvarDados(this);
+    }
+
+    public void editarDados()
+    {
+        EstoqueFile file= new EstoqueFile();
+        file.alterarDados(this);
     }
 }

@@ -35,11 +35,10 @@ producao e estoque de uma padaria;
 
 - EstoqueModelo
     int id
-    String ingrediente
+    String ingredienteProduto
     int nivelMinimo
     int nivelAtual
     double precoTotal
-    String produto
 
 - ProducaoModelo
 	int id

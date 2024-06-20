@@ -60,14 +60,15 @@ public class VendaVisao extends JFrame
         }
     }
 
-    public class PainelCentro extends JPanel implements KeyListener
+    public class PainelCentro extends JPanel implements KeyListener,ActionListener
     {
-        private JComboBox produtoJCB;
-        private JTextField qtdEntrada,idEstoque, precoUnit, precoTotal, cliente, idJTF;
+        private JComboBox produtoJCB, tipoPagamentoJCB;
+        private JTextField qtdEntrada,idEstoque, precoUnit, precoTotal, clienteJTF, idJTF;
         private JTextFieldData dataVenda;
 
-        private JLabel lblProd, lblQtdEn, lblDataVend, lblPrecUni, lblPrecoTot,lblCliente;
+        private JLabel lblProd, lblQtdEn, lblDataVend, lblPrecUni, lblPrecoTot,lblCliente,lblTipoPagamento;
         private JPanel painelData;
+        private String tipoPag [] = {"Cash","Cartao"};
 
         public PainelCentro()
         {   
@@ -100,10 +101,17 @@ public class VendaVisao extends JFrame
             lblPrecUni = new JLabel("Preço/unidade");
             precoUnit = new JTextField();
             precoUnit.setText(""+modeloProd.getPrecoUni());
+            precoUnit.setFocusable(false);
 
             lblPrecoTot = new JLabel("Preço Total");
             precoTotal = new JTextField("0");
             precoTotal.setFocusable(false);
+
+            lblCliente = new JLabel("Nome cliente");
+            clienteJTF = new JTextField();
+
+            lblTipoPagamento = new JLabel("Tipo de Pagamento");
+            tipoPagamentoJCB = new JComboBox(tipoPag);
 
             
             add(lblProd);
@@ -112,9 +120,8 @@ public class VendaVisao extends JFrame
             add(lblQtdEn);
             add(qtdEntrada);
 
-            add(painelData);
-
             add(lblDataVend);
+            add(painelData);
 
             add(lblPrecUni);
             add(precoUnit);
@@ -122,9 +129,16 @@ public class VendaVisao extends JFrame
             add(lblPrecoTot);
             add(precoTotal);
 
+            add(lblCliente);
+            add(clienteJTF);
+
+            add(lblTipoPagamento);
+            add(tipoPagamentoJCB);
+
             qtdEntrada.addKeyListener(this);
             precoUnit.addKeyListener(this);
             precoTotal.addKeyListener(this);
+            produtoJCB.addActionListener(this);
 
         }
 
@@ -158,6 +172,13 @@ public class VendaVisao extends JFrame
             precoTotal = new JTextField("0");
             precoTotal.setText(""+modelo.getPrecoTotal());
             precoTotal.setFocusable(false);
+
+            lblCliente = new JLabel("Nome cliente");
+            clienteJTF = new JTextField(""+modelo.getClienteNome());
+
+            lblTipoPagamento = new JLabel("Tipo de Pagamento");
+            tipoPagamentoJCB = new JComboBox(tipoPag);
+            tipoPagamentoJCB.setSelectedItem(modelo.getTipoPagamento());
             
             add(lblProd);
             add(produtoJCB);
@@ -165,9 +186,8 @@ public class VendaVisao extends JFrame
             add(lblQtdEn);
             add(qtdEntrada);
 
-            add(painelData);
-
             add(lblDataVend);
+            add(painelData);
 
             add(lblPrecUni);
             add(precoUnit);
@@ -175,9 +195,27 @@ public class VendaVisao extends JFrame
             add(lblPrecoTot);
             add(precoTotal);
 
+            add(lblCliente);
+            add(clienteJTF);
+
+            add(lblTipoPagamento);
+            add(tipoPagamentoJCB);
+
             qtdEntrada.addKeyListener(this);
             precoUnit.addKeyListener(this);
             precoTotal.addKeyListener(this);
+            produtoJCB.addActionListener(this);
+        }
+
+        public void actionPerformed(ActionEvent evt)
+        {
+            if(evt.getSource() == produtoJCB)
+            {
+                ProducaoFile fileProf = new ProducaoFile();
+                ProducaoModelo modeloProd = fileProf.pesquisarEntradaPorProduto(getProduto());
+
+                precoUnit.setText(""+modeloProd.getPrecoUni());
+            }
         }
 
         public int getId2()
@@ -213,6 +251,16 @@ public class VendaVisao extends JFrame
         public Double getPrecoTotal()
         {
             return Double.parseDouble(precoTotal.getText().trim());
+        }
+
+        public String getClienteNome()
+        {
+            return clienteJTF.getText().trim();
+        }
+
+        public String getTipoPagamento()
+        {
+            return String.valueOf(tipoPagamentoJCB.getSelectedItem());
         }
 
         public void setId(int id)
@@ -251,6 +299,16 @@ public class VendaVisao extends JFrame
             precoTotal.setText("" + custoTot);
         }
 
+        public void setClienteNome(String clienteN)
+        {
+            clienteJTF.setText(clienteN);
+        }
+
+        public void setTipoPagamento(String tipoPaga)
+        {
+            tipoPagamentoJCB.setSelectedItem(tipoPaga);
+        }
+
 
         public void keyTyped(KeyEvent evt)
         {
@@ -276,6 +334,8 @@ public class VendaVisao extends JFrame
             VendaModelo modelo = new VendaModelo(getId(), getQtdEntrada(),getPrecoUni(),
             getPrecoTotal(),
             getProduto(),
+            getClienteNome(),
+            getTipoPagamento(),
             getDataVenda(), true);
             
             modelo.salvar();
@@ -299,7 +359,7 @@ public class VendaVisao extends JFrame
                 getPrecoTotal(), 
                 getProduto(), 
                 null, 
-                getDataVenda());
+                getDataVenda(), true);
                 novoEstoque.salvar();
             }
             
@@ -311,6 +371,8 @@ public class VendaVisao extends JFrame
             VendaModelo modelo = new VendaModelo(getId(), getQtdEntrada(),getPrecoUni(),
             getPrecoTotal(),
             getProduto(),
+            getClienteNome(),
+            getTipoPagamento(),
             getDataVenda(), true);
 
             modelo.editarDados();
@@ -361,3 +423,22 @@ public class VendaVisao extends JFrame
         }
     }
 }
+
+//e visualizar numa textarea os dados que veem numa factura
+//treinar adicionar um campo, e fazer pesquisa. Deixar um layout pronto para pesquisar
+//salvar como id, fazer uma especie de chave estrangeira, ao inves de passar o nome, passar o id no outro modelo
+//se encontrar mais de 2 apenas retornar 1 (isso nas pesquisas)
+
+//Analise 5 valores
+//Entidades a fazer crud 2 valores (principal a funcionar + 1 valor)
+//Apresentacao e login 1 valor
+//imagem + 1 valor
+//outros 10 defesa (alteracao e defesa)
+//incluir 1 item no menu principal (1 ponto)
+//incluir campos + 1 ponto
+//se salvar mais 2 pontos
+//pesquisa + 6 pontos se funcionar
+//so ver se o campo esta vazio unica validacao
+//adicionar tudo na analise
+//iniciativa cada, 1 ponto
+//colocar a unidade medida como tabela que depende da Materia prima
