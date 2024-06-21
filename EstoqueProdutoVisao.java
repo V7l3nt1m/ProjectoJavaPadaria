@@ -16,7 +16,7 @@ import java.util.*;
 
 public class EstoqueProdutoVisao extends JFrame
 {
-    //private PainelCentro painelCentro;
+    private PainelCentro painelCentro;
     private PainelCentro2 painelCentro2;
 
 
@@ -28,12 +28,12 @@ public class EstoqueProdutoVisao extends JFrame
     {
         super("Material em Armazém");
         definirTema();
-        //getContentPane().add(painelCentro = new PainelCentro(), BorderLayout.CENTER);
+        getContentPane().add(painelCentro = new PainelCentro(), BorderLayout.CENTER);
         getContentPane().add(painelCentro2 = new PainelCentro2(), BorderLayout.CENTER);
 
 
         tabPanel = new JTabbedPane();
-        //tabPanel.addTab("Registro de Producao", painelCentro);
+        tabPanel.addTab("Registro de Producao", painelCentro);
         tabPanel.addTab("Produtos Acabados", painelCentro2);
 
 
@@ -141,7 +141,7 @@ public class EstoqueProdutoVisao extends JFrame
             }
         }  
     }
-/*
+
     class PainelCentro extends JPanel implements MouseListener, ActionListener
     {
         private String [] colunas = {"ID", "Produto", "Quantidade", "Preço/Unidade", "Custo Total Producao", "Data de Producao"};
@@ -169,7 +169,7 @@ public class EstoqueProdutoVisao extends JFrame
 
         public void actionPerformed(ActionEvent e)
         {
-            /*
+            
             if(e.getSource() == editar)
             {
                 int selectedRow = tabelaProd.getSelectedRow();
@@ -241,7 +241,7 @@ public class EstoqueProdutoVisao extends JFrame
             }
         }  
     }
-*/
+
     
 
     public void definirTema() 

@@ -37,7 +37,7 @@ public class EstoqueFile extends ObjectsFile
 			for (int c = 0; c < qtdRegistros; ++c)
 			{
 				modelo.read( ficheiro.stream );
-				if(modelo.getStatus() == true && modelo.getIngrediente().equals("null"))
+				if((modelo.getStatus() == true) && modelo.getIngrediente().equals("null") || modelo.getIngrediente().equals("0"))
 				{
 					index++;
 				}
@@ -49,8 +49,9 @@ public class EstoqueFile extends ObjectsFile
 			for (int c = 0; c < qtdRegistros; ++c)
 			{
 				modelo.read( ficheiro.stream );
-				if (modelo.getIngrediente().equals("null")) 
+				if ((modelo.getStatus() == true) && modelo.getIngrediente().equals("null") || modelo.getIngrediente().equals("0")) 
 				{
+					JOptionPane.showMessageDialog(null,modelo.toString());
 					modeloProd = modeloFileProd.pesquisarEntradaPorProduto(modelo.getProdutoAcabado());
 					dados[contador][0] = "" + modelo.getId();
 					dados[contador][1] = "" + modelo.getProdutoAcabado();
