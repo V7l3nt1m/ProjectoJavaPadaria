@@ -381,7 +381,8 @@ public class EntradaVisao extends JFrame
                 0.0,
                 0.0, 
                 getIngrediente(), 
-                getUnidadeMedida(), 
+                getUnidadeMedida(),
+                "0", 
                 getDataEntrada(), true);
 
                 novoEstoque.salvar();
@@ -396,6 +397,7 @@ public class EntradaVisao extends JFrame
                 0.0, 
                 getIngrediente(), 
                 getUnidadeMedida(), 
+                "0",
                 getDataEntrada(), true);
 
                 novoEstoque.salvar();

@@ -73,6 +73,7 @@ public class VendaVisao extends JFrame
         public PainelCentro()
         {   
             setLayout(new GridLayout(7,2));  
+            StringVector produtosEmEstoque = EstoqueFile.getAllProdutosEstoque();
 
 			idJTF = new JTextField();
             VendaFile vendaFile = new VendaFile();
@@ -83,7 +84,7 @@ public class VendaVisao extends JFrame
 			idEstoque.setText( "" + entradafile2.getProximoCodigo() );
 
             lblProd = new JLabel("Produtos");
-            produtoJCB = UInterfaceBox.createJComboBoxPersonalTab2("Produto.tab");
+            produtoJCB = new JComboBox(produtosEmEstoque);
 
             lblQtdEn = new JLabel("Quantidade");
             qtdEntrada = new JTextField();
@@ -145,11 +146,12 @@ public class VendaVisao extends JFrame
         public PainelCentro(VendaModelo modelo)
         { 
             idJTF = new JTextField();
+            StringVector produtosEmEstoque = EstoqueFile.getAllProdutosEstoque();
             VendaModelo vendaFile = new VendaModelo();
 			idJTF.setText( "" + modelo.getId() );
 
             lblProd = new JLabel("Produtos");
-            produtoJCB = UInterfaceBox.createJComboBoxPersonalTab2("Produto.tab");
+            produtoJCB = new JComboBox(produtosEmEstoque);
             produtoJCB.setSelectedItem(modelo.getProduto());
 
             lblQtdEn = new JLabel("Quantidade");
@@ -348,19 +350,6 @@ public class VendaVisao extends JFrame
                 int novoNivel = dados.getNivelAtual() - getQtdEntrada();
                 dados.setNivelAtual(novoNivel);
                 dados.actualizar();
-            }
-            else
-            {
-                EstoqueModelo novoEstoque = new EstoqueModelo(
-                getId2(), 
-            1, 
-                getQtdEntrada(), 
-                getPrecoUni(),
-                getPrecoTotal(), 
-                getProduto(), 
-                null, 
-                getDataVenda(), true);
-                novoEstoque.salvar();
             }
             
            dispose();

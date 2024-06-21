@@ -25,7 +25,7 @@ public class ProducaoFile extends ObjectsFile
 		ProducaoFile ficheiro = new ProducaoFile();
 		ProducaoModelo modelo = new ProducaoModelo();
 		String [][] dados=null;
-		int qtdRegistros = (int)(ficheiro.getNregistos()+1);
+		int qtdRegistros = (int)(ficheiro.getNregistos());
 		int index = 0;
 		int contador =0;
 		try
@@ -49,8 +49,8 @@ public class ProducaoFile extends ObjectsFile
 				if(modelo.getStatus() == true)
 				{
 					dados[contador][0] = "" + modelo.getId();
-					dados[contador][1] = ""+modelo.getQtdProducao();
-					dados[contador][2] = "" + modelo.getProduto();
+					dados[contador][1] = "" + modelo.getProduto();
+					dados[contador][2] = ""+modelo.getQtdProducao();
 					dados[contador][3] = "" +  modelo.getPrecoUni();
 					dados[contador][4] = "" + modelo.getCustoTotal();
 					dados[contador][5] = ""+modelo.getDataProd();
@@ -64,33 +64,6 @@ public class ProducaoFile extends ObjectsFile
 		}	
 
 		return dados;
-	}
-
-		public static StringVector getAllProdutosToSell()
-	{
-		ProducaoFile ficheiro = new ProducaoFile();
-		ProducaoModelo modelo = new ProducaoModelo();
-		StringVector vector = new StringVector();
-
-		try
-		{
-			ficheiro.stream.seek(4);
-			Set<String> uniqueSet = new LinkedHashSet<>();
-			for (int i = 0; i < ficheiro.getNregistos()+1; ++i)
-			{
-				modelo.read( ficheiro.stream );
-				if(modelo.getStatus() == true)
-                	uniqueSet.add(modelo.getProduto());
-			}
-			vector.addAll(uniqueSet);
-			vector.sort();
-		}
-        catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}	
-
-		return vector;
 	}
 	
 

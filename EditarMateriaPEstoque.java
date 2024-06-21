@@ -184,7 +184,8 @@ public class EditarMateriaPEstoque extends JFrame
                 0.0,
                 0.0, 
                 getIngrediente(), 
-                getUnidadeMedida(), 
+                getUnidadeMedida(),
+                "0", 
                 getDataEntrada(), true);
 
                 novoEstoque.editarDados();

@@ -17,9 +17,9 @@ import java.io.*;
 public class EstoqueModelo implements RegistGeneric
 {
     int id, nivelMinimo, nivelAtual;
-    StringBufferModelo ingrediente, unidadeMedida;
-    Double precoUnit, precoTotal; //usar apenas nos produtos acabados
-    DataModelo dataEntradaEstoque; //apenas em produtos acabados
+    StringBufferModelo ingrediente, unidadeMedida,produtoAcabado;
+    Double precoUnit, precoTotal; 
+    DataModelo dataEntradaEstoque; 
     boolean status;
 
 
@@ -35,10 +35,11 @@ public class EstoqueModelo implements RegistGeneric
 
 		ingrediente = new StringBufferModelo("", 50); 
 		unidadeMedida = new StringBufferModelo("", 20);
+        produtoAcabado = new StringBufferModelo("", 10); 
 		dataEntradaEstoque = new DataModelo();
     }
 
-    public EstoqueModelo(int id, int nivelMinimo, int nivelAtual, double precoUnit, double precoTotal, String ingrediente, String unidadeMedida, String dataEntradaEstoque, boolean estado)
+    public EstoqueModelo(int id, int nivelMinimo, int nivelAtual, double precoUnit, double precoTotal, String ingrediente, String unidadeMedida, String produtoAcabado, String dataEntradaEstoque, boolean estado)
     {
         this.id = id;
         this.nivelMinimo = nivelMinimo;
@@ -47,6 +48,7 @@ public class EstoqueModelo implements RegistGeneric
         this.precoTotal = precoTotal;
 		this.ingrediente = new StringBufferModelo(ingrediente, 50); 
 		this.unidadeMedida = new StringBufferModelo(unidadeMedida, 20);
+		this.produtoAcabado = new StringBufferModelo(produtoAcabado, 10);
 		this.dataEntradaEstoque = new DataModelo(dataEntradaEstoque);
         this.status = estado;
     }
@@ -77,6 +79,11 @@ public class EstoqueModelo implements RegistGeneric
 
         }
 
+        public String getProdutoAcabado()
+        {
+            return produtoAcabado.toStringEliminatingSpaces();
+        }
+
         public Double getPrecoUnit()
         {
             return precoUnit;
@@ -90,6 +97,8 @@ public class EstoqueModelo implements RegistGeneric
         {
             return dataEntradaEstoque.toString();
         }
+
+
 
         public boolean getStatus()
         {
@@ -115,6 +124,11 @@ public class EstoqueModelo implements RegistGeneric
         public void setIngrediente(String novoIngrediente)
         {
             ingrediente = new StringBufferModelo(novoIngrediente, 50);
+        }
+
+        public void setProdutoAcabado(String novoProdutoAcabado)
+        {
+            produtoAcabado = new StringBufferModelo(novoProdutoAcabado, 10);
         }
 
         public void setUnidadeMedida(String novoUnidadeMedida)
@@ -150,6 +164,7 @@ public class EstoqueModelo implements RegistGeneric
 
             str += "Id: " + getId() + "\n";
             str += "Ingrediente: " + getIngrediente() + "\n";
+            str += "Produto Acabado: " + getProdutoAcabado() + "\n";
             str += "Unidade de Medida: " + getUnidadeMedida() + "\n";
             str += "Nivel Minimo: " + getNivelMinimo() + "\n";
             str += "Nivel Atual: " + getNivelAtual() + "\n";
@@ -165,7 +180,7 @@ public class EstoqueModelo implements RegistGeneric
             
             try
             {
-                return 70*2 + 4*2 + 8*2 + 1 + 12;// 212 bytes
+                return 80*2 + 4*2 + 8*2 + 1 + 12;// 212 bytes
             }
             catch(Exception ex)
             {
@@ -184,6 +199,7 @@ public class EstoqueModelo implements RegistGeneric
             stream.writeDouble(precoTotal);
 			ingrediente.write(stream); 
             unidadeMedida.write(stream);
+            produtoAcabado.write(stream);
 			dataEntradaEstoque.write(stream);
             stream.writeBoolean(status);
 
@@ -206,6 +222,7 @@ public class EstoqueModelo implements RegistGeneric
             precoTotal = stream.readDouble();
 			ingrediente.read(stream); 
             unidadeMedida.read(stream); 
+            produtoAcabado.read(stream); 
             dataEntradaEstoque.read(stream);	
             status = stream.readBoolean();	
 	

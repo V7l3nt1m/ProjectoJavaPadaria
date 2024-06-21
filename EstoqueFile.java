@@ -20,10 +20,13 @@ public class EstoqueFile extends ObjectsFile
 		super("EstoqueFile.dat", new EstoqueModelo() );
 	}
 
-	public static String[][] estoqueMatriz()
+	public static String[][] listarProdutosM()
 	{
 		EstoqueFile ficheiro = new EstoqueFile();
 		EstoqueModelo modelo = new EstoqueModelo();
+		ProducaoModelo modeloProd = new ProducaoModelo();
+		ProducaoFile modeloFileProd = new ProducaoFile();
+
 		String [][] dados=null;
 		int qtdRegistros = (int)(ficheiro.getNregistos());
 		int index = 0;
@@ -34,7 +37,54 @@ public class EstoqueFile extends ObjectsFile
 			for (int c = 0; c < qtdRegistros; ++c)
 			{
 				modelo.read( ficheiro.stream );
-				if(modelo.getStatus() == true)
+				if(modelo.getStatus() == true && modelo.getIngrediente().equals("null"))
+				{
+					index++;
+				}
+			}
+			dados = new String[index][6];
+
+			ficheiro.stream.seek(4);
+
+			for (int c = 0; c < qtdRegistros; ++c)
+			{
+				modelo.read( ficheiro.stream );
+				if (modelo.getIngrediente().equals("null")) 
+				{
+					modeloProd = modeloFileProd.pesquisarEntradaPorProduto(modelo.getProdutoAcabado());
+					dados[contador][0] = "" + modelo.getId();
+					dados[contador][1] = "" + modelo.getProdutoAcabado();
+					dados[contador][2] = "" + modelo.getNivelMinimo();
+					dados[contador][3] = "" + modelo.getNivelAtual();
+					dados[contador][4] = "" + modeloProd.getPrecoUni();
+					dados[contador][5] = modelo.getDataEntradaEstoque();
+					contador++;
+				}
+			}
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}	
+		return dados;
+
+	}
+	public static String[][] estoqueMatriz()
+	{
+		EstoqueFile ficheiro = new EstoqueFile();
+		EstoqueModelo modelo = new EstoqueModelo();
+
+		String [][] dados=null;
+		int qtdRegistros = (int)(ficheiro.getNregistos());
+		int index = 0;
+		int contador =0;
+		try
+		{
+			ficheiro.stream.seek(4);
+			for (int c = 0; c < qtdRegistros; ++c)
+			{
+				modelo.read( ficheiro.stream );
+				if(modelo.getStatus() == true && Integer.parseInt(modelo.getProdutoAcabado()) == 0)
 				{
 					index++;
 				}
@@ -46,14 +96,14 @@ public class EstoqueFile extends ObjectsFile
 			for (int c = 0; c < qtdRegistros; ++c)
 			{
 				modelo.read( ficheiro.stream );
-				if(modelo.getStatus() == true)
+				if(modelo.getStatus() == true && Integer.parseInt(modelo.getProdutoAcabado()) == 0)
 				{
-					dados[c][0] = "" + modelo.getId();
-					dados[c][1] = modelo.getIngrediente();
-					dados[c][2] = modelo.getUnidadeMedida();
-					dados[c][3] = "" + modelo.getNivelMinimo();
-					dados[c][4] = "" + modelo.getNivelAtual();
-					dados[c][5] = modelo.getDataEntradaEstoque();
+					dados[contador][0] = "" + modelo.getId();
+					dados[contador][1] = modelo.getIngrediente();
+					dados[contador][2] = modelo.getUnidadeMedida();
+					dados[contador][3] = "" + modelo.getNivelMinimo();
+					dados[contador][4] = "" + modelo.getNivelAtual();
+					dados[contador][5] = modelo.getDataEntradaEstoque();
 					contador++;
 				}
 			}
@@ -94,6 +144,54 @@ public class EstoqueFile extends ObjectsFile
 		}		
 	}
 
+	public static EstoqueModelo getProdutoPesquisa(String produto)
+	{
+		EstoqueFile ficheiro = new EstoqueFile();
+		EstoqueModelo modelo = new EstoqueModelo();
+		
+		try
+		{
+			ficheiro.stream.seek(4);
+			
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
+			{
+				modelo.read( ficheiro.stream );
+				
+				if (modelo.getStatus() == true && modelo.getProdutoAcabado().equals(produto))
+					return modelo;
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}	
+		return modelo;	
+	}
+
+	public static StringVector getAllProdutosEstoque()
+	{
+		EstoqueFile ficheiro = new EstoqueFile();
+		EstoqueModelo modelo = new EstoqueModelo();
+		StringVector vector = new StringVector();
+		
+		try
+		{
+			ficheiro.stream.seek(4);
+			
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
+			{
+				modelo.read( ficheiro.stream );
+				if(modelo.getNivelAtual() > 0 && modelo.getStatus() == true && Integer.parseInt(modelo.getProdutoAcabado()) == 0)
+					vector.add(modelo.getIngrediente());
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}	
+		return vector;	
+	}
+
 	public static EstoqueModelo pesquisarIngredienteEstoque(String ingrediente)
 	{
 		EstoqueFile ficheiro = new EstoqueFile();
@@ -132,7 +230,7 @@ public class EstoqueFile extends ObjectsFile
 			for (int i = 0; i < ficheiro.getNregistos(); ++i)
 			{
 				modelo.read( ficheiro.stream );
-				if(modelo.getStatus() == true)
+				if(modelo.getStatus() == true && Integer.parseInt(modelo.getProdutoAcabado()) == 0)
 					vector.add( modelo.getIngrediente() );
 			}
 						
@@ -301,5 +399,10 @@ public class EstoqueFile extends ObjectsFile
 		{
 			ex.printStackTrace();
 		}
+	}
+
+	public static void main(String args[])
+	{
+		listarProdutosM();
 	}
 }

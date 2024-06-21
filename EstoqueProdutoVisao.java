@@ -16,7 +16,9 @@ import java.util.*;
 
 public class EstoqueProdutoVisao extends JFrame
 {
-    private PainelCentro painelCentro;
+    //private PainelCentro painelCentro;
+    private PainelCentro2 painelCentro2;
+
 
 
     private JTabbedPane tabPanel;
@@ -26,11 +28,13 @@ public class EstoqueProdutoVisao extends JFrame
     {
         super("Material em Armazém");
         definirTema();
-        getContentPane().add(painelCentro = new PainelCentro(), BorderLayout.CENTER);
+        //getContentPane().add(painelCentro = new PainelCentro(), BorderLayout.CENTER);
+        getContentPane().add(painelCentro2 = new PainelCentro2(), BorderLayout.CENTER);
 
 
         tabPanel = new JTabbedPane();
-        tabPanel.addTab("Registro de Producao", painelCentro);
+        //tabPanel.addTab("Registro de Producao", painelCentro);
+        tabPanel.addTab("Produtos Acabados", painelCentro2);
 
 
         getContentPane().add(tabPanel, BorderLayout.NORTH);
@@ -39,20 +43,20 @@ public class EstoqueProdutoVisao extends JFrame
         setVisible(true);
         setLocationRelativeTo(null);
     }
-
-    class PainelCentro extends JPanel implements MouseListener, ActionListener
+    
+    class PainelCentro2 extends JPanel implements MouseListener, ActionListener
     {
-        private String [] colunas = {"ID", "Produto", "Quantidade", "Preço/Unidade", "Custo Total Producao", "Data de Producao"};
+        private String [] colunas = {"ID", "Produto", "Nivel Atual", "Nivel Minimo", "Preço/Unidade", "Data de Producao"};
         private JScrollPane sp;
         private JTable tabelaProd;
         private JPopupMenu popMenu;
         private JMenuItem editar, eliminar;
         private Vector<String> dados = new Vector();
 
-        public PainelCentro()
+        public PainelCentro2()
         {
             setLayout(new GridLayout(1,1));
-            tabelaProd = new JTable(ProducaoFile.listarMaterialV(), colunas);
+            tabelaProd = new JTable(EstoqueFile.listarProdutosM(), colunas);
             sp = new JScrollPane(tabelaProd);
             add(sp);
 
@@ -137,7 +141,107 @@ public class EstoqueProdutoVisao extends JFrame
             }
         }  
     }
+/*
+    class PainelCentro extends JPanel implements MouseListener, ActionListener
+    {
+        private String [] colunas = {"ID", "Produto", "Quantidade", "Preço/Unidade", "Custo Total Producao", "Data de Producao"};
+        private JScrollPane sp;
+        private JTable tabelaProd;
+        private JPopupMenu popMenu;
+        private JMenuItem editar, eliminar;
+        private Vector<String> dados = new Vector();
 
+        public PainelCentro()
+        {
+            setLayout(new GridLayout(1,1));
+            tabelaProd = new JTable(ProducaoFile.listarMaterialV(), colunas);
+            sp = new JScrollPane(tabelaProd);
+            add(sp);
+
+            popMenu = new JPopupMenu();
+            popMenu.add(editar = new JMenuItem("Editar"));
+            popMenu.add(eliminar = new JMenuItem("Eliminar"));
+
+            eliminar.addActionListener(this);
+            editar.addActionListener(this);
+            tabelaProd.addMouseListener(this);
+        }
+
+        public void actionPerformed(ActionEvent e)
+        {
+            /*
+            if(e.getSource() == editar)
+            {
+                int selectedRow = tabelaProd.getSelectedRow();
+                String id = ""+tabelaProd.getValueAt(selectedRow,0);
+                ProducaoModelo modelo;
+                modelo = ProducaoFile.pesquisarEntradaPorId(id);
+                dispose();
+                new ProducaoVisao(true, modelo);
+            }
+            else
+            {
+                int resposta = JOptionPane.showConfirmDialog(null,"Deseja Eliminar os dados","Eliminar dados", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                if(resposta == 1)
+                {
+                    JOptionPane.showMessageDialog(null, "Operacao cancelada", "Eliminar os dados", JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                {
+                    int selectedRow = tabelaProd.getSelectedRow();
+                    String id = ""+tabelaProd.getValueAt(selectedRow,0);
+                    ProducaoModelo modelo;
+                    modelo = ProducaoFile.pesquisarEntradaPorId(""+id);
+                    modelo.setStatus(false);
+                    modelo.eliminar();
+                    dispose();
+                }
+            }
+            
+            
+        }
+
+        public void mousePressed(MouseEvent evt)
+        {
+           showPopup(evt);
+        }
+
+        public void mouseReleased(MouseEvent evt)
+        {
+           showPopup(evt);
+        }
+
+        public void mouseExited(MouseEvent evt)
+        {
+           showPopup(evt);
+        }
+
+         public void mouseEntered(MouseEvent evt)
+        {
+           showPopup(evt);
+        }
+
+        public void mouseClicked(MouseEvent evt)
+        {
+           showPopup(evt);
+        }
+
+
+        private void showPopup(MouseEvent evt)
+        {
+            if(evt.isPopupTrigger() && evt.getComponent() instanceof JTable)
+            {
+                int row = tabelaProd.rowAtPoint(evt.getPoint());
+
+                if(row >= 0 )
+                {
+                    tabelaProd.setRowSelectionInterval(row, row);
+                    popMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                }
+            }
+        }  
+    }
+*/
     
 
     public void definirTema() 
