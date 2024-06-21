@@ -145,6 +145,31 @@ public class EstoqueFile extends ObjectsFile
 		}		
 	}
 
+	public static void getProdutoPesquisaV(String produto)
+	{
+		EstoqueFile ficheiro = new EstoqueFile();
+		EstoqueModelo modelo = new EstoqueModelo();
+		
+		try
+		{
+			ficheiro.stream.seek(4);
+			
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
+			{
+				modelo.read( ficheiro.stream );
+				
+				if (modelo.getStatus() == true && modelo.getProdutoAcabado().equals(produto))
+				{
+					JOptionPane.showMessageDialog(null,modelo.toString());
+				}
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}	
+	}
+
 	public static EstoqueModelo getProdutoPesquisa(String produto)
 	{
 		EstoqueFile ficheiro = new EstoqueFile();

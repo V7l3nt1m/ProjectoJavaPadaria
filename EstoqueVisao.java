@@ -306,7 +306,6 @@ public class EstoqueVisao extends JFrame
         }
     }
 
-    
 
     public void definirTema() 
 	 {
