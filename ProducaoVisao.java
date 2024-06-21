@@ -19,6 +19,9 @@ public class ProducaoVisao extends JFrame
     private PainelNorte painelNorte;
     private PainelSul painelSul;
     private PainelCentro painelCentro;
+    private PainelCentro painelCentro2;
+    private PainelCentro painelCentro3;
+
     boolean editar;
     
     public ProducaoVisao(boolean alterar, ProducaoModelo modelo)

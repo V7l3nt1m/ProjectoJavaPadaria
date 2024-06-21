@@ -18,6 +18,9 @@ public class EstoqueProdutoVisao extends JFrame
 {
     private PainelCentro painelCentro;
     private PainelCentro2 painelCentro2;
+    private PainelCentro3 painelCentro3;
+    private PainelCentro4 painelCentro4;
+
 
 
 
@@ -30,11 +33,15 @@ public class EstoqueProdutoVisao extends JFrame
         definirTema();
         getContentPane().add(painelCentro = new PainelCentro(), BorderLayout.CENTER);
         getContentPane().add(painelCentro2 = new PainelCentro2(), BorderLayout.CENTER);
+        getContentPane().add(painelCentro3 = new PainelCentro3(), BorderLayout.CENTER);
+        getContentPane().add(painelCentro4 = new PainelCentro4(), BorderLayout.CENTER);
 
 
         tabPanel = new JTabbedPane();
         tabPanel.addTab("Registro de Producao", painelCentro);
         tabPanel.addTab("Produtos Acabados", painelCentro2);
+        tabPanel.addTab("Pesquisa Registro de Producao", painelCentro3);
+        tabPanel.addTab("Pesquisa Produtos Acabados", painelCentro4);
 
 
         getContentPane().add(tabPanel, BorderLayout.NORTH);
@@ -238,6 +245,62 @@ public class EstoqueProdutoVisao extends JFrame
                 }
             }
         }  
+    }
+
+    class PainelCentro3 extends JPanel implements ActionListener
+    {
+        private JLabel pesqlbl;
+        private JComboBox nomeProd;
+        private JButton pesquisarBtn;
+
+        public PainelCentro3()
+        {
+            add(pesqlbl = new JLabel("Pesquisa por:"));
+            add(nomeProd = new JComboBox(ProducaoFile.getAllProdutos()));
+            add(pesquisarBtn = new JButton("Pesquisar"));
+            pesquisarBtn.addActionListener(this);
+        }
+
+        public String getNome()
+        {
+            return String.valueOf(nomeProd.getSelectedItem());
+        }
+
+        public void actionPerformed(ActionEvent evt)
+        {
+            if(evt.getSource() == pesquisarBtn)
+            {
+                ProducaoFile.pesquisarEntradaPorNome(getNome());
+            }
+        }
+    }
+
+    class PainelCentro4 extends JPanel implements ActionListener
+    {
+        private JLabel pesqlbl;
+        private JComboBox nomeProd;
+        private JButton pesquisarBtn;
+
+        public PainelCentro4()
+        {
+            add(pesqlbl = new JLabel("Pesquisa por:"));
+            add(nomeProd = new JComboBox(EstoqueFile.getAllProdutosEstoque()));
+            add(pesquisarBtn = new JButton("Pesquisar"));
+            pesquisarBtn.addActionListener(this);
+        }
+
+        public String getNome()
+        {
+            return String.valueOf(nomeProd.getSelectedItem());
+        }
+
+        public void actionPerformed(ActionEvent evt)
+        {
+            if(evt.getSource() == pesquisarBtn)
+            {
+                EstoqueFile.getProdutoPesquisa(getNome());
+            }
+        }
     }
 
     
