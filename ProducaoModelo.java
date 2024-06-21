@@ -93,7 +93,7 @@ public class ProducaoModelo implements RegistGeneric
 
         public void setProd(String novoProd)
         {
-            produto = new StringBufferModelo(novoProd,50);
+            produto = new StringBufferModelo(novoProd, 20);
         }
 
         public void setDataProd(String novaDataEntrada)

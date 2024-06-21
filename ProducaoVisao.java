@@ -374,10 +374,11 @@ public class ProducaoVisao extends JFrame
             }
 
             // Se todos os ingredientes têm quantidade suficiente, podemos salvar os dados
-            if (count == ingredientesUsados.length) {
+            if (count == ingredientesUsados.length) 
+            {
                 // Atualiza o estoque do produto final
-                EstoqueModelo modeloEstoque2 = fileEstoque.pesquisarIngredienteEstoque(getProduto());
-                if (modeloEstoque2.getIngrediente().equals(getProduto())) {
+                EstoqueModelo modeloEstoque2 = fileEstoque.getProdutoPesquisa(getProduto());
+                if (modeloEstoque2.getProdutoAcabado().equals(getProduto())) {
                     int novoNivelEstoque2 = modeloEstoque2.getNivelAtual() + getQtdProducao();
                     modeloEstoque2.setNivelAtual(novoNivelEstoque2);
                     modeloEstoque2.actualizar();

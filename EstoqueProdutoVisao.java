@@ -46,12 +46,11 @@ public class EstoqueProdutoVisao extends JFrame
     
     class PainelCentro2 extends JPanel implements MouseListener, ActionListener
     {
-        private String [] colunas = {"ID", "Produto", "Nivel Atual", "Nivel Minimo", "Preço/Unidade", "Data de Producao"};
+        private String [] colunas = {"ID", "Produto", "Nivel Minimo","Nivel Atual", "Preço/Unidade", "Data de Producao"};
         private JScrollPane sp;
         private JTable tabelaProd;
         private JPopupMenu popMenu;
         private JMenuItem editar, eliminar;
-        private Vector<String> dados = new Vector();
 
         public PainelCentro2()
         {
@@ -149,7 +148,6 @@ public class EstoqueProdutoVisao extends JFrame
         private JTable tabelaProd;
         private JPopupMenu popMenu;
         private JMenuItem editar, eliminar;
-        private Vector<String> dados = new Vector();
 
         public PainelCentro()
         {

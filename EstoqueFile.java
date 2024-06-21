@@ -20,6 +20,7 @@ public class EstoqueFile extends ObjectsFile
 		super("EstoqueFile.dat", new EstoqueModelo() );
 	}
 
+
 	public static String[][] listarProdutosM()
 	{
 		EstoqueFile ficheiro = new EstoqueFile();
@@ -37,7 +38,7 @@ public class EstoqueFile extends ObjectsFile
 			for (int c = 0; c < qtdRegistros; ++c)
 			{
 				modelo.read( ficheiro.stream );
-				if((modelo.getStatus() == true) && modelo.getIngrediente().equals("null") || modelo.getIngrediente().equals("0"))
+				if((modelo.getStatus() == true) && modelo.getIngrediente().equals("0"))
 				{
 					index++;
 				}
@@ -49,9 +50,8 @@ public class EstoqueFile extends ObjectsFile
 			for (int c = 0; c < qtdRegistros; ++c)
 			{
 				modelo.read( ficheiro.stream );
-				if ((modelo.getStatus() == true) && modelo.getIngrediente().equals("null") || modelo.getIngrediente().equals("0")) 
+				if ((modelo.getStatus() == true) && modelo.getIngrediente().equals("0"))
 				{
-					JOptionPane.showMessageDialog(null,modelo.toString());
 					modeloProd = modeloFileProd.pesquisarEntradaPorProduto(modelo.getProdutoAcabado());
 					dados[contador][0] = "" + modelo.getId();
 					dados[contador][1] = "" + modelo.getProdutoAcabado();
@@ -85,19 +85,19 @@ public class EstoqueFile extends ObjectsFile
 			for (int c = 0; c < qtdRegistros; ++c)
 			{
 				modelo.read( ficheiro.stream );
-				if(modelo.getStatus() == true && Integer.parseInt(modelo.getProdutoAcabado()) == 0)
+				if((modelo.getStatus() == true) && modelo.getProdutoAcabado().equals("0"))
 				{
 					index++;
 				}
 			}
-			dados = new String[index][8];
+			dados = new String[index][6];
 
 			ficheiro.stream.seek(4);
 
 			for (int c = 0; c < qtdRegistros; ++c)
 			{
 				modelo.read( ficheiro.stream );
-				if(modelo.getStatus() == true && Integer.parseInt(modelo.getProdutoAcabado()) == 0)
+				if((modelo.getStatus() == true) && modelo.getProdutoAcabado().equals("0"))
 				{
 					dados[contador][0] = "" + modelo.getId();
 					dados[contador][1] = modelo.getIngrediente();
@@ -159,7 +159,9 @@ public class EstoqueFile extends ObjectsFile
 				modelo.read( ficheiro.stream );
 				
 				if (modelo.getStatus() == true && modelo.getProdutoAcabado().equals(produto))
+				{
 					return modelo;
+				}
 			}					
 		}
 		catch(Exception ex)
@@ -182,8 +184,10 @@ public class EstoqueFile extends ObjectsFile
 			for (int i = 0; i < ficheiro.getNregistos(); ++i)
 			{
 				modelo.read( ficheiro.stream );
-				if(modelo.getNivelAtual() > 0 && modelo.getStatus() == true && Integer.parseInt(modelo.getProdutoAcabado()) == 0)
-					vector.add(modelo.getIngrediente());
+				if(modelo.getNivelAtual() > 0 && modelo.getStatus() == true && modelo.getIngrediente().equals("0"))
+				{
+					vector.add(modelo.getProdutoAcabado());
+				}
 			}					
 		}
 		catch(Exception ex)
@@ -207,7 +211,9 @@ public class EstoqueFile extends ObjectsFile
 				modelo.read( ficheiro.stream );
 				
 				if (modelo.getIngrediente().equalsIgnoreCase( ingrediente ) && modelo.getStatus() == true)
+				{
 					return modelo;
+				}
 			}					
 		}
 		catch(Exception ex)
@@ -230,9 +236,11 @@ public class EstoqueFile extends ObjectsFile
 			
 			for (int i = 0; i < ficheiro.getNregistos(); ++i)
 			{
-				modelo.read( ficheiro.stream );
-				if(modelo.getStatus() == true && Integer.parseInt(modelo.getProdutoAcabado()) == 0)
+				modelo.read( ficheiro.stream );				
+				if(modelo.getStatus() == true && modelo.getProdutoAcabado().equals("0"))
+				{
 					vector.add( modelo.getIngrediente() );
+				}
 			}
 						
 			vector.sort();
@@ -402,8 +410,4 @@ public class EstoqueFile extends ObjectsFile
 		}
 	}
 
-	public static void main(String args[])
-	{
-		listarProdutosM();
-	}
 }
