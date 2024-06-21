@@ -19,7 +19,6 @@ public class VendaFile extends ObjectsFile
 	{
 		super("VendaFile.dat", new VendaModelo() );
 	}
-
 	
 	public static String[][] listarMaterialV()
 	{
@@ -40,7 +39,7 @@ public class VendaFile extends ObjectsFile
 					index++;
 				}
 			}
-			dados = new String[index][9];
+			dados = new String[index][7];
 
 			ficheiro.stream.seek(4);
 
@@ -51,12 +50,11 @@ public class VendaFile extends ObjectsFile
 				{
 					dados[contador][0] = "" + modelo.getId();
 					dados[contador][1] = modelo.getProduto();
-					dados[contador][3] = "" + modelo.getQtdEntrada();
-					dados[contador][4] = "" +  modelo.getPrecoUni();
-					dados[contador][5] = "" + modelo.getPrecoTotal();
-					dados[contador][6] = modelo.getDataVenda();
-					dados[contador][7] = modelo.getClienteNome();
-					dados[contador][8] = modelo.getTipoPagamento();
+					dados[contador][2] = "" + modelo.getQtdEntrada();
+					dados[contador][3] = "" + modelo.getPrecoTotal();
+					dados[contador][4] = modelo.getDataVenda();
+					dados[contador][5] = modelo.getClienteNome();
+					dados[contador][6] = modelo.getTipoPagamento();
 					contador++;
 				}
 			}

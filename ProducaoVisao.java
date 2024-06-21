@@ -57,7 +57,7 @@ public class ProducaoVisao extends JFrame
         public PainelNorte()
         {     
             separator = new JSeparator(SwingConstants.HORIZONTAL);
-            titulo = new JLabel("Tela de Cadastro de Produção");
+            titulo = new JLabel("Tela de Produção");
             titulo.setFont(new Font("Monospaced", Font.BOLD,40));
             setBackground(Color.decode("#CBCBCB"));
             add(titulo);   
@@ -141,7 +141,8 @@ public class ProducaoVisao extends JFrame
                inputs[i] = new JTextField(5);
                 inputs[i].addKeyListener(this);
                inputs[i].setText(""+0);
-               painelJChb.add(new JLabel(""+vectorIngredientes.get(i)));
+               EstoqueModelo unidadeMed = estoque.pesquisarIngredienteEstoque(""+vectorIngredientes.get(i));
+               painelJChb.add(new JLabel(""+vectorIngredientes.get(i) + " (" + unidadeMed.getUnidadeMedida() + ") "));
                painelJChb.add(inputs[i]);              
             }
             add(painelJChb);
@@ -149,7 +150,8 @@ public class ProducaoVisao extends JFrame
             add(lblCustoTot);
             add(custoTotal);
             custoTotal.setFocusable(false);
-            
+
+
             qtdProducao.addKeyListener(this);
             custoTotal.addKeyListener(this);
            

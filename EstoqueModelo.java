@@ -35,7 +35,7 @@ public class EstoqueModelo implements RegistGeneric
 
 		ingrediente = new StringBufferModelo("", 50); 
 		unidadeMedida = new StringBufferModelo("", 20);
-        produtoAcabado = new StringBufferModelo("", 10); 
+        produtoAcabado = new StringBufferModelo("", 50); 
 		dataEntradaEstoque = new DataModelo();
     }
 
@@ -48,7 +48,7 @@ public class EstoqueModelo implements RegistGeneric
         this.precoTotal = precoTotal;
 		this.ingrediente = new StringBufferModelo(ingrediente, 50); 
 		this.unidadeMedida = new StringBufferModelo(unidadeMedida, 20);
-		this.produtoAcabado = new StringBufferModelo(produtoAcabado, 10);
+		this.produtoAcabado = new StringBufferModelo(produtoAcabado, 50);
 		this.dataEntradaEstoque = new DataModelo(dataEntradaEstoque);
         this.status = estado;
     }
@@ -128,7 +128,7 @@ public class EstoqueModelo implements RegistGeneric
 
         public void setProdutoAcabado(String novoProdutoAcabado)
         {
-            produtoAcabado = new StringBufferModelo(novoProdutoAcabado, 10);
+            produtoAcabado = new StringBufferModelo(novoProdutoAcabado, 50);
         }
 
         public void setUnidadeMedida(String novoUnidadeMedida)
@@ -180,7 +180,7 @@ public class EstoqueModelo implements RegistGeneric
             
             try
             {
-                return 80*2 + 4*2 + 8*2 + 1 + 12;// 212 bytes
+                return 120*2 + 4*2 + 8*2 + 1 + 12;// 212 bytes
             }
             catch(Exception ex)
             {

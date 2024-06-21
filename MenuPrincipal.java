@@ -48,7 +48,7 @@ public class MenuPrincipal extends JFrame
         private Color customColor, customColor2;
         private JPanel operJp;
         private JPopupMenu popupMenu1,popupMenu2, popupMenu3, popupMenu4, popupMenu5, popupMenu6;
-        private JMenuItem itemProdutos, itemMaterial;
+        private JMenuItem itemProdutos, itemMaterial, itemVendas;
         private JMenuItem itemNovaEntrada,itemEditarEntrada, itemNovaVenda, itemSobreAutor, itemSobreSoftw;
         private JMenuItem itemMateriaisPrima, itemUnidadeMedida, itemProduto, itemNivelMinimo;
         private JSeparator sep1, sep2, sep3, sep4,sep5;
@@ -144,7 +144,8 @@ public class MenuPrincipal extends JFrame
             popupMenu2.add(itemProdutos = new JMenuItem("Produtos"));
             popupMenu2.add(new JSeparator());
             popupMenu2.add(itemMaterial = new JMenuItem("Materia Prima"));
-            
+            popupMenu2.add(new JSeparator());
+            popupMenu2.add(itemVendas = new JMenuItem("Vendas"));
 
             lblSair = new JLabel("Sair");
             lblSair.setHorizontalAlignment(SwingConstants.CENTER);
@@ -191,6 +192,7 @@ public class MenuPrincipal extends JFrame
             itemNovaEntrada.addActionListener(manipulador);
             itemNivelMinimo.addActionListener(manipulador);
             itemNovaVenda.addActionListener(manipulador);
+            itemVendas.addActionListener(manipulador);
         }
 
          private class ManipuladorEventos implements ActionListener
@@ -240,6 +242,8 @@ public class MenuPrincipal extends JFrame
                 }
                 else if(evt.getSource() == itemProdutos)
                     new EstoqueProdutoVisao();
+                else if(evt.getSource() == itemVendas)
+                    new VendaRegistroVisao();
                 else if(evt.getSource() == itemMaterial)
                 {
                     File estoqueFileE = new File("EstoqueFile.dat");

@@ -69,6 +69,34 @@ public class ProducaoFile extends ObjectsFile
 		return dados;
 	}
 	
+	public static Double getPrecoUnit(String produto)
+	{
+		ProducaoFile ficheiro = new ProducaoFile();
+		ProducaoModelo modelo = new ProducaoModelo();
+		Double precoUni=0.0;
+		try
+		{
+			ficheiro.stream.seek(4);
+			
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
+			{
+				modelo.read( ficheiro.stream );
+				
+				if (modelo.getProduto().equalsIgnoreCase( produto ) &&
+				 modelo.getStatus() == true)
+				{
+					precoUni = modelo.getPrecoUni();
+				}
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}		
+
+		return precoUni;
+	
+	}
 
 	public static StringVector getAllProdutos()
 	{
