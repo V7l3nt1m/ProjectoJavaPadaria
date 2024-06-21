@@ -174,7 +174,6 @@ public class VendaVisao extends JFrame
             lblPrecoTot = new JLabel("Preço Total");
             precoTotal = new JTextField("0");
             precoTotal.setText(""+modelo.getPrecoTotal());
-            precoTotal.setFocusable(false);
 
             lblCliente = new JLabel("Nome cliente");
             clienteJTF = new JTextField(""+modelo.getClienteNome());

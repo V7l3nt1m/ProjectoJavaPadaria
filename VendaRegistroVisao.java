@@ -17,7 +17,7 @@ import java.util.*;
 public class VendaRegistroVisao extends JFrame
 {
     private PainelCentro painelCentro;
-   // private PainelCentro2 painelCentro2;
+   private PainelCentro2 painelCentro2;
 
     private JTabbedPane tabPanel;
 
@@ -27,11 +27,11 @@ public class VendaRegistroVisao extends JFrame
         super("Registro de Vendas");
         definirTema();
         getContentPane().add(painelCentro = new PainelCentro(), BorderLayout.CENTER);
-       // getContentPane().add(painelCentro2 = new PainelCentro2(), BorderLayout.CENTER);
+        getContentPane().add(painelCentro2 = new PainelCentro2(), BorderLayout.CENTER);
 
         tabPanel = new JTabbedPane();
         tabPanel.addTab("Registro de Vendas", painelCentro);
-        //tabPanel.addTab("Pesquisa Registro de Vendas", painelCentro2);
+        tabPanel.addTab("Pesquisa Registro de Vendas", painelCentro2);
 
 
         getContentPane().add(tabPanel, BorderLayout.NORTH);
@@ -138,7 +138,6 @@ public class VendaRegistroVisao extends JFrame
             }
         }  
     }
-/*
      
     class PainelCentro2 extends JPanel implements ActionListener
     {
@@ -149,7 +148,7 @@ public class VendaRegistroVisao extends JFrame
         public PainelCentro2()
         {
             add(pesqlbl = new JLabel("Pesquisa por:"));
-            add(nomeProd = new JComboBox(EntradaFile.getAllNames()));
+            add(nomeProd = new JComboBox(VendaFile.getAllNames()));
             add(pesquisarBtn = new JButton("Pesquisar"));
             pesquisarBtn.addActionListener(this);
         }
@@ -167,7 +166,6 @@ public class VendaRegistroVisao extends JFrame
             }
         }
     }
-*/
   
 
 
