@@ -21,6 +21,7 @@ public class MenuPrincipal extends JFrame
     private PainelSuperior pSuper;
     private PainelCentro pCentro;
 
+
     public MenuPrincipal(String user)
     {
         super("Menu Principal | Operador: " + user);
@@ -52,6 +53,7 @@ public class MenuPrincipal extends JFrame
         private JMenuItem itemNovaEntrada,itemEditarEntrada, itemNovaVenda, itemSobreAutor, itemSobreSoftw;
         private JMenuItem itemMateriaisPrima, itemUnidadeMedida, itemProduto, itemNivelMinimo;
         private JSeparator sep1, sep2, sep3, sep4,sep5;
+
 
         public PainelSuperior()
         {         
@@ -199,7 +201,10 @@ public class MenuPrincipal extends JFrame
         {
             public void actionPerformed(ActionEvent evt)
             {
-                    
+                EstoqueFile estoqueFile = new EstoqueFile();
+                boolean verifProdutos = estoqueFile.verificarStoqueProdutos();
+                boolean verifMateria = estoqueFile.verificarStoqueMatPrim();
+
                 if(evt.getSource() == btnSair)
                 {
                     int resultado = JOptionPane.showConfirmDialog(null,"Tem certeza que deseja sair?","Saindo",JOptionPane.YES_NO_OPTION);
@@ -258,9 +263,19 @@ public class MenuPrincipal extends JFrame
                     new EntradaVisao(false, new EntradaModelo());
                 }
                 else if(evt.getSource() == btnProducao)
-                    new ProducaoVisao(false, new ProducaoModelo());
+                    if(verifMateria)
+                    {
+                        new ProducaoVisao(false, new ProducaoModelo());
+                    }
+                    else
+                        JOptionPane.showMessageDialog(null,"Nao ha Materia Prima em Estoque", "Verificador de Estoque", JOptionPane.ERROR_MESSAGE);
                 else if(evt.getSource() == itemNovaVenda)
-                    new VendaVisao(false, new VendaModelo());
+                     if(verifProdutos)
+                    {
+                        new VendaVisao(false, new VendaModelo());
+                    }
+                    else
+                        JOptionPane.showMessageDialog(null,"Nao ha produtos em Estoque", "Verificador de Estoque", JOptionPane.ERROR_MESSAGE);
             }
         }
 

@@ -18,7 +18,7 @@ public class VendaModelo implements RegistGeneric
 {
     private int id, qtdEntrada;
     private StringBufferModelo produto, clienteNome, tipoPagamento;
-    private Double precoTotal;
+    private Double precoTotal, valorPago, troco;
     private DataModelo dataVenda;
     private boolean status;
 
@@ -30,12 +30,14 @@ public class VendaModelo implements RegistGeneric
 		produto = new StringBufferModelo("", 50);
         clienteNome = new StringBufferModelo("", 50);
         tipoPagamento = new StringBufferModelo("", 20);
+        valorPago = 0.0;
+        troco = 0.0;
         dataVenda = new DataModelo();
         status = false;
     }
 
     public VendaModelo(int id, int qtdEntrada, double precoTotal,
-   String produto, String clienteNome, String tipoPagamento,String dataVenda, boolean estado)
+   String produto, String clienteNome, String tipoPagamento,double valorPago, double troco,String dataVenda, boolean estado)
     {
         this.id = id;
         this.qtdEntrada = qtdEntrada;
@@ -43,6 +45,8 @@ public class VendaModelo implements RegistGeneric
 		this.produto = new StringBufferModelo(produto, 50); 
         this.clienteNome = new StringBufferModelo(clienteNome, 50);
         this.tipoPagamento = new StringBufferModelo(tipoPagamento, 20); 
+        this.valorPago = valorPago;
+        this.troco = troco;
 		this.dataVenda = new DataModelo(dataVenda);
         this.status = estado;
     }
@@ -65,6 +69,16 @@ public class VendaModelo implements RegistGeneric
         public Double getPrecoTotal()
         {
             return precoTotal;
+        }
+
+        public Double getValorPago()
+        {
+            return valorPago;
+        }
+
+        public Double getTroco()
+        {
+            return troco;
         }
 
          public String getDataVenda()
@@ -114,6 +128,16 @@ public class VendaModelo implements RegistGeneric
             precoTotal = novoPrecoTotal;
         }
 
+         public void setValorPago(double novoValorPago)
+        {
+            valorPago = novoValorPago;
+        }
+
+         public void setTroco(double novoTroco)
+        {
+            troco = novoTroco;
+        }
+
         public void setClienteNome(String novoClienteNome)
         {
             clienteNome = new StringBufferModelo(novoClienteNome,50);
@@ -139,6 +163,8 @@ public class VendaModelo implements RegistGeneric
             str += "Produto: " + getProduto() + "\n";
             str += "Nome cliente: " + getClienteNome() + "\n"; 
             str += "Tipo Pagamento: " + getTipoPagamento() + "\n"; 
+            str += "Valor Pago: " + getValorPago() + "\n"; 
+            str += "Troco: " + getTroco() + "\n"; 
             str += "Data da compra: " + getDataVenda() + "\n";
             str += "Estado: " + getStatus() + "\n"; 
             return str;
@@ -149,7 +175,7 @@ public class VendaModelo implements RegistGeneric
             
             try
             {
-                return 120*2 + 4*2 + 8 + 12 + 1;// 269 bytes
+                return 120*2 + 4*2 + 8*2 + 12 + 1;// 269 bytes
             }
             catch(Exception ex)
             {
@@ -167,6 +193,8 @@ public class VendaModelo implements RegistGeneric
 			produto.write(stream); 
             clienteNome.write(stream);
             tipoPagamento.write(stream); 
+            stream.writeDouble(valorPago);
+            stream.writeDouble(troco);
 			dataVenda.write(stream);
             stream.writeBoolean(status);
 		}
@@ -186,6 +214,8 @@ public class VendaModelo implements RegistGeneric
             produto.read(stream);
             clienteNome.read(stream);
             tipoPagamento.read(stream); 
+            valorPago = stream.readDouble();
+            troco = stream.readDouble();
             dataVenda.read(stream);
             status = stream.readBoolean();	
 		}

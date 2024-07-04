@@ -70,6 +70,65 @@ public class EstoqueFile extends ObjectsFile
 		return dados;
 
 	}
+
+	public boolean verificarStoqueProdutos()
+	{
+		int contagem = 0;
+		EstoqueFile ficheiro = new EstoqueFile();
+		EstoqueModelo modelo = new EstoqueModelo();
+		try
+		{
+			ficheiro.stream.seek(4);
+			
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
+			{
+				modelo.read( ficheiro.stream );
+				if(modelo.getStatus() == true && modelo.getIngrediente().equals("0") && modelo.getNivelAtual() > 0)
+					return true;
+				else if(modelo.getStatus() == true && modelo.getIngrediente().equals("0") && modelo.getNivelAtual() <= 0)
+					contagem++;
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}	
+
+		if(contagem > 0)
+			return false;
+		else
+			return true;
+	}
+
+	public boolean verificarStoqueMatPrim()
+	{
+		int contagem = 0;
+		EstoqueFile ficheiro = new EstoqueFile();
+		EstoqueModelo modelo = new EstoqueModelo();
+		try
+		{
+			ficheiro.stream.seek(4);
+			
+			for (int i = 0; i < ficheiro.getNregistos(); ++i)
+			{
+				modelo.read( ficheiro.stream );
+				if(modelo.getStatus() == true && modelo.getProdutoAcabado().equals("0") && modelo.getNivelAtual() > 0)
+					return true;
+				else if(modelo.getStatus() == true && modelo.getProdutoAcabado().equals("0") && modelo.getNivelAtual() <= 0)
+					contagem++;
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}	
+
+		if(contagem > 0)
+			return false;
+		else
+			return true;
+	}
+	
 	public static String[][] estoqueMatriz()
 	{
 		EstoqueFile ficheiro = new EstoqueFile();

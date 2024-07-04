@@ -98,6 +98,7 @@ public class ProducaoFile extends ObjectsFile
 	
 	}
 
+
 	public static StringVector getAllProdutos()
 	{
 		ProducaoFile ficheiro = new ProducaoFile();

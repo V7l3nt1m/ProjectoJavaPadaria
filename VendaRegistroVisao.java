@@ -43,7 +43,7 @@ public class VendaRegistroVisao extends JFrame
 
     class PainelCentro extends JPanel implements MouseListener, ActionListener
     {
-        private String [] colunas = {"ID", "Produto", "Quantidade", "PrecoTotal", "Data da Venda", "Nome do Cliente", "Tipo de Pagamento" };
+        private String [] colunas = {"ID", "Produto", "Quantidade", "PrecoTotal", "Data da Venda", "Nome do Cliente", "Tipo de Pagamento", "Valor Pago", "Troco" };
         private JScrollPane sp;
         private JTable tabelaVenda;
         private JPopupMenu popMenu;

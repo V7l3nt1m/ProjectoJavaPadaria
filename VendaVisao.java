@@ -63,10 +63,10 @@ public class VendaVisao extends JFrame
     public class PainelCentro extends JPanel implements KeyListener,ActionListener
     {
         private JComboBox produtoJCB, tipoPagamentoJCB;
-        private JTextField qtdEntrada,idEstoque, precoUnit, precoTotal, clienteJTF, idJTF;
+        private JTextField qtdEntrada,idEstoque, precoUnit, precoTotal, clienteJTF, idJTF, valorPagoJTF, trocoJTF;
         private JTextFieldData dataVenda;
 
-        private JLabel lblProd, lblQtdEn, lblDataVend, lblPrecUni, lblPrecoTot,lblCliente,lblTipoPagamento;
+        private JLabel lblProd, lblQtdEn, lblDataVend, lblPrecUni, lblPrecoTot,lblCliente,lblTipoPagamento, valorPagolbl, trocolbl;
         private JPanel painelData, painelProdutos;
         private String tipoPag [] = {"Cash","Cartao"};
         private StringVector vectorProdutos;
@@ -126,6 +126,13 @@ public class VendaVisao extends JFrame
             lblTipoPagamento = new JLabel("Tipo de Pagamento *");
             tipoPagamentoJCB = new JComboBox(tipoPag);
 
+            valorPagolbl = new JLabel("Valor Pago");
+            valorPagoJTF = new JTextField("0");
+
+            trocolbl = new JLabel("Troco");
+            trocoJTF = new JTextField("0");
+            trocoJTF.setFocusable(false);
+
             add(lblDataVend);
             add(painelData);
 
@@ -138,12 +145,21 @@ public class VendaVisao extends JFrame
             add(lblTipoPagamento);
             add(tipoPagamentoJCB);
 
+            add(valorPagolbl);
+            add(valorPagoJTF);
+
+            add(trocolbl);
+            add(trocoJTF);
+
+            valorPagoJTF.addKeyListener(this);
+            trocoJTF.addKeyListener(this);
             precoTotal.addKeyListener(this);
+            tipoPagamentoJCB.addActionListener(this);
         }
 
         public PainelCentro(VendaModelo modelo)
         { 
-            setLayout(new GridLayout(7,2));  
+            setLayout(new GridLayout(9,2));  
             idJTF = new JTextField();
             StringVector produtosEmEstoque = EstoqueFile.getAllProdutosEstoque();
             VendaModelo vendaFile = new VendaModelo();
@@ -181,6 +197,12 @@ public class VendaVisao extends JFrame
             lblTipoPagamento = new JLabel("Tipo de Pagamento *");
             tipoPagamentoJCB = new JComboBox(tipoPag);
             tipoPagamentoJCB.setSelectedItem(modelo.getTipoPagamento());
+
+            valorPagolbl = new JLabel("Valor Pago");
+            valorPagoJTF = new JTextField(""+modelo.getValorPago());
+
+            trocolbl = new JLabel("Troco");
+            trocoJTF = new JTextField(""+modelo.getTroco());
             
             add(lblProd);
             add(produtoJCB);
@@ -203,14 +225,39 @@ public class VendaVisao extends JFrame
             add(lblTipoPagamento);
             add(tipoPagamentoJCB);
 
+            add(valorPagolbl);
+            add(valorPagoJTF);
+
+            add(trocolbl);
+            add(trocoJTF);
+
             qtdEntrada.addKeyListener(this);
             precoTotal.addKeyListener(this);
             produtoJCB.addActionListener(this);
+            tipoPagamentoJCB.addActionListener(this);
         }
 
         public void actionPerformed(ActionEvent evt)
         {
-           
+            if(evt.getSource() == tipoPagamentoJCB)
+            {
+                if(getTipoPagamento().equals("Cartao"))
+                {
+                    valorPagolbl.setVisible(false);
+                    valorPagoJTF.setVisible(false);
+                    trocolbl.setVisible(false);
+                    trocoJTF.setVisible(false);
+                    setValorPago(getPrecoTotal());
+                    setTroco(0.0);
+                }
+                else
+                {
+                    valorPagolbl.setVisible(true);
+                    valorPagoJTF.setVisible(true);
+                    trocolbl.setVisible(true);
+                    trocoJTF.setVisible(true);
+                }
+            }
         }
 
         public int getId2()
@@ -267,6 +314,35 @@ public class VendaVisao extends JFrame
             return String.valueOf(tipoPagamentoJCB.getSelectedItem());
         }
 
+        public Double getValorPago()
+        {
+            if(!String.valueOf(valorPagoJTF.getText()).isEmpty())
+                return Double.parseDouble(valorPagoJTF.getText().trim());
+            return 0.0;
+        }
+
+        public Double getTroco()
+        {
+            return Double.parseDouble(trocoJTF.getText().trim());
+        }
+
+        public String [][] getValoresProd()
+        {
+            String [][] valores = new String[vectorProdutos.size()][2];
+
+            for(int i = 0; i<vectorProdutos.size(); i++)
+            {
+                valores[i][0] = ""+vectorProdutos.get(i);
+
+                if(inputs[i].getText().trim().equals(""))
+                    valores[i][1] = "0";
+                else
+                    valores[i][1] = ""+inputs[i].getText().trim();
+            }
+
+            return valores;
+        }
+
         public void setId(int id)
         {
             idJTF.setText(""+id);
@@ -307,22 +383,17 @@ public class VendaVisao extends JFrame
             tipoPagamentoJCB.setSelectedItem(tipoPaga);
         }
 
-        public String [][] getValoresProd()
+        public void setValorPago(double valorPago)
         {
-            String [][] valores = new String[vectorProdutos.size()][2];
-
-            for(int i = 0; i<vectorProdutos.size(); i++)
-            {
-                valores[i][0] = ""+vectorProdutos.get(i);
-
-                if(inputs[i].getText().trim().equals(""))
-                    valores[i][1] = "0";
-                else
-                    valores[i][1] = ""+inputs[i].getText().trim();
-            }
-
-            return valores;
+            valorPagoJTF.setText("" + valorPago);
         }
+
+        public void setTroco(double troco)
+        {
+            trocoJTF.setText("" + troco);
+        }
+
+        
 
         public void setValoresProd(String [][] valores)
         {
@@ -349,6 +420,12 @@ public class VendaVisao extends JFrame
         {
             if(! editar)
             {
+                if(!(String.valueOf(getValorPago())).equals("")  || (String.valueOf(getValorPago())).equals("0") && evt.getSource() == valorPagoJTF)
+                {
+                    Double troco = getValorPago() - getPrecoTotal();
+                    setTroco(troco);
+                }
+                
                 EstoqueFile estoque = new EstoqueFile();
                 vectorProdutos = estoque.getAllProdutosEstoque();
 
@@ -378,7 +455,7 @@ public class VendaVisao extends JFrame
        {
             if((String.valueOf(getQtdEntrada())).equals("") || getClienteNome().isEmpty() 
             || (String.valueOf(getQtdEntrada())).equals("0") || getDataVenda().isEmpty() ||  (String.valueOf(getPrecoTotal())).isEmpty() || (getPrecoTotal()+"").equals("0.0"))
-                return false;
+                return false;            
             return true;
        }
 
@@ -406,6 +483,13 @@ public class VendaVisao extends JFrame
 
         public void salvar()
         {   
+            String output = "Factura de compra Nº00"+getId()+"\n\n";
+
+            if(getTroco() < 0 || getValorPago() < getPrecoTotal())
+            {
+                JOptionPane.showMessageDialog(null, "Valor Pago insuficiente", "Verificar de erros", JOptionPane.ERROR_MESSAGE);
+                return ;
+            }
             EstoqueFile fileEstoque = new EstoqueFile();
             int count = 0; // Contador para verificar quantos ingredientes têm níveis adequados
             String[][] produtosComprados = getValoresProd();
@@ -437,29 +521,57 @@ public class VendaVisao extends JFrame
                             modeloEstoque2.setNivelAtual(novoNivelEstoque2);
                             modeloEstoque2.actualizar();
                         }
+                        ProducaoModelo modeloProd1 = ProducaoFile.pesquisarEntradaPorProduto(""+produtosComprados[g][0]);
+
+                        output += "\nProduto: " +produtosComprados[g][0];
+                        output += "\nPreco Unitario: " + modeloProd1.getPrecoUni() +" kz";
+                        output += "\nQuantidade: "+produtosComprados[g][1]+"\n";
+
                         VendaModelo modelo = new VendaModelo(getId(), Integer.parseInt(produtosComprados[g][1]),
                         getPrecoTotal(),
                         produtosComprados[g][0],
                         getClienteNome(),
                         getTipoPagamento(),
+                        getValorPago(),
+                        getTroco(),
                         getDataVenda(), true);
 
                         JOptionPane.showMessageDialog(null, modelo.toString());
                         modelo.salvar();
-                        dispose();
                         setId(getId()+1);
                     }
                 }
             }
+            output += "Preco Total: " + getPrecoTotal() +" kz"+ "\n";
+            output += "Nome cliente: " + getClienteNome() + "\n"; 
+            output += "Tipo Pagamento: " + getTipoPagamento() + "\n"; 
+            output += "Valor Pago: " + getValorPago() +" kz" +"\n"; 
+            output += "Troco: " + getTroco() + " kz" + "\n"; 
+            output += "Data da compra: " + getDataVenda() + "\n";
+
+            JTextArea area = new JTextArea(20, 20);
+			area.setText( output );
+			area.setFocusable(false);
+			JOptionPane.showMessageDialog(null, new JScrollPane( area ), 
+					"Factura de Compra", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
         }
 
         public void alterar()
         {
+            if(getTroco() < 0 || getValorPago() < getPrecoTotal())
+            {
+                JOptionPane.showMessageDialog(null, "Valor Pago insuficiente", "Verificar de erros", JOptionPane.ERROR_MESSAGE);
+                return ;
+            }
+
             VendaModelo modelo = new VendaModelo(getId(), getQtdEntrada(),
             getPrecoTotal(),
             getProduto(),
             getClienteNome(),
             getTipoPagamento(),
+            getValorPago(),
+            getTroco(),
             getDataVenda(), true);
 
             modelo.editarDados();
@@ -467,7 +579,7 @@ public class VendaVisao extends JFrame
         }
 
     }
-
+    
 
     public class PainelSul extends JPanel implements ActionListener
     {

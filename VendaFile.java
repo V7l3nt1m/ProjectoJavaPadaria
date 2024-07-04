@@ -39,7 +39,7 @@ public class VendaFile extends ObjectsFile
 					index++;
 				}
 			}
-			dados = new String[index][7];
+			dados = new String[index][9];
 
 			ficheiro.stream.seek(4);
 
@@ -55,6 +55,8 @@ public class VendaFile extends ObjectsFile
 					dados[contador][4] = modelo.getDataVenda();
 					dados[contador][5] = modelo.getClienteNome();
 					dados[contador][6] = modelo.getTipoPagamento();
+					dados[contador][7] = ""+modelo.getValorPago();
+					dados[contador][8] = ""+modelo.getTroco();
 					contador++;
 				}
 			}
@@ -227,6 +229,11 @@ public class VendaFile extends ObjectsFile
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Falha ao Salvar um Novo Material");
 		}
+	}
+
+	public void factura(VendaModelo modelo)
+	{
+		
 	}
 
 	public void alterarDados(VendaModelo modelo_novo)

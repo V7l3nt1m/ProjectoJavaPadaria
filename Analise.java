@@ -20,6 +20,10 @@ producao e estoque de uma padaria;
 - EstoqueVisao
 - ProducaoVisao
 - VendaVisao
+- EditarMateriaPEstoque
+- EditarProdutoEstoque
+- EstoqueProdutoVisao
+- VendaRegistroVisao
 
 3. Entidades Fortes e Seus Atributos (Modelo)
 
@@ -49,7 +53,6 @@ producao e estoque de uma padaria;
     double precoUnit
     double custoProd
 
-
 - VendaModelo
 	int id
 	ProducaoModelo produto
@@ -57,6 +60,9 @@ producao e estoque de uma padaria;
     double precoTotal
     String cliente
     String dataVenda
+    double valorPago
+    double troco
+    String tipoPagamento
 	
 4. Ficheiro
 - EntradaFile.dat
