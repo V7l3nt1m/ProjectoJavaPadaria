@@ -125,7 +125,10 @@ public class EditarMateriaPEstoque extends JFrame
 
         public int getNivelAtual()
         {
-            return Integer.parseInt( nivelAtualJTF.getText().trim() );
+            if(! String.valueOf(nivelAtualJTF.getText()).isEmpty())
+                return Integer.parseInt( nivelAtualJTF.getText().trim() );
+            else
+                return 0;
         }
 
         public String getIngrediente()
@@ -174,6 +177,16 @@ public class EditarMateriaPEstoque extends JFrame
             dataEntrada.getDTestField().setText(dataEntra);
         }
 
+        public boolean verificarCamposEditar()
+       {
+            int contador = 0;
+            if((String.valueOf(getNivelAtual())).equals("")  || (String.valueOf(getNivelAtual())).equals("0")
+            || getDataEntrada().isEmpty() || getDataEntrada().isEmpty())
+                return false;
+
+            return true;
+       }
+
 
         public void alterar()
         {
@@ -212,7 +225,10 @@ public class EditarMateriaPEstoque extends JFrame
             public void actionPerformed(ActionEvent evt)
             {
                  if(evt.getSource() == salvarJB)
-                    painelCentro.alterar();
+                    if(painelCentro.verificarCamposEditar())
+                        painelCentro.alterar();
+                    else
+                        JOptionPane.showMessageDialog(null, "Campo vazios", "Verificador de campos", JOptionPane.ERROR_MESSAGE);
                 else
                     dispose();
             }

@@ -80,7 +80,8 @@ public class VendaRegistroVisao extends JFrame
             else
             {
                 int resposta = JOptionPane.showConfirmDialog(null,"Deseja Eliminar os dados","Eliminar dados", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-                if(resposta == 1)
+                System.out.println(resposta);
+                if(resposta == 2 || resposta == -1)
                 {
                     JOptionPane.showMessageDialog(null, "Operacao cancelada", "Eliminar os dados", JOptionPane.ERROR_MESSAGE);
                 }

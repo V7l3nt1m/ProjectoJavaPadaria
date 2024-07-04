@@ -89,7 +89,7 @@ public class VendaVisao extends JFrame
             EstoqueFile entradafile2 = new EstoqueFile();
 			idEstoque.setText( "" + entradafile2.getProximoCodigo() );
             
-            lblProd = new JLabel("Produtos");
+            lblProd = new JLabel("Produtos *");
             add(lblProd);
             painelProdutos = new JPanel();
             EstoqueFile estoque = new EstoqueFile();
@@ -109,7 +109,7 @@ public class VendaVisao extends JFrame
             }
             add(painelProdutos);
 
-            lblDataVend = new JLabel("Data da Venda");
+            lblDataVend = new JLabel("Data da Venda *");
 
             painelData = new JPanel( new GridLayout(1, 1) );
             dataVenda = new JTextFieldData("Data?");
@@ -120,10 +120,10 @@ public class VendaVisao extends JFrame
             precoTotal = new JTextField("0");
             precoTotal.setFocusable(false);
 
-            lblCliente = new JLabel("Nome cliente");
+            lblCliente = new JLabel("Nome cliente *");
             clienteJTF = new JTextField();
 
-            lblTipoPagamento = new JLabel("Tipo de Pagamento");
+            lblTipoPagamento = new JLabel("Tipo de Pagamento *");
             tipoPagamentoJCB = new JComboBox(tipoPag);
 
             add(lblDataVend);
@@ -150,15 +150,15 @@ public class VendaVisao extends JFrame
             Double produtoGetPreco = ProducaoFile.getPrecoUnit(modelo.getProduto());
 			idJTF.setText( "" + modelo.getId() );
 
-            lblProd = new JLabel("Produtos");
+            lblProd = new JLabel("Produtos *");
             produtoJCB = new JComboBox(produtosEmEstoque);
             produtoJCB.setSelectedItem(modelo.getProduto());
 
-            lblQtdEn = new JLabel("Quantidade");
+            lblQtdEn = new JLabel("Quantidade *");
             qtdEntrada = new JTextField();
             qtdEntrada.setText(""+modelo.getQtdEntrada());
 
-            lblDataVend = new JLabel("Data da Venda");
+            lblDataVend = new JLabel("Data da Venda *");
 
             painelData = new JPanel( new GridLayout(1, 1) );
             dataVenda = new JTextFieldData("Data?");
@@ -166,19 +166,19 @@ public class VendaVisao extends JFrame
 			painelData.add( dataVenda.getDButton() );
             dataVenda.getDTestField().setText(modelo.getDataVenda());
 
-            lblPrecUni = new JLabel("Preço/unidade");
+            lblPrecUni = new JLabel("Preço/unidade *");
             precoUnit = new JTextField();
             precoUnit.setText(""+produtoGetPreco);
             precoUnit.setFocusable(false);
 
-            lblPrecoTot = new JLabel("Preço Total");
+            lblPrecoTot = new JLabel("Preço Total *");
             precoTotal = new JTextField("0");
             precoTotal.setText(""+modelo.getPrecoTotal());
 
-            lblCliente = new JLabel("Nome cliente");
+            lblCliente = new JLabel("Nome cliente *");
             clienteJTF = new JTextField(""+modelo.getClienteNome());
 
-            lblTipoPagamento = new JLabel("Tipo de Pagamento");
+            lblTipoPagamento = new JLabel("Tipo de Pagamento *");
             tipoPagamentoJCB = new JComboBox(tipoPag);
             tipoPagamentoJCB.setSelectedItem(modelo.getTipoPagamento());
             
@@ -210,7 +210,7 @@ public class VendaVisao extends JFrame
 
         public void actionPerformed(ActionEvent evt)
         {
-            
+           
         }
 
         public int getId2()
@@ -225,7 +225,10 @@ public class VendaVisao extends JFrame
 
         public int getQtdEntrada()
         {
-            return Integer.parseInt( qtdEntrada.getText().trim() );
+            if(! String.valueOf(qtdEntrada.getText()).isEmpty())
+                return Integer.parseInt( qtdEntrada.getText().trim() );
+            else
+                return 0;
         }
 
 
@@ -344,27 +347,61 @@ public class VendaVisao extends JFrame
         }
         public void keyReleased(KeyEvent evt)
         {
-            EstoqueFile estoque = new EstoqueFile();
-            vectorProdutos = estoque.getAllProdutosEstoque();
-
-            for(int k = 0; k<vectorProdutos.size(); k++)
+            if(! editar)
             {
-                if(evt.getSource() == inputs[k])
+                EstoqueFile estoque = new EstoqueFile();
+                vectorProdutos = estoque.getAllProdutosEstoque();
+
+                for(int k = 0; k<vectorProdutos.size(); k++)
                 {
-                    double soma=0.0;
-                    double custoTot=0.0;
-                    ProducaoFile producaoFile = new ProducaoFile();
-
-                    String [][] produtos = getValoresProd();
-                    for(int i =0; i<produtos.length; i++)
+                    if(evt.getSource() == inputs[k])
                     {
-                        soma+=(Double.parseDouble(produtos[i][1])*producaoFile.getPrecoUnit(""+produtos[i][0]));
-                    }
+                        double soma=0.0;
+                        double custoTot=0.0;
+                        ProducaoFile producaoFile = new ProducaoFile();
 
-                    precoTotal.setText(""+soma);
+                        String [][] produtos = getValoresProd();
+                        for(int i =0; i<produtos.length; i++)
+                        {
+                            soma+=(Double.parseDouble(produtos[i][1])*producaoFile.getPrecoUnit(""+produtos[i][0]));
+                        }
+
+                        precoTotal.setText(""+soma);
+                    }
                 }
             }
+            
              
+        }
+
+       public boolean verificarCamposAlterar()
+       {
+            if((String.valueOf(getQtdEntrada())).equals("") || getClienteNome().isEmpty() 
+            || (String.valueOf(getQtdEntrada())).equals("0") || getDataVenda().isEmpty() ||  (String.valueOf(getPrecoTotal())).isEmpty() || (getPrecoTotal()+"").equals("0.0"))
+                return false;
+            return true;
+       }
+
+        public boolean verificarCampos()
+        {
+            int contador = 0;
+            if(getClienteNome().isEmpty() || getDataVenda().isEmpty())
+                return false;
+
+            String [][] valoresProdutos = getValoresProd();
+
+            for(int i =0; i<valoresProdutos.length; i++)
+            {
+                if(! (valoresProdutos[i][1]).isEmpty() && ! (valoresProdutos[i][1]).equals("0"))
+                    contador++;
+                
+                if(contador == 0 && i == (valoresProdutos.length - 1))
+                {   
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public void salvar()
@@ -391,25 +428,27 @@ public class VendaVisao extends JFrame
             {
                 for (int g = 0; g < produtosComprados.length; g++) 
                 {
-                    EstoqueModelo modeloEstoque2 = fileEstoque.getProdutoPesquisa(produtosComprados[g][0]);
-                    if (modeloEstoque2.getProdutoAcabado().equals(produtosComprados[g][0])) 
+                    if(! (produtosComprados[g][1]).equals("0"))
                     {
-                        int novoNivelEstoque2 = modeloEstoque2.getNivelAtual() - Integer.parseInt(produtosComprados[g][1]);
-                        modeloEstoque2.setNivelAtual(novoNivelEstoque2);
-                        modeloEstoque2.actualizar();
+                        EstoqueModelo modeloEstoque2 = fileEstoque.getProdutoPesquisa(produtosComprados[g][0]);
+                        if (modeloEstoque2.getProdutoAcabado().equals(produtosComprados[g][0])) 
+                        {
+                            int novoNivelEstoque2 = modeloEstoque2.getNivelAtual() - Integer.parseInt(produtosComprados[g][1]);
+                            modeloEstoque2.setNivelAtual(novoNivelEstoque2);
+                            modeloEstoque2.actualizar();
+                        }
+                        VendaModelo modelo = new VendaModelo(getId(), Integer.parseInt(produtosComprados[g][1]),
+                        getPrecoTotal(),
+                        produtosComprados[g][0],
+                        getClienteNome(),
+                        getTipoPagamento(),
+                        getDataVenda(), true);
+
+                        JOptionPane.showMessageDialog(null, modelo.toString());
+                        modelo.salvar();
+                        dispose();
+                        setId(getId()+1);
                     }
-                    VendaModelo modelo = new VendaModelo(getId(), Integer.parseInt(produtosComprados[g][1]),
-                    getPrecoTotal(),
-                    produtosComprados[g][0],
-                    getClienteNome(),
-                    getTipoPagamento(),
-                    getDataVenda(), true);
-
-                    JOptionPane.showMessageDialog(null, modelo.toString());
-                    modelo.salvar();
-                    dispose();
-                    setId(getId()+1);
-
                 }
             }
         }
@@ -449,9 +488,18 @@ public class VendaVisao extends JFrame
                  if(evt.getSource() == salvarJB)
                 {
                     if(editar)
-                        painelCentro.alterar();
+                        if(painelCentro.verificarCamposAlterar())
+                            painelCentro.alterar();
+                        else
+                            JOptionPane.showMessageDialog(null, "Campo vazios", "Verificador de campos", JOptionPane.ERROR_MESSAGE);
                     else
-                        painelCentro.salvar();
+                    {
+                        if(painelCentro.verificarCampos())
+                            painelCentro.salvar();
+                        else
+                            JOptionPane.showMessageDialog(null, "Campo vazios", "Verificador de campos", JOptionPane.ERROR_MESSAGE);
+                    }     
+                        
                 }
                 else
                     dispose();
@@ -488,4 +536,3 @@ public class VendaVisao extends JFrame
 //so ver se o campo esta vazio unica validacao
 //adicionar tudo na analise
 //iniciativa cada, 1 ponto
-//colocar a unidade medida como tabela que depende da Materia prima

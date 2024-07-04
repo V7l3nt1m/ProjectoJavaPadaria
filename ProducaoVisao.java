@@ -222,28 +222,32 @@ public class ProducaoVisao extends JFrame
         }
         public void keyReleased(KeyEvent evt)
         {
-            EstoqueFile estoque = new EstoqueFile();
-            vectorIngredientes = estoque.getAllIngredientes();
-
-            for(int k = 0; k<vectorIngredientes.size(); k++)
+            if(! editar)
             {
-                if((evt.getSource() == inputs[k] || 
-            evt.getSource() == qtdProducao) && (!inputs[k].getText().isEmpty() && !qtdProducao.getText().isEmpty()))
-            {
-                double soma=0.0;
-                double custoTot=0.0;
-                EntradaFile entradafile = new EntradaFile();
+                EstoqueFile estoque = new EstoqueFile();
+                vectorIngredientes = estoque.getAllIngredientes();
 
-                String [][] ingredientes = getValoresIng();
-                for(int i =0; i<ingredientes.length; i++)
+                for(int k = 0; k<vectorIngredientes.size(); k++)
                 {
-                    soma+=(Double.parseDouble(ingredientes[i][1])*entradafile.getCustoUnidade(""+ingredientes[i][0]));
-                }
+                    if((evt.getSource() == inputs[k] || 
+                evt.getSource() == qtdProducao) && (!inputs[k].getText().isEmpty() && !qtdProducao.getText().isEmpty()))
+                {
+                    double soma=0.0;
+                    double custoTot=0.0;
+                    EntradaFile entradafile = new EntradaFile();
 
-                custoTot = soma * Double.parseDouble(""+getQtdProducao());
-                custoTotal.setText(""+custoTot);
+                    String [][] ingredientes = getValoresIng();
+                    for(int i =0; i<ingredientes.length; i++)
+                    {
+                        soma+=(Double.parseDouble(ingredientes[i][1])*entradafile.getCustoUnidade(""+ingredientes[i][0]));
+                    }
+
+                    custoTot = soma * Double.parseDouble(""+getQtdProducao());
+                    custoTotal.setText(""+custoTot);
+                }
+                }
             }
-            }
+            
              
         }
 
@@ -264,7 +268,10 @@ public class ProducaoVisao extends JFrame
 
         public int getQtdProducao()
         {
-            return Integer.parseInt( qtdProducao.getText().trim() );
+            if(! String.valueOf(qtdProducao.getText()).isEmpty())
+                return Integer.parseInt( qtdProducao.getText().trim() );
+            else
+                return 0;
         }
 
         public String [][] getValoresIng()
@@ -347,6 +354,41 @@ public class ProducaoVisao extends JFrame
             custoTotal.setText("" + custoTot);
         }
 
+         public boolean verificarCamposEditar()
+       {
+            int contador = 0;
+            if((String.valueOf(getQtdProducao())).equals("")  || (String.valueOf(getQtdProducao())).equals("0")
+            || getDataProd().isEmpty() || getDataProd().isEmpty() ||  (String.valueOf(getPrecoUni())).isEmpty() || (getPrecoUni()+"").equals("0.0")
+            || (String.valueOf(getCustoTotal())).isEmpty() || (getCustoTotal()+"").equals("0.0"))
+                return false;
+
+            return true;
+       }
+
+        public boolean verificarCampos()
+       {
+            int contador = 0;
+            if((String.valueOf(getQtdProducao())).equals("")  || (String.valueOf(getQtdProducao())).equals("0")
+            || getDataProd().isEmpty() || getDataProd().isEmpty() ||  (String.valueOf(getPrecoUni())).isEmpty() || (getPrecoUni()+"").equals("0.0")
+            || (String.valueOf(getCustoTotal())).isEmpty() || (getCustoTotal()+"").equals("0.0"))
+                return false;
+
+            String [][] valoresIng = getValoresIng();
+
+            for(int i =0; i<valoresIng.length; i++)
+            {
+                if(! (valoresIng[i][1]).isEmpty() && ! (valoresIng[i][1]).equals("0"))
+                    contador++;
+                
+                if(contador == 0 && i == (valoresIng.length - 1))
+                {   
+                    return false;
+                }
+            }
+
+            return true;
+       }
+
         public void alterar()
         {
             ProducaoModelo modelo = new ProducaoModelo(
@@ -411,10 +453,13 @@ public class ProducaoVisao extends JFrame
 
                 // Atualiza o nível de estoque para cada ingrediente
                 for (int i = 0; i < ingredientesUsados.length; i++) {
-                    EstoqueModelo estoque = fileEstoque.pesquisarIngredienteEstoque(ingredientesUsados[i][0]);
-                    int novoNivelEstoque = estoque.getNivelAtual() - Integer.parseInt(ingredientesUsados[i][1]);
-                    estoque.setNivelAtual(novoNivelEstoque);
-                    estoque.actualizar();
+                    if(! (ingredientesUsados[i][1]).equals("0"))
+                    {
+                        EstoqueModelo estoque = fileEstoque.pesquisarIngredienteEstoque(ingredientesUsados[i][0]);
+                        int novoNivelEstoque = estoque.getNivelAtual() - Integer.parseInt(ingredientesUsados[i][1]);
+                        estoque.setNivelAtual(novoNivelEstoque);
+                        estoque.actualizar();
+                    }
                 }
             }
         }
@@ -443,9 +488,17 @@ public class ProducaoVisao extends JFrame
                  if(evt.getSource() == salvarJB)
                  {
                     if(editar)
-                        painelCentro.alterar();
+                        if(painelCentro.verificarCamposEditar())
+                            painelCentro.alterar();
+                        else
+                            JOptionPane.showMessageDialog(null, "Campo vazios", "Verificador de campos", JOptionPane.ERROR_MESSAGE);
+
                     else
-                        painelCentro.salvar();
+                        if(painelCentro.verificarCampos())
+                            painelCentro.salvar();
+                        else
+                            JOptionPane.showMessageDialog(null, "Campo vazios", "Verificador de campos", JOptionPane.ERROR_MESSAGE);
+
                  }
                 else
                     dispose();

@@ -262,7 +262,10 @@ public class EntradaVisao extends JFrame
 
         public int getQtdEntrada()
         {
-            return Integer.parseInt( qtdEntrada.getText().trim() );
+            if(! String.valueOf(qtdEntrada.getText()).isEmpty())
+                return Integer.parseInt( qtdEntrada.getText().trim() );
+            else
+                return 0;
         }
 
         public String getIngrediente()
@@ -346,7 +349,14 @@ public class EntradaVisao extends JFrame
             custoTotal.setText("" + custoTot);
         }
 
-        
+        public boolean verificarCampos()
+       {
+            if((String.valueOf(getQtdEntrada())).equals("")  || (String.valueOf(getQtdEntrada())).equals("0")
+            || getDataEntrada().isEmpty() || getDataValidade().isEmpty() ||  (String.valueOf(getCustoUnit())).isEmpty() || (getCustoUnit()+"").equals("0.0")
+            || (String.valueOf(getCustoTotal())).isEmpty() || (getCustoTotal()+"").equals("0.0"))
+                return false;
+            return true;
+       }
 
         public void salvar()
         {       
@@ -440,10 +450,15 @@ public class EntradaVisao extends JFrame
             {
                  if(evt.getSource() == salvarJB)
                 {
-                    if(editar)
-                        painelCentro.alterar();
+                    if(painelCentro.verificarCampos())
+                    {
+                        if(editar)
+                            painelCentro.alterar();
+                        else
+                            painelCentro.salvar();
+                    }
                     else
-                        painelCentro.salvar();
+                        JOptionPane.showMessageDialog(null, "Campo vazios", "Verificador de campos", JOptionPane.ERROR_MESSAGE);
                 }
                 else
                     dispose();

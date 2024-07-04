@@ -184,7 +184,7 @@ public class EstoqueProdutoVisao extends JFrame
             else
             {
                 int resposta = JOptionPane.showConfirmDialog(null,"Deseja Eliminar os dados","Eliminar dados", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-                if(resposta == 1)
+                if(resposta == 2 || resposta == -1)
                 {
                     JOptionPane.showMessageDialog(null, "Operacao cancelada", "Eliminar os dados", JOptionPane.ERROR_MESSAGE);
                 }
