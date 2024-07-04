@@ -142,8 +142,11 @@ public class ProducaoVisao extends JFrame
                 inputs[i].addKeyListener(this);
                inputs[i].setText(""+0);
                EstoqueModelo unidadeMed = estoque.pesquisarIngredienteEstoque(""+vectorIngredientes.get(i));
-               painelJChb.add(new JLabel(""+vectorIngredientes.get(i) + " (" + unidadeMed.getUnidadeMedida() + ") "));
-               painelJChb.add(inputs[i]);              
+               if(unidadeMed.getNivelAtual() > 0)
+               {
+                    painelJChb.add(new JLabel(""+vectorIngredientes.get(i) + " (" + unidadeMed.getUnidadeMedida() + ") "));
+                    painelJChb.add(inputs[i]);    
+               }          
             }
             add(painelJChb);
 
